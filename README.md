@@ -48,4 +48,20 @@ Manage your salon like never before with a system that puts both your customers 
 
 # 🚀 Ready to transform your salon business? Join us today and experience the beauty of seamless management! 🌟
 
+# 📸 Some Screenshots of the Project 🖼️✨
+![image](https://github.com/user-attachments/assets/87522212-ce52-449b-8bb9-a91c5deec256)
+![image](https://github.com/user-attachments/assets/5fb72737-efd4-47b4-91cd-7b32cf16e842)
+![image](https://github.com/user-attachments/assets/5787da16-5809-40f7-8ce3-e916eeaca605)
+![image](https://github.com/user-attachments/assets/839fadd0-3812-4b52-85e6-912c5ff8bf24)
+![image](https://github.com/user-attachments/assets/c3beb1df-0227-4b5d-9eba-7ea98de00abd)
+![image](https://github.com/user-attachments/assets/eac665ad-af84-426a-a6e3-3a651961971c)
+![image](https://github.com/user-attachments/assets/e418e810-ffac-42e0-9e17-b198f326f7dc)
+![image](https://github.com/user-attachments/assets/37febfa5-88a0-4395-b22e-f5b7d8cd781d)
+![image](https://github.com/user-attachments/assets/0ad678b4-7956-4a08-80ef-36471a465ba8)
+![image](https://github.com/user-attachments/assets/937f489e-9057-4ffd-a45d-5e8abb88d68d)
+![image](https://github.com/user-attachments/assets/9bc3e7d2-f4b1-44ed-a86a-40cb5d982f6e)
+![image](https://github.com/user-attachments/assets/d3265a62-b21d-4288-ad3b-bfa72b18bc0d)
+![image](https://github.com/user-attachments/assets/dc32988c-d328-4219-9b34-238f29a12f72)
+![image](https://github.com/user-attachments/assets/bb4e06a7-8de5-4dd0-98a2-235ff1af0946)
+
 #ReactJS #Firebase #TaiwanCSS #SalonManagement #BeautyTech #CustomerExperience #SalonDashboard
