@@ -1,0 +1,24 @@
+.m-menu {
+  width: 90%;
+  background-color: #2b2730;
+  border-radius: 20px;
+}
+
+#menutext {
+  font-size: 12px;
+  display: block;
+}
+.m-menu .material-icons-outlined {
+  display: flex;
+  justify-content: center;
+}
+
+.m-menu a {
+  color: white;
+}
+.m-menu a:hover {
+  color: lightsalmon;
+}
+.m-menu a:hover .material-icons-outlined {
+  transform: scale(1.2);
+}

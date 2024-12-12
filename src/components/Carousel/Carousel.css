@@ -1,0 +1,100 @@
+.carousel-inner {
+  position: relative;
+}
+
+.carouselImg {
+  height: 600px;
+  object-fit: fill;
+  transition: transform 0.5s ease, opacity 0.5s ease-in-out; /* Added easing */
+}
+
+.carouselImg:hover {
+  transform: scale(1.05); /* Slight scale-up effect on hover */
+}
+
+.carousel-caption {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  right: 20px;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 20px;
+  border-radius: 8px;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.carousel-item {
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+}
+
+.carousel-item.active {
+  opacity: 1;
+}
+
+/* .carousel-control-prev,
+.carousel-control-next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1;
+}
+
+.carousel-control-prev {
+  left: 10px;
+}
+
+.carousel-control-next {
+  right: 10px;
+} */
+
+.center-btn {
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 30px;
+}
+
+@media (max-width: 700px) {
+  .carouselImg {
+    height: 300px;
+  }
+
+  .carousel-caption {
+    font-size: 12px;
+    padding: 10px;
+  }
+}
+
+.material-icons {
+  font-size: 36px;
+  color: white;
+}
+
+/* Fade In and Fade Out Animations */
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.carousel-item.fadeIn {
+  animation: fadeIn 1s ease-in-out;
+}
+
+.carousel-item.fadeOut {
+  animation: fadeOut 1s ease-in-out;
+}

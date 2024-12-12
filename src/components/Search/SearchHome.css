@@ -1,0 +1,61 @@
+/* Search Box */
+.search-box {
+  width: 70%; /* Increased width from 50% */
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  background: #fff; /* White background */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.search-box:hover {
+  transform: scale(1.03);
+  box-shadow: 0 6px 12px rgba(255, 105, 180, 0.5);
+}
+
+/* Input field */
+.search-input {
+  border: none;
+  font-size: 1rem;
+  padding-left: 10px;
+  width: 100%; /* Ensure the input field spans the width of the container */
+}
+
+.search-input:focus {
+  outline: none;
+}
+
+/* Search button */
+.search-button {
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 0;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+.search-button:hover {
+  background: #72065b; /* Darker pink */
+  color: #fff; /* White text */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .search-box {
+    width: 90%; /* Adjusted for smaller screens */
+  }
+
+  .search-title {
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .search-box {
+    width: 95%; /* Adjusted for very small screens */
+  }
+
+  .search-title {
+    font-size: 1rem;
+  }
+}
