@@ -46,7 +46,7 @@ Effortlessly manage multiple salons from a single, intuitive dashboard:
 # ✨ Be the Salon Everyone Talks About! ✨
 Manage your salon like never before with a system that puts both your customers and staff first. Simplify bookings, enhance customer experiences, and grow your salon business—all in one place! 💅💼
 
-# 🚀 Ready to transform your salon business? Join us today and experience the beauty of seamless management! 🌟
+🚀 Ready to transform your salon business? Join us today and experience the beauty of seamless management! 🌟
 
 # 📸 Some Screenshots of the Project 🖼️✨
 ![image](https://github.com/user-attachments/assets/87522212-ce52-449b-8bb9-a91c5deec256)
