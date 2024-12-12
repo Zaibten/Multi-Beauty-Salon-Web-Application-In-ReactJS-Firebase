@@ -10,9 +10,9 @@ Introducing Your Ultimate Beauty Salon Management System – a next-gen platform
 
 # 🏢 Multi-Salon Dashboard
 Effortlessly manage multiple salons from a single, intuitive dashboard:
-1. ✔ Add and manage services for each salon.
-2. ✔ Track bookings across all branches.
-3. ✔ Monitor salon performance in real time.
+✔. Add and manage services for each salon.
+✔. Track bookings across all branches.
+✔. Monitor salon performance in real time.
 
 # 🛠️ Customizable Services
 1. 🌺 Add, update, or delete services offered by your salon (e.g., Haircuts, Manicures, Facials).
