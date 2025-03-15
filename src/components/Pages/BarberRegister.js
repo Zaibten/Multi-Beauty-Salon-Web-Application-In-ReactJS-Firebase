@@ -271,3 +271,188 @@ const BarberRegister = () => {
 };
 
 export default BarberRegister;
+
+
+
+
+
+
+
+
+
+
+
+
+// import React, { useState } from "react";
+// import { ProfessionalSignIn, ProfessionalSignUp } from "../../Auth/auth";
+// import { message } from "antd";
+// import { useSelector } from "react-redux";
+
+// const BarberRegister = () => {
+//   const [messageApi, contextHolder] = message.useMessage();
+//   const isUser = useSelector((state) => state.isUser.isUser);
+
+//   const sendMessage = (messageText, variant) => {
+//     messageApi.open({
+//       type: variant,
+//       content: messageText,
+//     });
+//   };
+
+//   const [value, setValue] = useState({
+//     email: "sudo@admin.in",
+//     password: "sudo@admin.in",
+//   });
+
+//   const [regValue, setRegValue] = useState({
+//     username: "",
+//     number: "",
+//     email: "",
+//     password: "",
+//   });
+
+//   const onChangeRegister = (e) => {
+//     const { name, value } = e.target;
+//     setRegValue((prev) => ({ ...prev, [name]: value }));
+//   };
+
+//   const onChangeSignIn = (e) => {
+//     const { name, value } = e.target;
+//     setValue((prev) => ({ ...prev, [name]: value }));
+//   };
+
+//   const onSubmitRegister = async (e) => {
+//     e.preventDefault();
+//     if (!regValue.username || !regValue.email || !regValue.number || !regValue.password) {
+//       alert("Enter SignUp Details");
+//       return;
+//     }
+//     sendMessage("Preparing Professional View!!", "warning");
+//     await ProfessionalSignUp(regValue, sendMessage, isUser);
+//     setRegValue({ username: "", email: "", number: "", password: "" });
+//   };
+
+//   const onSubmitLogin = async (e) => {
+//     e.preventDefault();
+//     if (isUser) {
+//       sendMessage(
+//         "Want to switch your account to Professional? Kindly visit User Profile!",
+//         "warning"
+//       );
+//       return;
+//     }
+//     if (!value.email || !value.password) {
+//       alert("Enter Login Details");
+//       return;
+//     }
+//     sendMessage("Hold On Dude!!", "warning");
+//     await ProfessionalSignIn(value, sendMessage);
+//     setValue({ email: "", password: "" });
+//   };
+
+//   return (
+//     <div className="container mt-5">
+//       {contextHolder}
+//       <div className="row">
+//         {/* Login Section */}
+//         <div className="col-md-6">
+//           <h2 className="text-white">Professional Login</h2>
+//           <form onSubmit={onSubmitLogin} className="p-4 bg-dark text-white rounded">
+//             <input
+//               type="email"
+//               name="email"
+//               value={value.email}
+//               onChange={onChangeSignIn}
+//               placeholder="Enter Email"
+//               className="form-control bg-black text-white mb-3"
+//               required
+//             />
+
+//             <input
+//               type="password"
+//               name="password"
+//               value={value.password}
+//               onChange={onChangeSignIn}
+//               placeholder="Enter Password"
+//               className="form-control bg-black text-white mb-3"
+//               required
+//             />
+
+//             <div className="text-center mb-3">
+//               <a href="#!" className="text-warning">Forgot password?</a>
+//             </div>
+
+//             <button type="submit" className="btn btn-warning w-100">
+//               Sign In
+//             </button>
+//           </form>
+//         </div>
+
+//         {/* Register Section */}
+//         <div className="col-md-6">
+//           <h2 className="text-white">Register as Professional</h2>
+//           <form onSubmit={onSubmitRegister} className="p-4 bg-dark text-white rounded">
+//             <input
+//               type="text"
+//               name="username"
+//               value={regValue.username}
+//               onChange={onChangeRegister}
+//               placeholder="Enter Name"
+//               className="form-control bg-black text-white mb-3"
+//               required
+//             />
+
+//             <input
+//               type="number"
+//               name="number"
+//               value={regValue.number}
+//               onChange={onChangeRegister}
+//               placeholder="Enter Number"
+//               className="form-control bg-black text-white mb-3"
+//               required
+//             />
+
+//             <input
+//               type="email"
+//               name="email"
+//               value={regValue.email}
+//               onChange={onChangeRegister}
+//               placeholder="Enter Email"
+//               className="form-control bg-black text-white mb-3"
+//               required
+//             />
+
+//             <input
+//               type="password"
+//               name="password"
+//               value={regValue.password}
+//               onChange={onChangeRegister}
+//               placeholder="Enter Password"
+//               className="form-control bg-black text-white mb-3"
+//               required
+//             />
+
+//             <div className="form-check d-flex justify-content-center mb-3">
+//               <input
+//                 className="form-check-input me-2"
+//                 type="checkbox"
+//                 id="registerCheck"
+//                 required
+//               />
+//               <label className="form-check-label" htmlFor="registerCheck">
+//                 I have read and agree to the terms
+//               </label>
+//             </div>
+
+//             <button type="submit" className="btn btn-warning w-100">
+//               Register
+//             </button>
+//           </form>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default BarberRegister;
+

@@ -1,0 +1,105 @@
+{
+    "questions": [
+      {
+        "question": "💆‍♀️ What type of beauty service are you interested in?",
+        "options": ["Haircut ✂️", "Facial 💆‍♀️", "Manicure 💅", "Pedicure 🦶", "Massage 🧖"]
+      },
+      {
+        "question": "💰 What is your ideal price range?",
+        "options": ["Budget-Friendly 💵", "Standard 💳", "Luxury 💎"]
+      },
+      {
+        "question": "🎨 Are you looking for hair coloring services?",
+        "options": ["Yes, Full Color 🌈", "Yes, Highlights ✨", "No, Just a Haircut ✂️"]
+      },
+      {
+        "question": "🧴 Do you prefer organic beauty products?",
+        "options": ["Yes, only organic 🌿", "No, any high-quality product is fine 💖"]
+      },
+      {
+        "question": "👩‍🎤 What is your preferred hairstyle?",
+        "options": ["Layered Cut ✂️", "Bob Cut 💇", "Straight & Sleek 🔥", "Curls & Waves 🌊"]
+      },
+      {
+        "question": "🌟 How often do you visit a salon?",
+        "options": ["Weekly 🗓️", "Monthly 🏷️", "Only for special occasions 🎉"]
+      },
+      {
+        "question": "💆 Do you have sensitive skin?",
+        "options": ["Yes, very sensitive 😟", "No, my skin is normal 😊"]
+      },
+      {
+        "question": "💅 What kind of manicure do you prefer?",
+        "options": ["Classic 💅", "Gel Polish 💖", "Acrylic Extensions ✨"]
+      },
+      {
+        "question": "🦶 Would you like a foot massage with your pedicure?",
+        "options": ["Yes, I love relaxation! 🧖", "No, just a simple pedicure 🚶‍♀️"]
+      },
+      {
+        "question": "✨ Would you like an eyebrow or eyelash treatment?",
+        "options": ["Eyebrow Shaping 🌟", "Lash Lift & Tint 👀", "Both! 💖"]
+      },
+      {
+        "question": "💇‍♀️ Do you need a hair treatment?",
+        "options": ["Keratin Treatment 🌿", "Protein Treatment 💆‍♀️", "Scalp Therapy 🧴"]
+      },
+      {
+        "question": "💄 What is your go-to makeup look?",
+        "options": ["Natural Glow ✨", "Glam Look 💃", "Smokey Eyes 🔥"]
+      },
+      {
+        "question": "🌿 Would you like aromatherapy with your massage?",
+        "options": ["Yes, relaxing scents! 🌸", "No, just a deep massage 🏋️‍♀️"]
+      },
+      {
+        "question": "👰 Are you looking for bridal services?",
+        "options": ["Yes, full bridal package 👰", "Just makeup & hairstyling 💄"]
+      },
+      {
+        "question": "🧖 Would you like a steam facial?",
+        "options": ["Yes, deep cleansing! 🌿", "No, a regular facial is fine 💆‍♀️"]
+      },
+      {
+        "question": "🌞 Do you need sun protection products?",
+        "options": ["Yes, SPF & skincare ☀️", "No, I already have some 😊"]
+      },
+      {
+        "question": "📅 Do you prefer booking in advance?",
+        "options": ["Yes, I plan ahead 🗓️", "No, I walk in anytime 🚶‍♀️"]
+      },
+      {
+        "question": "💆 What is your preferred massage pressure?",
+        "options": ["Soft & Relaxing 🌸", "Medium Pressure 💆‍♀️", "Deep Tissue Therapy 💪"]
+      },
+      {
+        "question": "💄 Would you like a makeup trial before an event?",
+        "options": ["Yes, I want to try first! 💕", "No, I trust my makeup artist 💖"]
+      },
+      {
+        "question": "🎀 Do you have any allergies to salon products?",
+        "options": ["Yes, I need hypoallergenic products 🚨", "No, I have no allergies 😊"]
+      }
+    ],
+    "recommendations": {
+      "Haircut ✂️": "💇 AI Suggestion: A **Layered Cut** with a **blow-dry finish** will give you a trendy and fresh look! 🌟",
+      "Facial 💆‍♀️": "🌿 AI Suggestion: A **Hydrating Facial** with **aloe vera and vitamin C** will leave your skin refreshed & glowing! ✨",
+      "Manicure 💅": "💅 AI Suggestion: Try a **Gel Polish Manicure** for long-lasting shine and vibrant colors! 💖",
+      "Pedicure 🦶": "🦶 AI Suggestion: A **Herbal Spa Pedicure** with exfoliation will relax your feet and keep them soft! 🌿",
+      "Massage 🧖": "🧖 AI Suggestion: A **Hot Stone Massage** can relieve stress and improve circulation! 🌸",
+      "Yes, Full Color 🌈": "🎨 AI Suggestion: A **Balayage or Ombre** will give you a natural yet trendy hair transformation! 🌟",
+      "Yes, Highlights ✨": "✨ AI Suggestion: Add **Face-Framing Highlights** to enhance your features! 💖",
+      "Eyebrow Shaping 🌟": "🌟 AI Suggestion: Try **Threading for precise shaping** or **Microblading for fuller brows**! ✨",
+      "Lash Lift & Tint 👀": "👀 AI Suggestion: A **Lash Lift & Tint** will make your eyes pop with a natural, long-lasting curl! 💖",
+      "Keratin Treatment 🌿": "🌿 AI Suggestion: A **Keratin Treatment** will leave your hair silky smooth and frizz-free for months! 💆‍♀️",
+      "Protein Treatment 💆‍♀️": "💆 AI Suggestion: A **Protein Hair Treatment** will restore strength and shine to damaged hair! 💖",
+      "Natural Glow ✨": "✨ AI Suggestion: A **Dewy Makeup Look** with soft pink tones is perfect for a fresh & youthful appearance! 💄",
+      "Glam Look 💃": "💃 AI Suggestion: A **Full Glam Makeup** with contouring and bold eyes will make you shine at any event! 🔥",
+      "Smokey Eyes 🔥": "🔥 AI Suggestion: A **Classic Smokey Eye** with neutral lips will give you a dramatic and elegant look! 🌟",
+      "Soft & Relaxing 🌸": "🌸 AI Suggestion: A **Swedish Massage** will help you unwind and de-stress! 💆‍♀️",
+      "Medium Pressure 💆‍♀️": "💆 AI Suggestion: A **Combination Massage** with medium pressure is ideal for relaxation & pain relief! 💖",
+      "Deep Tissue Therapy 💪": "💪 AI Suggestion: A **Deep Tissue Massage** will target muscle knots and tension for ultimate relief! 🔥",
+      "default": "🧠 AI Suggestion: Based on your preferences, we recommend a **custom beauty package** just for you! 💖"
+    }
+  }
+  
