@@ -7,12 +7,12 @@ import Loader from "../Loader/loader";
 import StyleCard from "./StyleCard";
 
 const ShopDetail = () => {
-  const [services, setServices] = useState([]);  // <-- Added services state
   const { id } = useParams();
   const [shopDetails, setShopDetails] = useState("");
+  const [services, setServices] = useState([]);  // <-- Added services state
   const [reviews, setReviews] = useState([]);
   const [reviewText, setReviewText] = useState("");
-  const [email, setEmail] = useState(""); // Auto-select email
+  const [email, setEmail] = useState(""); 
   const [rating, setRating] = useState(5);
   const [loading, setLoading] = useState(true);
 
@@ -22,7 +22,6 @@ const ShopDetail = () => {
     getServices();  // <-- Fetching services
     getReviews();
 
-    // Get email from localStorage
     const storedEmail = localStorage.getItem("email");
     if (storedEmail) {
       setEmail(storedEmail);
@@ -45,26 +44,6 @@ const ShopDetail = () => {
     setLoading(false);
   };
 
-  const submitReview = async (e) => {
-    e.preventDefault();
-    
-    if (!email) {
-      alert("Please log in to add a review.");
-      return;
-    }
-
-    if (reviewText.trim() === "") return;
-
-    const newReview = { name: email, text: reviewText, rating: rating, timestamp: new Date() };
-
-    await addDoc(collection(db, "ProfessionalDB", `${id}`, "Reviews"), newReview);
-    setReviews([...reviews, newReview]);
-    setReviewText("");
-    setRating(5);
-
-    alert("Your review has been submitted successfully!");
-  };
-
   return (
     <div className="container">
       <div className="mt-3">
@@ -79,29 +58,13 @@ const ShopDetail = () => {
 
       <div className="mt-5">
         <div className="row align-items-center">
-        <div className="col-12 col-sm-3">
-  <img
-    alt="Saloon Image"
-    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDlpM9l6Ni4vskN3sHcDJIaUTogmQ2rqC6dg&s"
-    className="w-100 mb-3"
-    style={{
-      transition: "transform 0.5s ease, box-shadow 0.5s ease, opacity 0.5s",
-      borderRadius: "10px",
-      cursor: "pointer",
-    }}
-    onMouseOver={(e) => {
-      e.target.style.transform = "scale(1.1)";
-      e.target.style.boxShadow = "0px 4px 15px rgba(255, 255, 255, 0.3)";
-      e.target.style.opacity = "0.9";
-    }}
-    onMouseOut={(e) => {
-      e.target.style.transform = "scale(1)";
-      e.target.style.boxShadow = "none";
-      e.target.style.opacity = "1";
-    }}
-  />
-</div>
-
+          <div className="col-12 col-sm-3">
+            <img
+              alt=""
+              src="https://img.freepik.com/premium-photo/beauty-saloon-eyebrow-care_524291-978.jpg"
+              className="w-100 mb-3"
+            />
+          </div>
 
           {!shopDetails ? (
             <Loader />
@@ -122,6 +85,7 @@ const ShopDetail = () => {
             </div>
           )}
         </div>
+
         {/* 🔹 Services Section */}
         <div className="mt-5">
           <h3 className="text-white mb-3">
@@ -147,7 +111,7 @@ const ShopDetail = () => {
           </div>
         </div>
 
-        {/* Reviews Section */}
+        {/* 🔹 Reviews Section */}
         <div className="review-section mt-5">
           <h3 className="text-white text-center">Customer Reviews</h3>
           <div className="review-container">
@@ -168,53 +132,16 @@ const ShopDetail = () => {
               <p className="text-white text-center">No reviews yet.</p>
             )}
           </div>
-
-          {/* Review Form */}
-          <div className="review-form mt-4">
-            <h4 className="text-white text-center">Leave a Review</h4>
-            <form onSubmit={submitReview} className="review-form-container">
-              {/* Auto-fetched email */}
-              <input
-                type="text"
-                value={email || ""}
-                className="form-control"
-                disabled
-                placeholder="Login To Continue"
-              />
-
-              {/* Rating Dropdown with Emojis */}
-              <select
-                value={rating}
-                onChange={(e) => setRating(Number(e.target.value))}
-                className="form-control"
-                required
-              >
-                <option value="5">⭐⭐⭐⭐⭐ - Excellent</option>
-                <option value="4">⭐⭐⭐⭐ - Good</option>
-                <option value="3">⭐⭐⭐ - Average</option>
-                <option value="2">😐😐 - Below Average</option>
-                <option value="1">😞 - Poor</option>
-              </select>
-
-              <textarea
-                placeholder="Write your review..."
-                value={reviewText}
-                onChange={(e) => setReviewText(e.target.value)}
-                className="form-control"
-                required
-              />
-              <button type="submit" className="submit-btn">Submit Review</button>
-            </form>
-          </div>
         </div>
       </div>
 
-      {/* CSS BELOW */}
+      {/* 🔹 CSS */}
       <style>
         {`
           .review-section {
             margin-top: 40px;
             padding: 20px;
+            background: #222;
             border-radius: 10px;
           }
 
@@ -246,12 +173,6 @@ const ShopDetail = () => {
 
           .rating-stars:hover {
             transform: scale(1.2);
-          }
-
-          .review-form-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
           }
 
           .form-control {
@@ -287,3 +208,8 @@ const ShopDetail = () => {
 };
 
 export default ShopDetail;
+
+
+
+
+
