@@ -1,0 +1,30 @@
+.shop-image {
+    width: 100%;
+    border-radius: 10px;
+  }
+  
+  .review-section {
+    margin-top: 40px;
+  }
+  
+  .review-card {
+    background: #222;
+    color: white;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .rating-stars {
+    color: gold;
+  }
+  
+  .pagination button {
+    margin: 5px;
+    padding: 5px 10px;
+  }
+  
+  .pagination .active {
+    background: orange;
+  }
+  

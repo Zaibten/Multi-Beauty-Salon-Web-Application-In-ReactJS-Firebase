@@ -1,0 +1,191 @@
+/* Combined Navbar and Marquee Styling */
+.navbar-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.marquee-header {
+  background-color: #ffffff;
+  padding: 5px 0;
+  text-align: center;
+  font-size: 18px;
+  font-weight: 600;
+  color: #ff69b4;
+  white-space: nowrap;
+  overflow: hidden;
+  position: relative;
+}
+
+.marquee-header span {
+  position: absolute;
+  left: 100%;
+  animation: marquee 10s linear infinite;
+}
+
+@keyframes marquee {
+  0% { left: 100%; }
+  100% { left: -100%; }
+}
+
+.navbar {
+  background-color: #f9f1f8;
+  padding: 15px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap; /* Allows wrapping for smaller screens */
+  z-index: 10;
+}
+
+.navbar-logo {
+  width: 80px;
+  height: auto;
+}
+
+.company-name-link {
+  flex-grow: 1; /* Pushes the company name to take remaining space */
+  text-align: center;
+}
+
+.company-name { 
+  color: #fff; /* Base text color */
+  /* font-style: italic; */
+  font-weight: bold;
+  font-size: 25px;
+  font-weight: bold;
+  margin-right: 78%;
+  white-space: nowrap;
+  animation: fadeInText 1.5s ease-in-out infinite alternate;
+  text-shadow: 0 0 5px #ff69b4, 0 0 10px #ff69b4, 0 0 20px #ff3385, 0 0 30px #ff3385, 0 0 40px #ff3385;
+}
+
+.d-flex {
+  display: flex;
+  align-items: center;
+}
+
+/* Navbar Links */
+.navbar-link {
+  color: #ff69b4;
+  font-size: 16px;
+  padding: 10px 15px;
+  text-decoration: none;
+  border-radius: 6px;
+  margin: 0 10px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.navbar-linkemail {
+  color: #ff69b4;
+  font-size: 16px;
+  padding: 20px 15px;
+  text-decoration: none;
+  border-radius: 6px;
+  margin: 0 10px;
+}
+
+.navbar-linkemail:hover {
+  color: #ff69b4;
+}
+
+
+.navbar-link:hover {
+  background-color: #ff69b4;
+  color: white;
+  transform: scale(1.05);
+}
+
+/* Dropdown Menu */
+.dropdown-menu {
+  background-color: #fff;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+}
+
+.dropdown-item {
+  color: #ff69b4;
+  padding: 10px 20px;
+  font-weight: 500;
+  border-radius: 6px;
+  transition: background-color 0.3s ease;
+}
+
+.dropdown-item:hover {
+  background-color: #ff69b4;
+  color: white;
+}
+
+.navbar-avatar {
+  margin-right: 10px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* Login Button */
+.login-btn {
+  background-color: #ff69b4;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-weight: 600;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.login-btn:hover {
+  background-color: #ff3385;
+  color: white;
+  transform: scale(1.1);
+}
+.marquee-header {
+  background-color: #ffffff;
+  padding: 5px 0 30px 0;
+  text-align: center;
+  font-size: 18px;
+  font-weight: 600;
+  color: #ff69b4;
+  white-space: nowrap;
+  overflow: hidden;
+  position: relative;
+  display: block;
+}
+
+.marquee-header span {
+  position: absolute;
+  left: 100%;
+  animation: marquee 10s linear infinite;
+}
+
+@keyframes marquee {
+  0% { left: 100%; }
+  100% { left: -100%; }
+}
+/* Responsive Design */
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column; /* Stack items vertically on smaller screens */
+    align-items: flex-start;
+  }
+
+  .company-name {
+    font-size: 18px;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+
+  .navbar-link {
+    margin: 5px 0;
+  }
+
+  .navbar-avatar {
+    width: 30px;
+    height: 30px;
+  }
+
+  .login-btn {
+    padding: 8px 15px;
+    font-size: 14px;
+  }
+}

@@ -1,0 +1,64 @@
+.review-section {
+  margin-top: 40px;
+  padding: 20px;
+  background: #222;
+  border-radius: 10px;
+}
+
+.review-container {
+  display: flex;
+  gap: 15px;
+  overflow-x: auto;
+  padding: 10px;
+}
+
+.review-card {
+  background: linear-gradient(135deg, #444, #111);
+  color: white;
+  padding: 15px;
+  border-radius: 10px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.review-card:hover {
+  transform: scale(1.1);
+  box-shadow: 0px 4px 10px rgba(255, 255, 255, 0.2);
+}
+
+.rating-stars {
+  font-size: 18px;
+  color: gold;
+  transition: transform 0.3s ease;
+}
+
+.rating-stars:hover {
+  transform: scale(1.2);
+}
+
+.review-form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.form-control {
+  width: 60%;
+  margin: 10px 0;
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+}
+
+.submit-btn {
+  background: linear-gradient(135deg, #ff6b6b, #ff8e53);
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.submit-btn:hover {
+  background: linear-gradient(135deg, #ff4b4b, #ff6a33);
+}

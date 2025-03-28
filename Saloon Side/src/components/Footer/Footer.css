@@ -1,0 +1,135 @@
+/* General Footer Styling */
+.footer-container {
+    background-color: #222;
+    color: #fff;
+    padding: 2rem 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+    max-width: 1200px;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+  
+  .footer-logo-section {
+    flex: 1;
+    text-align: center;
+  }
+  
+  .footer-logo img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  }
+  
+  .footer-logo-section p {
+    margin-top: 1rem;
+    font-size: 1rem;
+    color: #ccc;
+    line-height: 1.5;
+  }
+  
+  .footer-gallery {
+    flex: 1;
+    text-align: center;
+  }
+  
+  .footer-gallery h3 {
+    font-size: 1.5rem;
+    color: #ff69b4;
+    margin-bottom: 1rem;
+  }
+  
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Three images per row */
+    gap: 10px;
+  }
+  
+  .gallery-item img {
+    width: 100%;
+    height: 120px; /* Uniform height */
+    object-fit: cover; /* Ensure aspect ratio is maintained */
+    border-radius: 10px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .gallery-item img:hover {
+    transform: scale(1.1);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  }
+  
+  .footer-social {
+    flex: 1;
+    text-align: center;
+  }
+  
+  .footer-social h3 {
+    font-size: 1.5rem;
+    color: #ff69b4;
+    margin-bottom: 1rem;
+  }
+  
+  .footer-social p {
+    font-size: 0.9rem;
+    color: #ccc;
+    margin: 0.5rem 0;
+    line-height: 1.5;
+  }
+  
+  .social-icons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+  }
+  
+  .social-icons a {
+    color: #fff;
+    font-size: 1.5rem;
+    transition: transform 0.3s, color 0.3s;
+  }
+  
+  .social-icons a:hover {
+    color: #ff69b4;
+    transform: scale(1.2);
+  }
+  
+  .footer-community {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    color: #aaa;
+  }
+  
+  /* Footer Bottom */
+  .footer-bottom {
+    text-align: center;
+    margin-top: 2rem;
+    font-size: 0.9rem;
+    color: #aaa;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .footer-content {
+      flex-direction: column;
+      text-align: center;
+    }
+  
+    .footer-gallery,
+    .footer-social {
+      margin-top: 1rem;
+    }
+  
+    .gallery-grid {
+      grid-template-columns: repeat(2, 1fr); /* Adjust for smaller screens */
+    }
+  }
+  

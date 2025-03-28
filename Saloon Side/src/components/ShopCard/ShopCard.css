@@ -1,0 +1,92 @@
+.responsiveWidth {
+  width: 85%;
+}
+
+.shop-card-bg {
+  background-color: #ffffff; /* White background */
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.salon-title {
+  border-color: #ff69b4; /* Hot pink border for the salon title */
+}
+
+.bg-hotpink {
+  background-color: #ff69b4; /* Hot pink background */
+}
+
+.shop-card {
+  background-color: #ffffff; /* White card background */
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #ff69b4;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.shop-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 12px rgba(255, 105, 180, 0.5);
+}
+
+.card-info-bg {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: linear-gradient(to top, rgba(255, 105, 180, 0.8), rgba(255, 105, 180, 0));
+  color: white;
+  padding: 10px;
+}
+
+
+.card-info-bg h6,
+.card-info-bg p {
+  margin: 0;
+  text-overflow: ellipsis; /* Adds '...' when text overflows */
+  white-space: nowrap; /* Prevents text from wrapping */
+  overflow: hidden; /* Hides overflowed text */
+}
+
+.card-info-bg h6 {
+  
+  color: #72065b; /* White text for shop names */
+  font-weight: bold;
+  font-size: 1rem; /* Adjust font size as needed */
+}
+
+.card-info-bg p {
+  font-size: 0.875rem; /* Adjust font size as needed */
+}
+
+.shop-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.shop-logo-container {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px; /* Adds space between the logo and text */
+}
+
+.shop-logo {
+  width: 200px; /* Adjust to your preferred size */
+  height: 200px; /* Adjust to your preferred size */
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid #ff69b4;
+}
+
+
+@media (max-width: 700px) {
+  .responsiveWidth {
+    width: 95%;
+    height: 40%;
+  }
+}

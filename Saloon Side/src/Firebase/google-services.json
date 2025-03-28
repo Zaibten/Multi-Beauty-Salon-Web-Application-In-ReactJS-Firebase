@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "231264600518",
+    "project_id": "anatomy-45c16",
+    "storage_bucket": "anatomy-45c16.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:231264600518:android:d1a3ec4a48b029e932f2c7",
+        "android_client_info": {
+          "package_name": "com.bioscope"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "231264600518-7rpeu9c8ovp47mnln8ku87dgcmnb4pqu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bioscope",
+            "certificate_hash": "6a8daabeccfb7d3c085b757c84109e08cb765042"
+          }
+        },
+        {
+          "client_id": "231264600518-373kfub3ssbur7ontvgh74ivlpv2c295.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyASPpVzcGLrieqW3rr4SMrgBlgRJSh0o_Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "231264600518-373kfub3ssbur7ontvgh74ivlpv2c295.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

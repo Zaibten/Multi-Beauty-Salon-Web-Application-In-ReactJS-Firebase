@@ -1,0 +1,10 @@
+#clientActions span:hover {
+  cursor: pointer;
+}
+
+#clientActions span:first-child:hover {
+  background-color: orange !important;
+}
+#clientActions span:last-child:hover {
+  background-color: darkred !important;
+}
