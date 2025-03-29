@@ -256,7 +256,7 @@ const Header = () => {
   useEffect(() => {
     const sendReminderEmails = async () => {
       try {
-        const response = await fetch("http://localhost:5000/send-reminders", { method: "POST" });
+        const response = await fetch("https://glamthegirlemailservice.vercel.app/send-reminders", { method: "POST" });
         if (!response.ok) {
           throw new Error("Failed to send reminders");
         }
