@@ -21,6 +21,9 @@ const Schedule = () => {
   const [editForm, setEditForm] = useState({});
   const [currentDate, setCurrentDate] = useState("");
   const [currentTime, setCurrentTime] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const bookingsPerPage = 5; // Number of bookings per page
+
   const email = localStorage.getItem("email");
   const navigate = useNavigate();
   const isSmallDevice = useMediaQuery("(max-width: 748px)");
@@ -30,51 +33,44 @@ const Schedule = () => {
     const updateDateTime = () => {
       const now = new Date();
       const date = now.toLocaleDateString(); // Formats as MM/DD/YYYY
-  
-      // Formats time as 12:30PM
-      const time = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true }).replace(" ", "");
-  
+      const time = now
+        .toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", hour12: true })
+        .replace(" ", "");
+
       setCurrentDate(date);
       setCurrentTime(time);
     };
-  
-    // Update the date and time every second
+
     const interval = setInterval(updateDateTime, 1000);
-  
-    // Clean up the interval on component unmount
     return () => clearInterval(interval);
   }, []);
-  
 
   useEffect(() => {
-const fetchBookings = async () => {
-  try {
-    const bookingsRef = collection(db, "Bookings");
-    const q = query(bookingsRef, where("email", "==", email));
-    const querySnapshot = await getDocs(q);
+    const fetchBookings = async () => {
+      try {
+        const bookingsRef = collection(db, "Bookings");
+        const q = query(bookingsRef, where("email", "==", email));
+        const querySnapshot = await getDocs(q);
 
-    const bookingsData = [];
-    querySnapshot.forEach((doc) => {
-      const data = doc.data();
+        const bookingsData = [];
+        querySnapshot.forEach((doc) => {
+          const data = doc.data();
+          const formattedDate = new Date(data.bookingDate).toLocaleDateString();
+          bookingsData.push({
+            id: doc.id,
+            ...data,
+            bookingDate: formattedDate,
+          });
+        });
 
-      // Format the booking date to MM/DD/YYYY
-      const formattedDate = new Date(data.bookingDate).toLocaleDateString();
-
-      bookingsData.push({
-        id: doc.id,
-        ...data,
-        bookingDate: formattedDate, // Replace with formatted date
-      });
-    });
-    setBookings(bookingsData);
-    setLoading(false);
-  } catch (error) {
-    console.error("Error fetching bookings:", error);
-    alert("Failed to load bookings. Please try again.");
-    setLoading(false);
-  }
-};
-
+        setBookings(bookingsData);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching bookings:", error);
+        alert("Failed to load bookings. Please try again.");
+        setLoading(false);
+      }
+    };
 
     if (email) {
       fetchBookings();
@@ -134,6 +130,13 @@ const fetchBookings = async () => {
     setEditForm((prev) => ({ ...prev, [name]: value }));
   };
 
+  // Pagination Logic
+  const indexOfLastBooking = currentPage * bookingsPerPage;
+  const indexOfFirstBooking = indexOfLastBooking - bookingsPerPage;
+  const currentBookings = bookings.slice(indexOfFirstBooking, indexOfLastBooking);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
   return (
     <div style={styles.container}>
       <h5 style={styles.header}>
@@ -153,114 +156,61 @@ const fetchBookings = async () => {
           <Loader />
         ) : bookings.length > 0 ? (
           <div style={styles.bookingsWrapper}>
-            {bookings.map((booking) => (
+            {currentBookings.map((booking) => (
               <div key={booking.id} style={styles.bookingCard}>
                 {editing === booking.id ? (
                   <>
-                    <input
-                      style={styles.input}
-                      name="serviceName"
-                      value={editForm.serviceName}
-                      placeholder="Service Name"
-                      onChange={handleChange}
-                    />
-                    <input
-                      style={styles.input}
-                      name="servicePrice"
-                      value={editForm.servicePrice}
-                      placeholder="Service Price"
-                      onChange={handleChange}
-                    />
-                    <input
-                      style={styles.input}
-                      name="bookingDate"
-                      value={editForm.bookingDate}
-                      placeholder="Booking Date"
-                      onChange={handleChange}
-                    />
-                    <input
-                      style={styles.input}
-                      name="bookingTime"
-                      value={editForm.bookingTime}
-                      placeholder="Booking Time"
-                      onChange={handleChange}
-                    />
-                    <input
-                      style={styles.input}
-                      name="totalPrice"
-                      value={editForm.totalPrice}
-                      placeholder="Total Price"
-                      onChange={handleChange}
-                    />
-                    <input
-                      style={styles.input}
-                      name="additionalService"
-                      value={editForm.additionalService || ""}
-                      placeholder="Additional Services"
-                      onChange={handleChange}
-                    />
-                    <input
-                      style={styles.input}
-                      name="serviceDescription"
-                      value={editForm.serviceDescription || ""}
-                      placeholder="Service Description"
-                      onChange={handleChange}
-                    />
-                    <button style={styles.saveButton} onClick={handleSave}>
-                      Save
-                    </button>
+                    <input style={styles.input} name="serviceName" value={editForm.serviceName} onChange={handleChange} />
+                    <input style={styles.input} name="servicePrice" value={editForm.servicePrice} onChange={handleChange} />
+                    <input style={styles.input} name="bookingDate" value={editForm.bookingDate} onChange={handleChange} />
+                    <input style={styles.input} name="bookingTime" value={editForm.bookingTime} onChange={handleChange} />
+                    <input style={styles.input} name="totalPrice" value={editForm.totalPrice} onChange={handleChange} />
+                    <button style={styles.saveButton} onClick={handleSave}>Save</button>
                   </>
                 ) : (
                   <>
-                    <h5 style={styles.cardTitle}>
-                      <strong>Service Name:</strong> {booking.serviceName}
-                    </h5>
-                    <p>
-                      <strong>Service Price:</strong> {booking.servicePrice}
-                    </p>
-                    <p>
-                      <strong>Booking Date:</strong> {booking.bookingDate}
-                    </p>
-                    <p>
-                      <strong>Booking Time:</strong> {booking.bookingTime}
-                    </p>
-                    <p>
-                      <strong>Total Price:</strong> {booking.totalPrice}
-                    </p>
-                    <p>
-                      <strong>Additional Services:</strong>{" "}
-                      {booking.additionalService || "N/A"}
-                    </p>
-                    <p>
-                      <strong>Service Description:</strong>{" "}
-                      {booking.serviceDescription || "N/A"}
-                    </p>
+                    <h5 style={styles.cardTitle}><strong>Service Name:</strong> {booking.serviceName}</h5>
+                    <p><strong>Service Price:</strong> {booking.servicePrice}</p>
+                    <p><strong>Booking Date:</strong> {booking.bookingDate}</p>
+                    <p><strong>Booking Time:</strong> {booking.bookingTime}</p>
+                    <p><strong>Total Price:</strong> {booking.totalPrice}</p>
                     <hr style={styles.divider} />
                     <div style={styles.actionButtons}>
-                      <button
-                        style={styles.editButton}
-                        onClick={() => handleEdit(booking)}
-                      >
-                        Edit Booking ✎
-                      </button>
-                      <button
-                        style={styles.deleteButton}
-                        onClick={() => handleDelete(booking.id)}
-                      >
-                       Delete Booking ✖
-                      </button>
+                      <button style={styles.editButton} onClick={() => handleEdit(booking)}>Edit Booking ✎</button>
+                      <button style={styles.deleteButton} onClick={() => handleDelete(booking.id)}>Delete Booking ✖</button>
                     </div>
                   </>
                 )}
               </div>
             ))}
+
+            {/* Pagination */}
+            <div style={styles.pagination}>
+              {Array.from({ length: Math.ceil(bookings.length / bookingsPerPage) }, (_, index) => (
+                <button
+                  key={index + 1}
+                  onClick={() => paginate(index + 1)}
+                  style={{
+                    margin: "5px",
+                    padding: "5px 10px",
+                    backgroundColor: currentPage === index + 1 ? "#ff69b4" : "#fff",
+                    color: currentPage === index + 1 ? "#fff" : "#ff69b4",
+                    border: "1px solid #ff69b4",
+                    borderRadius: "5px",
+                    cursor: "pointer",
+                  }}
+                >
+                  {index + 1}
+                </button>
+              ))}
+            </div>
           </div>
         ) : (
           <p>No bookings found.</p>
         )}
       </div>
-      
-    <Footer /> {/* Footer is placed outside the container div */} 
+
+      <Footer />
     </div>
   );
 };

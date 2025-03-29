@@ -254,6 +254,25 @@ const Header = () => {
   };
 
   useEffect(() => {
+    const sendReminderEmails = async () => {
+      try {
+        const response = await fetch("http://localhost:5000/send-reminders", { method: "POST" });
+        if (!response.ok) {
+          throw new Error("Failed to send reminders");
+        }
+        console.log("Reminder emails sent successfully.");
+      } catch (error) {
+        console.error("Error sending reminder emails:", error);
+      }
+    };
+  
+    const interval = setInterval(sendReminderEmails, 24 * 60 * 60 * 1000); // Runs every 24 hours
+  
+    return () => clearInterval(interval); // Cleanup on unmount
+  }, []);
+  
+
+  useEffect(() => {
     const storedEmail = localStorage.getItem("email");
     if (storedEmail) {
       setEmail(storedEmail);

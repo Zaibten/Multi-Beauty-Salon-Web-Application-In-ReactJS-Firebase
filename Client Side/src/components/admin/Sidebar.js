@@ -9,7 +9,7 @@ import { message } from "antd";
 
 const Sidebar = () => {
   const imgPath =
-    "https://img.freepik.com/free-vector/isolated-young-handsome-man-different-poses-white-background-illustration_632498-859.jpg?size=626&ext=jpg&ga=GA1.1.1357742209.1688643562&semt=sph";
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQsFSmPkMDqTMA1fbmpNRrXlC1Ijnex-jYMhT9VCscOPGYqjVV9RgvyfuIC0IxTynz0q9w&usqp=CAU";
   const auth = getAuth();
   const navigate = useNavigate();
   const dispatch = useDispatch();

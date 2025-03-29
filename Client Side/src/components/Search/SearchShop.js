@@ -29,15 +29,46 @@ const SearchShop = () => {
   const app = initializeApp(config);
   const db = getFirestore(app);
 
-  // Fetch shops from Firebase
+  // Fetch shops and their services from Firebase
   useEffect(() => {
     const fetchShops = async () => {
       try {
         const querySnapshot = await getDocs(collection(db, "ProfessionalDB"));
-        const shopData = querySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
+        const shopData = await Promise.all(
+          querySnapshot.docs.map(async (doc) => {
+            const servicesSnapshot = await getDocs(
+              collection(db, "ProfessionalDB", doc.id, "Services")
+            );
+            const services = servicesSnapshot.docs.map((serviceDoc) => ({
+              id: serviceDoc.id,
+              ...serviceDoc.data(),
+            }));
+
+            const reviewsSnapshot = await getDocs(
+              collection(db, "ProfessionalDB", doc.id, "Reviews")
+            );
+            const reviews = reviewsSnapshot.docs.map((reviewDoc) => ({
+              id: reviewDoc.id,
+              ...reviewDoc.data(),
+            }));
+
+            // Calculate average rating
+            const avgRating =
+              reviews.length > 0
+                ? reviews.reduce((sum, r) => sum + (r.rating || 0), 0) /
+                  reviews.length
+                : 0;
+
+            return {
+              id: doc.id,
+              ...doc.data(),
+              services,
+              reviews,
+              avgRating,
+            };
+          })
+        );
+
         setShops(shopData);
       } catch (error) {
         console.error("Error fetching shops:", error);
@@ -53,12 +84,58 @@ const SearchShop = () => {
     window.scrollTo(0, 0);
   }, []);
 
+  // Function to clear all filters
+  const clearFilters = () => {
+    setSearch("");
+    setPriceFilter("");
+    setRatingFilter("");
+    setServiceFilter("");
+  };
+
+  // Filtering Logic
+  const filteredShops = shops.filter((shop) => {
+    const matchesSearch =
+      search === "" ||
+      shop.shopName.toLowerCase().includes(search.toLowerCase());
+
+    const matchesService =
+      serviceFilter === "" ||
+      shop.services.some((service) =>
+        service.ServiceName.toLowerCase().includes(serviceFilter.toLowerCase())
+      );
+
+    const matchesPrice =
+      priceFilter === "" ||
+      shop.services.some((service) => {
+        const price = parseInt(service.Price, 10);
+        switch (priceFilter) {
+          case "0-1000":
+            return price <= 1000;
+          case "1000-3000":
+            return price >= 1000 && price <= 3000;
+          case "3000-5000":
+            return price >= 3000 && price <= 5000;
+          case "5000-10000":
+            return price >= 5000 && price <= 10000;
+          case "10000-20000":
+            return price >= 10000 && price <= 20000;
+          default:
+            return true;
+        }
+      });
+
+    const matchesRating =
+      ratingFilter === "" || shop.avgRating >= parseInt(ratingFilter, 10);
+
+    return matchesSearch && matchesService && matchesPrice && matchesRating;
+  });
+
   return (
     <div className="mb-3">
       <div className="bg-white">
         <div className="container pt-3 pb-5">
           <BreadCrumbs text="black" activePage={"Search"} />
-          
+
           {/* Search Bar */}
           <div className="d-flex justify-content-center align-items-center pt-3">
             <input
@@ -74,11 +151,10 @@ const SearchShop = () => {
             </span>
           </div>
 
-          {/* Filters Section (No Filtering Logic) */}
+          {/* Filters Section */}
           <div className="mt-4 border p-3 rounded bg-light">
             <h6 className="fw-bold">Filters:</h6>
             <div className="row">
-              
               {/* Price Filter */}
               <div className="col-md-4">
                 <label className="fw-semibold">Price Range:</label>
@@ -130,31 +206,21 @@ const SearchShop = () => {
                 </select>
               </div>
             </div>
+
+            {/* Clear Filters Button */}
+            <div className="mt-3 text-end">
+              <button className="btn btn-danger" onClick={clearFilters}>
+                Clear Filters
+              </button>
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Search Results (No Filtering Applied) */}
-      <div className="mt-5">
-        <div className="container">
-          <div className="d-flex justify-content-between text-black mb-3 align-items-center">
-            <h6>Search Results ({shops.length})</h6>
-          </div>
-          <div className="border p-3">
-            <div className="overflow-auto" style={{ height: "500px" }}>
-              {loading ? (
-                <Loader />
-              ) : shops.length === 0 ? (
-                <p className="text-center text-muted">No results found.</p>
-              ) : (
-                shops.map((res) => (
-                  <NavLink key={res.id} to={`/shop/${res.id}`}>
-                    <SearchContent data={res} />
-                  </NavLink>
-                ))
-              )}
-            </div>
-          </div>
+      {/* Search Results */}
+      <div className="mt-5 container">
+        <div className="border p-3">
+          {loading ? <Loader /> : filteredShops.map((res) => <NavLink key={res.id} to={`/shop/${res.id}`}><SearchContent data={res} /></NavLink>)}
         </div>
       </div>
     </div>

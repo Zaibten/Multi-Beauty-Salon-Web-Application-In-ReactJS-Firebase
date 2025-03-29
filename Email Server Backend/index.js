@@ -175,16 +175,14 @@ app.post("/send-booking-email", async (req, res) => {
   
 
 
-  // Function to send reminder emails
+// Function to send reminder emails
 const sendReminderEmails = async () => {
   try {
+    console.log("Checking for upcoming bookings...");
     const today = new Date();
-    today.setDate(today.getDate() + 1); // Get tomorrow's date
-
-    // Format date to match Firestore's stored format (e.g., "2025-03-28")
+    today.setDate(today.getDate() + 1);
     const tomorrowDate = today.toISOString().split("T")[0];
 
-    // Fetch all bookings from Firestore
     const bookingsSnapshot = await db.collection("Bookings").get();
 
     if (bookingsSnapshot.empty) {
@@ -192,11 +190,15 @@ const sendReminderEmails = async () => {
       return;
     }
 
-    bookingsSnapshot.forEach(async (doc) => {
+    const promises = bookingsSnapshot.docs.map(async (doc) => {
       const booking = doc.data();
 
-      if (booking.bookingDate === tomorrowDate) {
-        const { email, serviceName, bookingDate, bookingTime, totalPrice } = booking;
+      // Ensure bookingDate is properly formatted
+      const bookingDate = typeof booking.bookingDate === "string" ? booking.bookingDate 
+                         : booking.bookingDate.toDate().toISOString().split("T")[0];
+
+      if (bookingDate === tomorrowDate) {
+        const { email, serviceName, bookingTime, totalPrice } = booking;
 
         const mailOptions = {
           from: senderEmail,
@@ -206,47 +208,52 @@ const sendReminderEmails = async () => {
             <div style="max-width: 600px; margin: auto; padding: 20px; font-family: Arial, sans-serif;">
               <h2 style="color: #FFA500; text-align: center;">Upcoming Booking Reminder</h2>
               <p style="text-align: center;">This is a reminder about your upcoming booking scheduled for tomorrow.</p>
-
               <div style="border: 1px solid #ddd; padding: 15px; border-radius: 5px;">
                 <p><strong>Service:</strong> ${serviceName || "Not Available"}</p>
-                <p><strong>Date:</strong> ${bookingDate || "Not Available"}</p>
+                <p><strong>Date:</strong> ${bookingDate}</p>
                 <p><strong>Time:</strong> ${bookingTime || "Not Available"}</p>
                 <p style="color: #FFA500;"><strong>Total Price:</strong> ${totalPrice || "Not Available"}</p>
               </div>
-
               <p style="text-align: center; margin-top: 15px;">If you need to reschedule, please contact us.</p>
             </div>
           `,
         };
 
-        // Send the email
-        await transporter.sendMail(mailOptions);
-        console.log(`Reminder email sent to ${email}`);
+        console.log(`Preparing to send email to ${email} for booking on ${bookingDate}`);
+
+        return transporter.sendMail(mailOptions)
+          .then(() => console.log(`Reminder email sent successfully to ${email}`))
+          .catch((error) => console.error("Error sending email:", error));
       }
     });
+
+    await Promise.all(promises);
+    console.log("All reminder emails sent.");
   } catch (error) {
     console.error("Error sending reminder emails:", error);
   }
 };
 
-// Schedule the reminder email to run daily at a fixed time (e.g., midnight)
+// Schedule the reminder email to run daily at a fixed time
 const scheduleDailyReminder = () => {
+  console.log("Starting daily reminder scheduler...");
   const now = new Date();
   const nextRun = new Date(now);
-  nextRun.setHours(0, 0, 0, 0); // Set execution time to midnight
-  nextRun.setDate(nextRun.getDate() + 1); // Run at the next midnight
+  nextRun.setHours(0, 0, 0, 0);
+  nextRun.setDate(nextRun.getDate() + 1);
 
   const timeUntilNextRun = nextRun.getTime() - now.getTime();
-  console.log(`Scheduled reminder emails in ${timeUntilNextRun / 1000 / 60} minutes`);
+  console.log(`Scheduled reminder emails in ${Math.round(timeUntilNextRun / 1000 / 60)} minutes`);
 
   setTimeout(() => {
     sendReminderEmails();
-    scheduleDailyReminder(); // Reschedule for the next day
+    scheduleDailyReminder();
   }, timeUntilNextRun);
 };
 
 // Start scheduling reminders
 scheduleDailyReminder();
+
 
 // Start Server
 const PORT = 5000;

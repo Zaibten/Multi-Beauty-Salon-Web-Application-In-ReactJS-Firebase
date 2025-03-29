@@ -12,7 +12,15 @@ import Loader from "../Loader/loader";
 import asset from "../../assets/hairfinder assest.png";
 import { collection, addDoc, query, where, getDocs } from "firebase/firestore";
 
+
 const BookShop = () => {
+  const [showModal, setShowModal] = useState(false);
+
+const [cardNumber, setCardNumber] = useState("");
+const [expiryDate, setExpiryDate] = useState("");
+const [cvv, setCvv] = useState("");
+
+
   const [selected, setSelected] = useState(Date);
   const isSmallDevice = useMediaQuery("(max-width : 748px)");
   const isMediumDevice = useMediaQuery("(min-width : 769px)");
@@ -25,7 +33,15 @@ const BookShop = () => {
     const storedEmail = localStorage.getItem("email");
     setEmail(storedEmail);
   }, []);
-
+  const handlePayment = () => {
+    if (cardNumber && expiryDate && cvv) {
+      alert("Payment of 500 Rs successful! Booking confirmed.");
+      setShowModal(false);
+      handleBookNow();
+    } else {
+      alert("Please enter valid card details.");
+    }
+  };
 
   let today = new Date();
   let year = today.getFullYear();
@@ -69,77 +85,61 @@ const BookShop = () => {
   let sample = !mark ? " Please Select Time" : mark.time + mark.shift;
   let footerDetail = selected.toString().substring(0, 15).concat("/", sample);
  
- 
+ /* ✅ Define isValid function */
+const isValid = () => {
+  return (
+    cardNumber.length === 16 &&
+    /^\d{2}\/\d{2}$/.test(expiryDate) &&
+    cvv.length === 3
+  );
+};
 
+const handleCheckout = () => {
+  window.location.href = "https://book.stripe.com/test_00g7wuesWda5bVmdQR";
+};
 
   const handleBookNow = async () => {
     try {
       // Validate booking date and time
-      const bookingDate = selected?.toString().substring(0, 15); // Ensure selected date is valid
+      const bookingDate = selected?.toString().substring(0, 15);
       const bookingTime = mark?.time && mark?.shift ? mark.time + mark.shift : null;
   
-      if (!bookingDate) {
-        alert("Please select a valid booking date.");
+      if (!bookingDate || !bookingTime) {
+        alert("Please select a valid booking date and time.");
         return;
       }
   
-      if (!bookingTime) {
-        alert("Please select a valid booking time.");
-        return;
-      }
-  
-      // Convert selected date and time to a Date object
-      const currentDateTime = new Date(); // Current date and time
-      const selectedDateTime = new Date(`${bookingDate} ${mark.time} ${mark.shift}`);
-  
-      if (selectedDateTime < currentDateTime) {
-        alert("You cannot book a service for a past date or time. Please select a future date and time.");
-        return;
-      }
-  
-      // Prepare the booking data
       const bookingData = {
         email: email,
         serviceName: service.ServiceName,
-        servicePrice: service.Price ? `${service.Price} rs` : "Not available",
-        serviceTime: footerDetail || "Not specified",
-        serviceDescription: service.Description || "Not available",
-        additionalService: selectedValues.length > 0 ? selectedValues.join(", ") : "Not available",
         bookingDate: bookingDate,
         bookingTime: bookingTime,
-        totalPrice: PurchasePrice ? `${PurchasePrice} rs` : "Not available",
-        shopId: parent,
-        userId: email,
-        createdAt: new Date(),
+        totalPrice: `${PurchasePrice} rs`,
       };
   
-      // Check for duplicates
+      // Save booking to Firebase
       const bookingsRef = collection(db, "Bookings");
-      const duplicateQuery = query(
-        bookingsRef,
-        where("email", "==", bookingData.email),
-        where("serviceName", "==", bookingData.serviceName),
-        where("bookingDate", "==", bookingData.bookingDate),
-        where("bookingTime", "==", bookingData.bookingTime)
-      );
-      const querySnapshot = await getDocs(duplicateQuery);
-  
-      if (!querySnapshot.empty) {
-        alert("Duplicate booking found! Please modify your booking.");
-        return;
-      }
-  
-      // Insert new booking data
       await addDoc(bookingsRef, bookingData);
-      alert("Your booking has been saved successfully!");
+
+      handleCheckout();
   
-      // Redirect to /schedule page and refresh it
-      window.location.assign('/schedule');
+      // alert("Your booking has been saved successfully!");
+  
+      // Send confirmation email
+      await fetch("https://glamthegirlemailservice.vercel.app/send-booking-email", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(bookingData),
+      });
+  
+      // Redirect to schedule page
+      window.location.assign("/schedule");
     } catch (error) {
       console.error("Error saving booking: ", error);
       alert("There was an error saving your booking. Please try again.");
     }
   };
+  
 
 
 
@@ -348,12 +348,29 @@ const BookShop = () => {
                   <span className="fw-bold">{PurchasePrice}rs</span>
                 </div>
               </div>
-              <button
-                className="px-5 py-2 bg-black fw-semibold rounded text-white w-100 border-0 mt-3"
-                onClick={handleBookNow}
-              >
-                Book Now
-              </button>
+
+
+
+
+
+<button
+  style={{
+    padding: "10px 20px",
+    backgroundColor: "black",
+    color: "white",
+    fontWeight: "600",
+    borderRadius: "5px",
+    width: "100%",
+    border: "none",
+    marginTop: "10px",
+    cursor: "pointer",
+  }}
+  onClick={handleBookNow}
+>
+  Book Now
+</button>
+
+
             </div>
           </div>
         </div>

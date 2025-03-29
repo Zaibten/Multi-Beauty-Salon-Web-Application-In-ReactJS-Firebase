@@ -5,28 +5,30 @@ import { db } from "../../Firebase/firebase";
 import Breadcrumb from "../BreadCrumbs/Breadcrumb";
 import Loader from "../Loader/loader";
 import StyleCard from "./StyleCard";
+import "./ShopDetail.css"; // Importing styles
 
 const ShopDetail = () => {
-  const [services, setServices] = useState([]);  // <-- Added services state
+  const [services, setServices] = useState([]);
   const { id } = useParams();
   const [shopDetails, setShopDetails] = useState("");
   const [reviews, setReviews] = useState([]);
   const [reviewText, setReviewText] = useState("");
-  const [email, setEmail] = useState(""); // Auto-select email
+  const [email, setEmail] = useState("");
   const [rating, setRating] = useState(5);
   const [loading, setLoading] = useState(true);
+  
+  // Pagination State
+  const [currentPage, setCurrentPage] = useState(1);
+  const reviewsPerPage = 5;
 
   useEffect(() => {
     window.scrollTo(0, 0);
     getSaloon();
-    getServices();  // <-- Fetching services
+    getServices();
     getReviews();
-
-    // Get email from localStorage
+    
     const storedEmail = localStorage.getItem("email");
-    if (storedEmail) {
-      setEmail(storedEmail);
-    }
+    if (storedEmail) setEmail(storedEmail);
   }, [id]);
 
   const getSaloon = async () => {
@@ -41,18 +43,17 @@ const ShopDetail = () => {
 
   const getReviews = async () => {
     const data = await getDocs(collection(db, "ProfessionalDB", `${id}`, "Reviews"));
-    setReviews(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+    const fetchedReviews = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+    setReviews(fetchedReviews);
     setLoading(false);
   };
 
   const submitReview = async (e) => {
     e.preventDefault();
-    
     if (!email) {
       alert("Please log in to add a review.");
       return;
     }
-
     if (reviewText.trim() === "") return;
 
     const newReview = { name: email, text: reviewText, rating: rating, timestamp: new Date() };
@@ -61,15 +62,23 @@ const ShopDetail = () => {
     setReviews([...reviews, newReview]);
     setReviewText("");
     setRating(5);
-
     alert("Your review has been submitted successfully!");
   };
 
+  // Pagination Logic
+  const lastReviewIndex = currentPage * reviewsPerPage;
+  const firstReviewIndex = lastReviewIndex - reviewsPerPage;
+  const currentReviews = reviews.slice(firstReviewIndex, lastReviewIndex);
+
+  // Calculate average rating
+  const averageRating =
+    reviews.length > 0
+      ? reviews.reduce((acc, review) => acc + review.rating, 0) / reviews.length
+      : 0;
+
   return (
     <div className="container">
-      <div className="mt-3">
-        <Breadcrumb path="Shop Details" activePage={"Shop"} text="white" />
-      </div>
+      <Breadcrumb path="Shop Details" activePage={"Shop"} text="white" />
 
       <h3 className="text-white text-center">
         <span className="border py-2 ps-4">
@@ -77,53 +86,33 @@ const ShopDetail = () => {
         </span>
       </h3>
 
+      {/* Shop Details */}
       <div className="mt-5">
         <div className="row align-items-center">
-        <div className="col-12 col-sm-3">
-  <img
-    alt="Saloon Image"
-    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDlpM9l6Ni4vskN3sHcDJIaUTogmQ2rqC6dg&s"
-    className="w-100 mb-3"
-    style={{
-      transition: "transform 0.5s ease, box-shadow 0.5s ease, opacity 0.5s",
-      borderRadius: "10px",
-      cursor: "pointer",
-    }}
-    onMouseOver={(e) => {
-      e.target.style.transform = "scale(1.1)";
-      e.target.style.boxShadow = "0px 4px 15px rgba(255, 255, 255, 0.3)";
-      e.target.style.opacity = "0.9";
-    }}
-    onMouseOut={(e) => {
-      e.target.style.transform = "scale(1)";
-      e.target.style.boxShadow = "none";
-      e.target.style.opacity = "1";
-    }}
-  />
-</div>
-
-
+          <div className="col-12 col-sm-3">
+            <img
+              alt="Saloon Image"
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDlpM9l6Ni4vskN3sHcDJIaUTogmQ2rqC6dg&s"
+              className="shop-image"
+            />
+          </div>
           {!shopDetails ? (
             <Loader />
           ) : (
-            <div className="col-12 col-sm-8 ms-sm-3 d-flex">
-              <div className="text-white">
-                <span className="d-block">Shop Name</span>
-                <span className="d-block">Owner Name</span>
-                <span className="d-block">Timing</span>
-                <span className="d-block">Contact Number</span>
-              </div>
-              <div className="text-white ps-3">
-                <span className="d-block">: {shopDetails.shopName}</span>
-                <span className="d-block">: {shopDetails.name}</span>
-                <span className="d-block">: {shopDetails.shopOpen || "10:00 AM"} - {shopDetails.shopClose}</span>
-                <span className="d-block">: {shopDetails.number}</span>
+            <div className="col-12 col-sm-8 ms-sm-3 d-flex text-white">
+              <div>
+                <span>Shop Name: {shopDetails.shopName}</span><br />
+                <span>Owner: {shopDetails.name}</span><br />
+                <span>Timing: {shopDetails.shopOpen || "10:00 AM"} - {shopDetails.shopClose}</span><br />
+                <span>Contact: {shopDetails.number}</span>
               </div>
             </div>
           )}
         </div>
-        {/* 🔹 Services Section */}
-        <div className="mt-5">
+      </div>
+
+              {/* 🔹 Services Section */}
+              <div className="mt-5">
           <h3 className="text-white mb-3">
             Services by <span className="text-decoration-underline">Professional</span>
           </h3>
@@ -147,30 +136,50 @@ const ShopDetail = () => {
           </div>
         </div>
 
-        {/* Reviews Section */}
-        <div className="review-section mt-5">
-          <h3 className="text-white text-center">Customer Reviews</h3>
-          <div className="review-container">
-            {loading ? (
-              <Loader bgcolor="black" />
-            ) : reviews.length > 0 ? (
-              reviews.map((review, index) => (
-                <div className="review-card" key={index}>
-                  <h5>{review.name}</h5>
-                  <div className="rating-stars">
-                    {"★".repeat(review.rating)}
-                    {"☆".repeat(5 - review.rating)}
-                  </div>
-                  <p>{review.text}</p>
+      {/* Reviews Section */}
+      <div className="review-section">
+        <h3 className="text-white text-center">Customer Reviews</h3>
+        <p className="text-white text-center">
+          {reviews.length} Reviews | Average Rating: {averageRating.toFixed(1)} ⭐
+        </p>
+        
+        <div className="review-container">
+          {loading ? (
+            <Loader bgcolor="black" />
+          ) : reviews.length > 0 ? (
+            currentReviews.map((review, index) => (
+              <div className="review-card" key={index}>
+                <h5>{review.name}</h5>
+                <div className="rating-stars">
+                  {"★".repeat(review.rating)}
+                  {"☆".repeat(5 - review.rating)}
                 </div>
-              ))
-            ) : (
-              <p className="text-white text-center">No reviews yet.</p>
-            )}
-          </div>
+                <p>{review.text}</p>
+              </div>
+            ))
+          ) : (
+            <p className="text-white text-center">No reviews yet.</p>
+          )}
+        </div>
 
-          {/* Review Form */}
-          <div className="review-form mt-4">
+        {/* Pagination */}
+        {reviews.length > reviewsPerPage && (
+          <div className="pagination">
+            {Array.from({ length: Math.ceil(reviews.length / reviewsPerPage) }).map((_, index) => (
+              <button
+                key={index}
+                onClick={() => setCurrentPage(index + 1)}
+                className={currentPage === index + 1 ? "active" : ""}
+              >
+                {index + 1}
+              </button>
+            ))}
+          </div>
+        )}
+
+        {/* Review Form */}
+                 {/* Review Form */}
+                 <div className="review-form mt-4">
             <h4 className="text-white text-center">Leave a Review</h4>
             <form onSubmit={submitReview} className="review-form-container">
               {/* Auto-fetched email */}
@@ -206,9 +215,8 @@ const ShopDetail = () => {
               <button type="submit" className="submit-btn">Submit Review</button>
             </form>
           </div>
-        </div>
       </div>
-
+    
       {/* CSS BELOW */}
       <style>
         {`
