@@ -6,6 +6,7 @@ const path = require("path");
 // Import required Firebase modules
 const { initializeApp } = require("firebase/app");
 const { getFirestore, collection, getDocs } = require("firebase/firestore");
+const QRCode = require("qrcode"); // Import QR code package
 
 // Initialize Firebase App
 const firebaseApp = initializeApp({
@@ -248,6 +249,66 @@ const scheduleDailyReminder = () => {
 
 // Start scheduling reminders
 scheduleDailyReminder();
+
+
+// API to send booking confirmation email with QR Code
+app.post("/send-master-booking-email", async (req, res) => {
+  console.log("Received request body:", req.body); // Debugging
+
+  const { email, serviceName, bookingDate, bookingTime, totalPrice } = req.body;
+
+  if (!email) {
+    console.error("Error: Email is missing in the request.");
+    return res.status(400).json({ error: "Email is required" });
+  }
+
+  try {
+    // Generate QR Code
+    const qrCodeData = `Booking Details:\nService: ${serviceName}\nDate: ${bookingDate}\nTime: ${bookingTime}\nPrice: ${totalPrice}`;
+    const qrCodePath = path.join(__dirname, "qrcode.png");
+
+    await QRCode.toFile(qrCodePath, qrCodeData);
+
+    // Email content
+    const mailOptions = {
+      from: senderEmail,
+      to: email,
+      subject: "Booking Confirmation with QR Code",
+      html: `
+        <div style="max-width: 600px; margin: auto; background: #ffffff; padding: 20px; border-radius: 10px; box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); font-family: Arial, sans-serif;">
+          <h2 style="color: #4CAF50; text-align: center;">Booking Confirmed</h2>
+          <p style="text-align: center;">Thank you for your booking! Below are your details:</p>
+          <div style="border-radius: 8px; background: #f9f9f9; padding: 15px;">
+            <p><strong>Service:</strong> ${serviceName || "Not Available"}</p>
+            <p><strong>Date:</strong> ${bookingDate || "Not Available"}</p>
+            <p><strong>Time:</strong> ${bookingTime || "Not Available"}</p>
+            <p style="color: #4CAF50;"><strong>Total Price:</strong> ${totalPrice || "Not Available"}</p>
+          </div>
+          <p style="text-align: center;">Scan the QR Code below to access your booking details:</p>
+          <div style="text-align: center;">
+            <img src="cid:qrcode" alt="QR Code" style="width: 150px; height: 150px;"/>
+          </div>
+        </div>
+      `,
+      attachments: [
+        {
+          filename: "qrcode.png",
+          path: qrCodePath,
+          cid: "qrcode",
+        },
+      ],
+    };
+
+    // Send the email
+    await transporter.sendMail(mailOptions);
+    console.log("Booking confirmation email sent successfully!");
+    res.json({ success: true, message: "Booking confirmation email sent with QR Code!" });
+  } catch (error) {
+    console.error("Error sending email:", error);
+    res.status(500).json({ error: "Failed to send booking email" });
+  }
+});
+
 
 // Start Server
 const PORT = 5000;

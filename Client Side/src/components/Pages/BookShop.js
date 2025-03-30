@@ -12,14 +12,12 @@ import Loader from "../Loader/loader";
 import asset from "../../assets/hairfinder assest.png";
 import { collection, addDoc, query, where, getDocs } from "firebase/firestore";
 
-
 const BookShop = () => {
   const [showModal, setShowModal] = useState(false);
 
-const [cardNumber, setCardNumber] = useState("");
-const [expiryDate, setExpiryDate] = useState("");
-const [cvv, setCvv] = useState("");
-
+  const [cardNumber, setCardNumber] = useState("");
+  const [expiryDate, setExpiryDate] = useState("");
+  const [cvv, setCvv] = useState("");
 
   const [selected, setSelected] = useState(Date);
   const isSmallDevice = useMediaQuery("(max-width : 748px)");
@@ -84,31 +82,51 @@ const [cvv, setCvv] = useState("");
   let PurchasePrice = parseInt(service.Price) + cartTotal;
   let sample = !mark ? " Please Select Time" : mark.time + mark.shift;
   let footerDetail = selected.toString().substring(0, 15).concat("/", sample);
- 
- /* ✅ Define isValid function */
-const isValid = () => {
-  return (
-    cardNumber.length === 16 &&
-    /^\d{2}\/\d{2}$/.test(expiryDate) &&
-    cvv.length === 3
-  );
-};
 
-const handleCheckout = () => {
-  window.location.href = "https://book.stripe.com/test_00g7wuesWda5bVmdQR";
-};
+  /* ✅ Define isValid function */
+  const isValid = () => {
+    return (
+      cardNumber.length === 16 &&
+      /^\d{2}\/\d{2}$/.test(expiryDate) &&
+      cvv.length === 3
+    );
+  };
+
+  const handleCheckout = () => {
+    window.location.href = "https://book.stripe.com/test_00g7wuesWda5bVmdQR";
+  };
 
   const handleBookNow = async () => {
     try {
       // Validate booking date and time
       const bookingDate = selected?.toString().substring(0, 15);
-      const bookingTime = mark?.time && mark?.shift ? mark.time + mark.shift : null;
-  
+      const bookingTime =
+        mark?.time && mark?.shift ? mark.time + mark.shift : null;
+
       if (!bookingDate || !bookingTime) {
         alert("Please select a valid booking date and time.");
         return;
       }
-  
+
+      // Reference to the "Bookings" collection
+      const bookingsRef = collection(db, "Bookings");
+
+      // Query to check if an entry with the same email, date, and time exists
+      const q = query(
+        bookingsRef,
+        where("email", "==", email),
+        where("bookingDate", "==", bookingDate),
+        where("bookingTime", "==", bookingTime)
+      );
+
+      const querySnapshot = await getDocs(q);
+
+      // If a booking exists, prevent duplicate entry
+      if (!querySnapshot.empty) {
+        alert("You have already booked a service at this time.");
+        return;
+      }
+
       const bookingData = {
         email: email,
         serviceName: service.ServiceName,
@@ -116,22 +134,19 @@ const handleCheckout = () => {
         bookingTime: bookingTime,
         totalPrice: `${PurchasePrice} rs`,
       };
-  
+
       // Save booking to Firebase
-      const bookingsRef = collection(db, "Bookings");
       await addDoc(bookingsRef, bookingData);
 
       handleCheckout();
-  
-      // alert("Your booking has been saved successfully!");
-  
+
       // Send confirmation email
-      await fetch("https://glamthegirlemailservice.vercel.app/send-booking-email", {
+      await fetch("http://localhost:5000/send-booking-email", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(bookingData),
       });
-  
+
       // Redirect to schedule page
       window.location.assign("/schedule");
     } catch (error) {
@@ -139,11 +154,7 @@ const handleCheckout = () => {
       alert("There was an error saving your booking. Please try again.");
     }
   };
-  
 
-
-
-  
   // console.log(shopDetail);
   return (
     <div className="">
@@ -349,28 +360,22 @@ const handleCheckout = () => {
                 </div>
               </div>
 
-
-
-
-
-<button
-  style={{
-    padding: "10px 20px",
-    backgroundColor: "black",
-    color: "white",
-    fontWeight: "600",
-    borderRadius: "5px",
-    width: "100%",
-    border: "none",
-    marginTop: "10px",
-    cursor: "pointer",
-  }}
-  onClick={handleBookNow}
->
-  Book Now
-</button>
-
-
+              <button
+                style={{
+                  padding: "10px 20px",
+                  backgroundColor: "black",
+                  color: "white",
+                  fontWeight: "600",
+                  borderRadius: "5px",
+                  width: "100%",
+                  border: "none",
+                  marginTop: "10px",
+                  cursor: "pointer",
+                }}
+                onClick={handleBookNow}
+              >
+                Book Now
+              </button>
             </div>
           </div>
         </div>

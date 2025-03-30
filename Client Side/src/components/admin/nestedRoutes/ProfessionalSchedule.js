@@ -78,7 +78,7 @@ const ProfessionalSchedule = () => {
       alert("Booking canceled successfully.");
   
       // Send cancellation email after deleting the booking
-      const response = await fetch("https://glamthegirlemailservice.vercel.app/send-cancellation-email", {
+      const response = await fetch("http://localhost:5000/send-cancellation-email", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
