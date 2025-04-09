@@ -16,6 +16,8 @@ const ShopDetail = () => {
   const [email, setEmail] = useState("");
   const [rating, setRating] = useState(5);
   const [loading, setLoading] = useState(true);
+  const [categoryFilter, setCategoryFilter] = useState("");
+
   
   // Pagination State
   const [currentPage, setCurrentPage] = useState(1);
@@ -79,13 +81,11 @@ const ShopDetail = () => {
   return (
     <div className="container">
       <Breadcrumb path="Shop Details" activePage={"Shop"} text="white" />
-
       <h3 className="text-white text-center">
         <span className="border py-2 ps-4">
           Shop <span className="bg-white text-black py-2 pe-4">Details</span>
         </span>
       </h3>
-
       {/* Shop Details */}
       <div className="mt-5">
         <div className="row align-items-center">
@@ -113,28 +113,124 @@ const ShopDetail = () => {
 
               {/* 🔹 Services Section */}
               <div className="mt-5">
-          <h3 className="text-white mb-3">
-            Services by <span className="text-decoration-underline">Professional</span>
-          </h3>
-          <div className="row">
-            {services.length === 0 ? (
-              <Loader bgcolor="black" />
-            ) : (
-              services.map((doc) => (
-                <div className="col-6 col-sm-3 mt-2" key={doc.id}>
-                  <StyleCard
-                    shopDetails={shopDetails}
-                    services={services}
-                    price={doc.Price}
-                    name={doc.ServiceName}
-                    image={doc.ServiceImage}
-                    book={`/shop/${id}/${doc.id}/booking`}
-                  />
-                </div>
-              ))
-            )}
+  <h3 className="text-white mb-3">
+    Services by <span className="text-decoration-underline">Professional</span>
+  </h3>
+  <div className="category-filter mb-4">
+  <label className="text-white" htmlFor="categoryFilter">Filter by Category:</label>
+  <div className="custom-dropdown">
+    <select
+      id="categoryFilter"
+      className="custom-select"
+      value={categoryFilter}
+      onChange={(e) => setCategoryFilter(e.target.value)}
+    >
+      <option value="">All Categories</option>
+      <option value="Hair services">Hair services</option>
+      <option value="Skin Care services">Skin Care services</option>
+      <option value="Hair Removal services">Hair Removal services</option>
+      <option value="Hand & Foot care">Hand & Foot care</option>
+      <option value="Makeup Services">Makeup Services</option>
+      <option value="Body Treatments">Body Treatments</option>
+      <option value="Packages">Packages</option>
+    </select>
+  </div>
+
+  <style jsx>{`
+    .category-filter {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 30px;
+    }
+
+    .category-filter label {
+      font-size: 16px;
+      margin-bottom: 8px;
+      color: white;
+    }
+
+    /* Custom Dropdown Styles */
+    .custom-dropdown {
+      position: relative;
+      width: 100%;
+    }
+
+    .custom-select {
+      width: 100%;
+      padding: 12px 20px;
+      font-size: 16px;
+      border: 2px solid #ccc;
+      border-radius: 5px;
+      background-color: #1a1a1a;
+      color: white;
+      appearance: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    /* Add a custom arrow icon */
+    .custom-select:focus {
+      outline: none;
+      border-color: #ff6b6b;
+    }
+
+    .custom-select:hover {
+      background-color: #333;
+    }
+
+    .custom-select option {
+      background-color: #1a1a1a;
+      color: white;
+    }
+
+    /* Custom arrow for dropdown */
+    .custom-select::-ms-expand {
+      display: none;
+    }
+
+    .custom-dropdown::after {
+      content: "▼";
+      position: absolute;
+      top: 50%;
+      right: 15px;
+      transform: translateY(-50%);
+      color: #ccc;
+      pointer-events: none;
+    }
+
+    .custom-select:focus + .custom-dropdown::after {
+      color: #ff6b6b;
+    }
+  `}</style>
+</div>
+
+  <div className="row">
+    {services.length === 0 ? (
+      <Loader bgcolor="black" />
+    ) : (
+      services
+        .filter((doc) => {
+          if (categoryFilter && doc.Category) {
+            return doc.Category.toLowerCase().includes(categoryFilter.toLowerCase());
+          }
+          return true; // Show all if no filter is selected
+        })
+        .map((doc) => (
+          <div className="col-6 col-sm-3 mt-2" key={doc.id}>
+            <StyleCard
+              shopDetails={shopDetails}
+              services={services}
+              price={doc.Price}
+              name={doc.ServiceName}
+              image={doc.ServiceImage}
+              book={`/shop/${id}/${doc.id}/booking`}
+            />
           </div>
-        </div>
+        ))
+    )}
+  </div>
+</div>
+
 
       {/* Reviews Section */}
       <div className="review-section">
