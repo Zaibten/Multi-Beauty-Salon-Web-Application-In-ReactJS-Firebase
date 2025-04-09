@@ -63,6 +63,7 @@ const AddShopDetails = () => {
         Price: state.price,
         Description: state.description,
         ServiceImage: "",
+        Category: state.category, // Save category
       })
         .then(() => {
           notification("Service Added !!", "success");
@@ -77,6 +78,8 @@ const AddShopDetails = () => {
         price: "",
         description: "",
         serviceImage: "",
+        
+  category: "", // Reset category
       });
       return;
     }
@@ -109,6 +112,8 @@ const AddShopDetails = () => {
       price: "",
       description: "",
       serviceImage: "",
+      
+  category: "", // Reset category
     });
     setImage("");
   };
@@ -166,6 +171,23 @@ const AddShopDetails = () => {
             </div>
             <div className="col-12 col-sm-6 col-md-7">
               <div>
+              <select
+   className="form-control mt-2 mb-2"
+  name="category"
+  value={state.category}
+  required
+  onChange={onFormChange}
+>
+  <option value="">Select Service Category</option>
+  <option value="Hair services">Hair services</option>
+  <option value="Skin Care services">Skin Care services</option>
+  <option value="Hair Removal services">Hair Removal services</option>
+  <option value="Hand & Foot care">Hand & Foot care</option>
+  <option value="Makeup Services">Makeup Services</option>
+  <option value="Body Treatments">Body Treatments</option>
+  <option value="Packages">Packages</option>
+</select>
+
                 <input
                   placeholder="Enter Service Name"
                   className="form-control"
