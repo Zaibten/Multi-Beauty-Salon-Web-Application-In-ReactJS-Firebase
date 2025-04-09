@@ -58,7 +58,7 @@ const ServicesList = ({ noImage, data, onUpdate }) => {
       ServiceName: formData.serviceName,
       Price: formData.price,
       Description: formData.description,
-      category: formData.category,
+      Category: formData.category,
     });
 
     alert("Service updated successfully!");

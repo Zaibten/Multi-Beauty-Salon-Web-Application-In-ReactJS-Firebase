@@ -97,13 +97,14 @@ const SearchShop = () => {
     const matchesSearch =
       search === "" ||
       shop.shopName.toLowerCase().includes(search.toLowerCase());
-
+  
     const matchesService =
       serviceFilter === "" ||
       shop.services.some((service) =>
-        service.ServiceName.toLowerCase().includes(serviceFilter.toLowerCase())
+        service.Category && // Check if Category exists
+        service.Category.toLowerCase().includes(serviceFilter.toLowerCase()) // Use Category instead of ServiceCategory
       );
-
+  
     const matchesPrice =
       priceFilter === "" ||
       shop.services.some((service) => {
@@ -123,12 +124,15 @@ const SearchShop = () => {
             return true;
         }
       });
-
+  
     const matchesRating =
       ratingFilter === "" || shop.avgRating >= parseInt(ratingFilter, 10);
-
+  
     return matchesSearch && matchesService && matchesPrice && matchesRating;
   });
+  
+  
+  
 
   return (
     <div className="mb-3">
@@ -190,21 +194,25 @@ const SearchShop = () => {
               </div>
 
               {/* Service Type Filter */}
-              <div className="col-md-4">
-                <label className="fw-semibold">Service Type:</label>
-                <select
-                  className="form-control"
-                  value={serviceFilter}
-                  onChange={(e) => setServiceFilter(e.target.value)}
-                >
-                  <option value="">All</option>
-                  <option value="Haircut">Haircut</option>
-                  <option value="Makeup">Makeup</option>
-                  <option value="Spa">Spa</option>
-                  <option value="Facial">Facial</option>
-                  <option value="Massage">Massage</option>
-                </select>
-              </div>
+         {/* Service Type Filter */}
+<div className="col-md-4">
+  <label className="fw-semibold">Service Type:</label>
+  <select
+    className="form-control"
+    value={serviceFilter}
+    onChange={(e) => setServiceFilter(e.target.value)}
+  >
+    <option value="">All</option>
+    <option value="Hair services">Hair services</option>
+    <option value="Skin Care services">Skin Care services</option>
+    <option value="Hair Removal services">Hair Removal services</option>
+    <option value="Hand & Foot care">Hand & Foot care</option>
+    <option value="Makeup Services">Makeup Services</option>
+    <option value="Body Treatments">Body Treatments</option>
+    <option value="Packages">Packages</option>
+  </select>
+</div>
+
             </div>
 
             {/* Clear Filters Button */}
