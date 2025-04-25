@@ -19,6 +19,7 @@ import AddShopDetails from "./components/admin/nestedRoutes/AddShopDetails";
 import ProfessionalSchedule from "./components/admin/nestedRoutes/ProfessionalSchedule";
 import { useSelector } from "react-redux";
 import Recommendation from "./components/Recommandations/Recommendation";
+import ArtistPortfolio from "./components/ArtistPortfolio/ArtistPortfolio";
 import Course from "./components/Pages/Courses";
 
 function App() {
@@ -53,6 +54,7 @@ function App() {
         <Route path="/" element={<Home />} />
         
         <Route path="/recommendation" element={<Recommendation />} />
+        <Route path="/artistportfolio" element={<ArtistPortfolio />} />
         <Route path="/glamthegirlcourse" element={<Course />} />
         <Route path="/Profile" element={<Profile />} />
         <Route path="/shop/:id" element={<ShopDetail />} />

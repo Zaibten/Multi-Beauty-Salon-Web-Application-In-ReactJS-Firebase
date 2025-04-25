@@ -168,7 +168,7 @@ const BookShop = () => {
       </div>
       <h4 className="text-white text-center ">
         <span className="border pe-4 py-2">
-          <span className="py-2 ps-4 bg-white text-black">Book the</span> Shop
+          <span className="py-2 ps-4 bg-white text-black">Book the</span> Service
         </span>
       </h4>
 
@@ -185,32 +185,149 @@ const BookShop = () => {
                   <Loader />
                 </div>
               ) : (
-                <div className="col-12 col-sm-6 d-flex">
-                  <div className="text-white">
-                    <span className="d-block fw-semibold">Shop Name</span>
-                    <span className="d-block fw-semibold">Service Name</span>
-                    <span className="d-block fw-semibold">Service Price</span>
-                    <span className="d-block fw-semibold">Service Time</span>
-                  </div>
-                  <div className="text-white">
-                    <span className="d-block">
-                      <span className="mx-2">:</span>
-                      {!shopDetail ? "Shop Name" : shopDetail.shopName}
-                    </span>
-                    <span className="d-block">
-                      <span className="mx-2">:</span>
-                      {service.ServiceName}
-                    </span>
-                    <span className="d-block">
-                      <span className="mx-2">:</span>
-                      {service.Price}
-                    </span>
-                    <span className="d-block">
-                      <span className="mx-2">:</span>
-                      10AM -{!shopDetail ? "9PM" : shopDetail.shopClose}
-                    </span>
-                  </div>
-                </div>
+                <div className="col-12 col-sm-6">
+                <div className="text-white">
+  <table style={{
+    width: '100%',
+    borderCollapse: 'collapse',
+    marginTop: '20px',
+    borderRadius: '8px',
+    boxShadow: '0 4px 10px rgba(0, 0, 0, 0.1)',
+    backgroundColor: 'transparent',
+  }}>
+    <thead>
+      <tr style={{
+        height: '50px',
+        borderBottom: '1px solid #ddd',
+      }}>
+      </tr>
+    </thead>
+    <tbody>
+      <tr style={{
+        transition: 'transform 0.3s ease-in-out, box-shadow 0.3s ease',
+        borderBottom: '1px solid #ddd',
+        cursor: 'pointer',
+      }} onMouseOver={(e) => {
+        e.currentTarget.style.transform = 'scale(1.05)';
+        e.currentTarget.style.boxShadow = '0 6px 18px rgba(0, 0, 0, 0.1)';
+      }} onMouseOut={(e) => {
+        e.currentTarget.style.transform = 'scale(1)';
+        e.currentTarget.style.boxShadow = 'none';
+      }}>
+        <td style={{
+          padding: '12px 20px',
+          color: '#fff',
+          fontSize: '14px',
+          fontWeight: '600',
+        }}>Shop Name</td>
+        <td style={{
+          padding: '12px 20px',
+          color: '#fff',
+          fontSize: '14px',
+          fontWeight: '600',
+        }}>{!shopDetail ? "Shop Name" : shopDetail.shopName}</td>
+      </tr>
+      <tr style={{
+        transition: 'transform 0.3s ease-in-out, box-shadow 0.3s ease',
+        borderBottom: '1px solid #ddd',
+        cursor: 'pointer',
+      }} onMouseOver={(e) => {
+        e.currentTarget.style.transform = 'scale(1.05)';
+        e.currentTarget.style.boxShadow = '0 6px 18px rgba(0, 0, 0, 0.1)';
+      }} onMouseOut={(e) => {
+        e.currentTarget.style.transform = 'scale(1)';
+        e.currentTarget.style.boxShadow = 'none';
+      }}>
+        <td style={{
+          padding: '12px 20px',
+          color: '#fff',
+          fontSize: '14px',
+          fontWeight: '600',
+        }}>Service Name</td>
+        <td style={{
+          padding: '12px 20px',
+          color: '#fff',
+          fontSize: '14px',
+          fontWeight: '600',
+        }}>{service.ServiceName}</td>
+      </tr>
+      <tr style={{
+        transition: 'transform 0.3s ease-in-out, box-shadow 0.3s ease',
+        borderBottom: '1px solid #ddd',
+        cursor: 'pointer',
+      }} onMouseOver={(e) => {
+        e.currentTarget.style.transform = 'scale(1.05)';
+        e.currentTarget.style.boxShadow = '0 6px 18px rgba(0, 0, 0, 0.1)';
+      }} onMouseOut={(e) => {
+        e.currentTarget.style.transform = 'scale(1)';
+        e.currentTarget.style.boxShadow = 'none';
+      }}>
+        <td style={{
+          padding: '12px 20px',
+          color: '#fff',
+          fontSize: '14px',
+          fontWeight: '600',
+        }}>Service Price</td>
+        <td style={{
+          padding: '12px 20px',
+          color: '#fff',
+          fontSize: '14px',
+          fontWeight: '600',
+        }}>Rs: {service.Price}</td>
+      </tr>
+      <tr style={{
+        transition: 'transform 0.3s ease-in-out, box-shadow 0.3s ease',
+        borderBottom: '1px solid #ddd',
+        cursor: 'pointer',
+      }} onMouseOver={(e) => {
+        e.currentTarget.style.transform = 'scale(1.05)';
+        e.currentTarget.style.boxShadow = '0 6px 18px rgba(0, 0, 0, 0.1)';
+      }} onMouseOut={(e) => {
+        e.currentTarget.style.transform = 'scale(1)';
+        e.currentTarget.style.boxShadow = 'none';
+      }}>
+        <td style={{
+          padding: '12px 20px',
+          color: '#fff',
+          fontSize: '14px',
+          fontWeight: '600',
+        }}>Service Time</td>
+        <td style={{
+          padding: '12px 20px',
+          color: '#fff',
+          fontSize: '14px',
+          fontWeight: '600',
+        }}>10AM - {!shopDetail ? "9PM" : shopDetail.shopClose}</td>
+      </tr>
+      <tr style={{
+        transition: 'transform 0.3s ease-in-out, box-shadow 0.3s ease',
+        cursor: 'pointer',
+      }} onMouseOver={(e) => {
+        e.currentTarget.style.transform = 'scale(1.05)';
+        e.currentTarget.style.boxShadow = '0 6px 18px rgba(0, 0, 0, 0.1)';
+      }} onMouseOut={(e) => {
+        e.currentTarget.style.transform = 'scale(1)';
+        e.currentTarget.style.boxShadow = 'none';
+      }}>
+        <td style={{
+          padding: '12px 20px',
+          color: '#fff',
+          fontSize: '14px',
+          fontWeight: '600',
+        }}>Service Description</td>
+        <td style={{
+          padding: '12px 20px',
+          color: '#fff',
+          fontSize: '14px',
+          fontWeight: '600',
+        }}>{service.Description || "No description available"}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+</div>
+
               )}
             </div>
           </div>

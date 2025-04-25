@@ -305,83 +305,165 @@ const Header = () => {
             Welcome to our platform! Get the best services at amazing prices.
           </span>
         </div>
-        <div className="navbar">
-          <div className="container-fluid d-flex justify-content-between align-items-center">
-            <Link to="/">
-              <img src={logo} className="navbar-logo" alt="profile" />
-            </Link>
-            <Link to="/" className="company-name-link">
-              <span className="company-name animated-text">BEAUTY SALON</span>
-            </Link>
-            <div className="d-flex">
-              <div id="mainMenu">
-                <div className="d-flex list-unstyled">
-                  <Link to="" className="navbar-linkemail me-5">
-                    {email && (
-                      <div className="user-email-display">
-                        <p>Welcome: {email}</p>
-                      </div>
-                    )}
-                  </Link>
-                  <Link to="/search" className="navbar-link me-5">
-                    Salons
-                  </Link>
-                  <Link to="/contact-us" className="navbar-link me-5">
-                    Contact Us
-                  </Link>
-                  <Link to="/help" className="navbar-link me-5">
-                    Help
-                  </Link>
-                </div>
-              </div>
-              {email ? (
-                <div className="dropdown">
-                  <a
-                    className="dropdown-toggle d-flex align-items-center hidden-arrow"
-                    href="#!"
-                    id="navbarDropdownMenuAvatar"
-                    role="button"
-                    data-mdb-toggle="dropdown"
-                  >
-                    <img
-                      src="https://img.freepik.com/free-psd/3d-illustration-person-with-sunglasses_23-2149436188.jpg"
-                      className="navbar-avatar"
-                      alt="User Avatar"
-                      loading="lazy"
-                    />
-                  </a>
-                  <ul
-                    className="dropdown-menu dropdown-menu-end"
-                    aria-labelledby="navbarDropdownMenuAvatar"
-                  >
-                    <li>
-                      <Link to="/Profile" className="dropdown-item">
-                        My profile
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to="/schedule" className="dropdown-item">
-                        Booking
-                      </Link>
-                    </li>
-                    <li>
-                      <button
-                        className="dropdown-item"
-                        onClick={logOutHandle}
-                      >
-                        Logout
-                      </button>
-                    </li>
-                  </ul>
-                </div>
-              ) : (
-                <NavLink to="/login" className="login-btn">
-                  Login
-                </NavLink>
-              )}
-            </div>
-          </div>
-        </div>
+        <div
+  style={{
+    background: "#ffe6f0",
+    padding: "20px 40px",
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    flexWrap: "nowrap",
+    boxShadow: "0 4px 12px rgba(255, 77, 166, 0.2)",
+    height: "90px",
+  }}
+>
+  {/* Left: Logo + Brand */}
+  <Link
+    to="/"
+    style={{
+      display: "flex",
+      alignItems: "center",
+      textDecoration: "none",
+    }}
+  >
+    <img
+      src={logo}
+      alt="Logo"
+      style={{
+        height: "55px",
+        width: "55px",
+        borderRadius: "50%",
+        marginRight: "10px",
+        border: "2px solid #ff4da6",
+        objectFit: "cover",
+        transition: "transform 0.3s ease",
+      }}
+      onMouseEnter={(e) => (e.target.style.transform = "scale(1.1)")}
+      onMouseLeave={(e) => (e.target.style.transform = "scale(1)")}
+    />
+    <span
+      style={{
+        fontSize: "22px",
+        fontWeight: "bold",
+        color: "#ff4da6",
+        letterSpacing: "1px",
+      }}
+    >
+      Glam The Girl
+    </span>
+  </Link>
+
+  {/* Center: Nav Links */}
+  <div
+    style={{
+      display: "flex",
+      alignItems: "center",
+      gap: "10px",
+      whiteSpace: "nowrap",
+    }}
+  >
+    {[
+      { to: "/search", text: "Salons" },
+      { to: "/artistportfolio", text: "Artist Portfolio" },
+      { to: "/", text: "Recommandations" },
+      { to: "/", text: "Master Classes" },
+      { to: "/contact-us", text: "Contact Us" },
+      { to: "/", text: "Help" },
+    ].map((link, i) => (
+      <Link
+        key={i}
+        to={link.to}
+        style={{
+          padding: "6px 10px",
+          color: "#333",
+          textDecoration: "none",
+          fontSize: "14px",
+          borderRadius: "20px",
+          transition: "all 0.3s ease",
+        }}
+        onMouseEnter={(e) => {
+          e.target.style.color = "#ff4da6";
+          e.target.style.border = "1px solid #ff4da6";
+          e.target.style.background = "#ffd6eb";
+        }}
+        onMouseLeave={(e) => {
+          e.target.style.color = "#333";
+          e.target.style.border = "none";
+          e.target.style.background = "transparent";
+        }}
+      >
+        {link.text}
+      </Link>
+    ))}
+  </div>
+
+  {/* Right: Email + Avatar/Login */}
+  <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+    {email && (
+      <span style={{ color: "#333", fontSize: "13px", marginRight: "5px" }}>
+        Welcome: <strong>{email}</strong>
+      </span>
+    )}
+    {email ? (
+      <div className="dropdown">
+        <a
+          href="#!"
+          id="navbarDropdownMenuAvatar"
+          role="button"
+          data-mdb-toggle="dropdown"
+        >
+          <img
+            src="https://img.freepik.com/free-psd/3d-illustration-person-with-sunglasses_23-2149436188.jpg"
+            alt="User Avatar"
+            style={{
+              height: "40px",
+              width: "40px",
+              borderRadius: "50%",
+              border: "2px solid #ff4da6",
+              cursor: "pointer",
+              transition: "transform 0.3s ease",
+            }}
+            onMouseEnter={(e) => (e.target.style.transform = "rotate(5deg) scale(1.1)")}
+            onMouseLeave={(e) => (e.target.style.transform = "scale(1)")}
+          />
+        </a>
+        <ul
+          className="dropdown-menu dropdown-menu-end"
+          aria-labelledby="navbarDropdownMenuAvatar"
+        >
+          <li><Link to="/Profile" className="dropdown-item">My profile</Link></li>
+          <li><Link to="/schedule" className="dropdown-item">Booking</Link></li>
+          <li><button className="dropdown-item" onClick={logOutHandle}>Logout</button></li>
+        </ul>
+      </div>
+    ) : (
+      <NavLink
+        to="/login"
+        style={{
+          padding: "8px 14px",
+          background: "#ff4da6",
+          borderRadius: "20px",
+          color: "#fff",
+          textDecoration: "none",
+          fontWeight: "bold",
+          transition: "all 0.3s ease",
+        }}
+        onMouseEnter={(e) => {
+          e.target.style.background = "#ff80c1";
+          e.target.style.transform = "scale(1.05)";
+        }}
+        onMouseLeave={(e) => {
+          e.target.style.background = "#ff4da6";
+          e.target.style.transform = "scale(1)";
+        }}
+      >
+        Login
+      </NavLink>
+    )}
+  </div>
+</div>
+
+
       </div>
       <BarberRegister />
     </div>

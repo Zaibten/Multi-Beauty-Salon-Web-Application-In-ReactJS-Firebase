@@ -17,6 +17,10 @@ const ShopDetail = () => {
   const [rating, setRating] = useState(5);
   const [loading, setLoading] = useState(true);
   const [categoryFilter, setCategoryFilter] = useState("");
+  const [priceFilter, setPriceFilter] = useState("");
+  const [ratingFilter, setRatingFilter] = useState("");
+  const [serviceFilter, setServiceFilter] = useState("");
+
 
   
   // Pagination State
@@ -110,111 +114,174 @@ const ShopDetail = () => {
           )}
         </div>
       </div>
+      {shopDetails && (
+  <div className="mt-4">
+    <h5 className="text-white">Shop Location</h5>
+    <div className="rounded overflow-hidden shadow" style={{ height: "300px", width: "100%" }}>
+      <iframe
+        title="Google Map"
+        src={
+          shopDetails.shopnlocation?.startsWith("https://www.google.com/maps/embed")
+            ? shopDetails.shopnlocation
+            : "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d28934.458377838354!2d67.0576818!3d24.8607343!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3eb33f890d061c7f%3A0x1a147fa3c1d1707b!2sKarachi%2C%20Pakistan!5e0!3m2!1sen!2s!4v1683566887073!5m2!1sen!2s"
+        }
+        width="100%"
+        height="100%"
+        style={{ border: 0 }}
+        allowFullScreen=""
+        loading="lazy"
+        referrerPolicy="no-referrer-when-downgrade"
+      ></iframe>
+    </div>
+  </div>
+)}
+
 
               {/* 🔹 Services Section */}
               <div className="mt-5">
   <h3 className="text-white mb-3">
     Services by <span className="text-decoration-underline">Professional</span>
   </h3>
-  <div className="category-filter mb-4">
-  <label className="text-white" htmlFor="categoryFilter">Filter by Category:</label>
-  <div className="custom-dropdown">
-    <select
-      id="categoryFilter"
-      className="custom-select"
-      value={categoryFilter}
-      onChange={(e) => setCategoryFilter(e.target.value)}
-    >
-      <option value="">All Categories</option>
-      <option value="Hair services">Hair services</option>
-      <option value="Skin Care services">Skin Care services</option>
-      <option value="Hair Removal services">Hair Removal services</option>
-      <option value="Hand & Foot care">Hand & Foot care</option>
-      <option value="Makeup Services">Makeup Services</option>
-      <option value="Body Treatments">Body Treatments</option>
-      <option value="Packages">Packages</option>
-    </select>
-  </div>
 
-  <style jsx>{`
-    .category-filter {
-      display: flex;
-      flex-direction: column;
-      margin-bottom: 30px;
-    }
-
-    .category-filter label {
-      font-size: 16px;
-      margin-bottom: 8px;
-      color: white;
-    }
-
-    /* Custom Dropdown Styles */
-    .custom-dropdown {
-      position: relative;
-      width: 100%;
-    }
-
-    .custom-select {
-      width: 100%;
-      padding: 12px 20px;
-      font-size: 16px;
-      border: 2px solid #ccc;
-      border-radius: 5px;
-      background-color: #1a1a1a;
-      color: white;
-      appearance: none;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-
-    /* Add a custom arrow icon */
-    .custom-select:focus {
-      outline: none;
-      border-color: #ff6b6b;
-    }
-
-    .custom-select:hover {
-      background-color: #333;
-    }
-
-    .custom-select option {
-      background-color: #1a1a1a;
-      color: white;
-    }
-
-    /* Custom arrow for dropdown */
-    .custom-select::-ms-expand {
-      display: none;
-    }
-
-    .custom-dropdown::after {
-      content: "▼";
-      position: absolute;
-      top: 50%;
-      right: 15px;
-      transform: translateY(-50%);
-      color: #ccc;
-      pointer-events: none;
-    }
-
-    .custom-select:focus + .custom-dropdown::after {
-      color: #ff6b6b;
-    }
-  `}</style>
-</div>
 
   <div className="row">
+  <div className="row mb-4 text-white">
+<div
+  style={{
+    display: "flex",
+    flexWrap: "wrap",
+    gap: "20px",
+    marginBottom: "30px",
+    backgroundColor: "#1a1a1a",
+    padding: "25px",
+    borderRadius: "16px",
+    boxShadow: "0 6px 18px rgba(0,0,0,0.4)",
+    transition: "all 0.3s ease-in-out",
+  }}
+>
+  {[
+    ["Price Range", priceFilter, setPriceFilter, [
+      "All",
+      "0-1000",
+      "1000-3000",
+      "3000-5000",
+      "5000-10000",
+      "10000-20000",
+      "20000-50000",
+      "50000-100000",
+      "100000-200000",
+      "200000-500000",
+    ]],
+    ["Service Type", serviceFilter, setServiceFilter, [
+      "All",
+      "Hair services",
+      "Skin Care services",
+      "Hair Removal services",
+      "Hand & Foot care",
+      "Makeup Services",
+      "Body Treatments",
+      "Packages",
+    ]],
+  ].map(([label, value, setter, options], i) => (
+    <div key={i} style={{ flex: "1 1 300px", minWidth: "250px" }}>
+      <label
+        style={{
+          fontWeight: "600",
+          fontSize: "16px",
+          color: "#f5f5f5",
+          marginBottom: "8px",
+          display: "block",
+        }}
+      >
+        {label}:
+      </label>
+      <select
+        value={value}
+        onChange={(e) => setter(e.target.value)}
+        style={{
+          width: "100%",
+          padding: "14px",
+          borderRadius: "12px",
+          border: "1px solid #444",
+          backgroundColor: "#2b2b2b",
+          color: "#fff",
+          fontSize: "15px",
+          cursor: "pointer",
+          boxShadow: "inset 0 0 5px rgba(255, 255, 255, 0.05)",
+          transition: "all 0.35s ease",
+          outline: "none",
+          transform: "scale(1)",
+        }}
+        onMouseEnter={(e) => {
+          e.target.style.boxShadow = "0 0 10px #ff6b6b, 0 0 3px rgba(255,255,255,0.1)";
+          e.target.style.transform = "scale(1.03)";
+        }}
+        onMouseLeave={(e) => {
+          e.target.style.boxShadow = "inset 0 0 5px rgba(255, 255, 255, 0.05)";
+          e.target.style.transform = "scale(1)";
+        }}
+        onFocus={(e) => (e.target.style.borderColor = "#ff6b6b")}
+        onBlur={(e) => (e.target.style.borderColor = "#444")}
+      >
+        {options.map((opt, idx) => (
+          <option key={idx} value={opt === "All" ? "" : opt}>
+            {opt === "All" ? "All" : opt}
+          </option>
+        ))}
+      </select>
+    </div>
+  ))}
+</div>
+
+</div>
+
     {services.length === 0 ? (
       <Loader bgcolor="black" />
     ) : (
-      services
-        .filter((doc) => {
-          if (categoryFilter && doc.Category) {
-            return doc.Category.toLowerCase().includes(categoryFilter.toLowerCase());
-          }
-          return true; // Show all if no filter is selected
-        })
+services
+  .filter((doc) => {
+    const matchesCategory =
+      !categoryFilter || (doc.Category && doc.Category.toLowerCase().includes(categoryFilter.toLowerCase()));
+
+    const matchesServiceType =
+      !serviceFilter || (doc.Category && doc.Category.toLowerCase().includes(serviceFilter.toLowerCase()));
+
+    const matchesPrice =
+  !priceFilter ||
+  (() => {
+    const price = parseInt(doc.Price || 0);
+    switch (priceFilter) {
+      case "0-1000":
+        return price <= 1000;
+      case "1000-3000":
+        return price >= 1000 && price <= 3000;
+      case "3000-5000":
+        return price >= 3000 && price <= 5000;
+      case "5000-10000":
+        return price >= 5000 && price <= 10000;
+      case "10000-20000":
+        return price >= 10000 && price <= 20000;
+      case "20000-50000":
+        return price >= 20000 && price <= 50000;
+      case "50000-100000":
+        return price >= 50000 && price <= 100000;
+      case "100000-200000":
+        return price >= 100000 && price <= 200000;
+      case "200000-500000":
+        return price >= 200000 && price <= 500000;
+      default:
+        return true;
+    }
+  })();
+
+
+    const matchesRating =
+      !ratingFilter ||
+      (doc.rating && doc.rating >= parseInt(ratingFilter, 10)); // if you store per-service ratings
+
+    return matchesCategory && matchesServiceType && matchesPrice && matchesRating;
+  })
+
         .map((doc) => (
           <div className="col-6 col-sm-3 mt-2" key={doc.id}>
             <StyleCard
