@@ -31,14 +31,24 @@ const ProfessionalSchedule = () => {
   const fetchSchedules = async () => {
     try {
       setLoading(true);
+  
+      // Get the local data from localStorage
+      const localUser = JSON.parse(localStorage.getItem("data")); // Ensure this is the correct key
+      const localShopName = localUser?.shopName?.toLowerCase(); // Retrieve salon/shop name from localStorage
+  
       const schedulesRef = collection(db, "Bookings");
-      const q = query(schedulesRef, orderBy("createdAt", "desc")); 
+      const q = query(schedulesRef, orderBy("bookingDate", "desc"));
       const querySnapshot = await getDocs(q);
-      const schedulesData = querySnapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-
+  
+      const schedulesData = querySnapshot.docs
+        .map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }))
+        .filter((schedule) => 
+          schedule.shopName?.toLowerCase() === localShopName // Filter by salon/shop name
+        );
+  
       setSchedules(schedulesData);
       setFilteredSchedules(schedulesData);
       setLoading(false);
@@ -47,6 +57,7 @@ const ProfessionalSchedule = () => {
       setLoading(false);
     }
   };
+  
 
   useEffect(() => {
     fetchSchedules();
@@ -180,7 +191,6 @@ const ProfessionalSchedule = () => {
                   <th>Booking ID</th>
                   <th>Email</th>
                   <th>Service Name</th>
-                  <th>Service Price</th>
                   <th>Additional Service</th>
                   <th>Total Price</th>
                   <th>Booking Date</th>
@@ -194,7 +204,6 @@ const ProfessionalSchedule = () => {
                     <td>{indexOfFirstRecord + index + 1}</td>
                     <td>{schedule.email || "No Email"}</td>
                     <td>{schedule.serviceName || "No Service"}</td>
-                    <td>{schedule.servicePrice || "No Price"}</td>
                     <td>{schedule.additionalService || "Not available"}</td>
                     <td>{schedule.totalPrice || "No Price"}</td>
                     <td>{schedule.bookingDate || "No Date"}</td>

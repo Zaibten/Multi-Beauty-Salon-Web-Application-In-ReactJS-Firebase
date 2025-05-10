@@ -77,6 +77,22 @@ const Sidebar = () => {
           <span id="sidebarMenuName">Add Services</span>
         </Link>
         <Link
+          to={"saloonart"}
+          id="SideBtn"
+          className="py-2 my-4 ps-2 bg-warning d-flex align-items-center text-white"
+        >
+          <span className="material-icons-outlined me-2">design_services</span>
+          <span id="sidebarMenuName">Add Artist Portfolio</span>
+        </Link>
+        <Link
+          to={"masterclass"}
+          id="SideBtn"
+          className="py-2 my-4 ps-2 bg-warning d-flex align-items-center text-white"
+        >
+          <span className="material-icons-outlined me-2">design_services</span>
+          <span id="sidebarMenuName">Add Master Class</span>
+        </Link>
+        <Link
           to={"schedules-professional"}
           id="SideBtn"
           className="py-2 my-4 ps-2 bg-warning d-flex align-items-center text-white"

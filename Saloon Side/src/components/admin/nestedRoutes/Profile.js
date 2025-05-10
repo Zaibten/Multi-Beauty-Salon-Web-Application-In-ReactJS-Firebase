@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Time from "../../../bookingTime/bookingTime";
-import { doc, getDoc, setDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc, collection, getDocs, query, where  } from "firebase/firestore";
 import { db } from "../../../Firebase/firebase";
 import { getAuthSlice } from "../../../Redux/Slices/AuthSlice";
 import { useSelector } from "react-redux";
@@ -24,6 +24,9 @@ const ProfessionalProfile = () => {
     shopnlocation: "", // <-- NEW FIELD
     // bookingsPerDay: 0,  // <-- Field for number of bookings per day
     bookingStatus: true,  // <-- Field for booking status (active/inactive)
+    bookingsPerDay: "", // <-- Add this state for bookings per day
+    bookingDone: 0,  // Default value
+    bookingLeft: 0,  // Default value
   });
   const [messageApi, contextHolder] = message.useMessage();
   const MessageBox = (messageText, variant) => {
@@ -46,6 +49,13 @@ const ProfessionalProfile = () => {
     });
   };
   useEffect(() => {
+    const savedEmail = localStorage.getItem("userEmail");
+    if (savedEmail) {
+      setProfile((prev) => ({ ...prev, email: savedEmail }));
+    }
+  }, []);
+  
+  useEffect(() => {
     if (id === "") {
       let messageText = "Failed! Please contact Admin";
       let variant = "error";
@@ -65,10 +75,14 @@ const ProfessionalProfile = () => {
   };
   const FormOnChangeHandler = (e) => {
     const { name, value } = e.target;
-    setProfile((data) => {
-      return { ...data, [name]: value };
-    });
+  
+    if (name === "email" && !localStorage.getItem("userEmail")) {
+      localStorage.setItem("userEmail", value); // Save only once
+    }
+  
+    setProfile((data) => ({ ...data, [name]: value }));
   };
+  
 
   const handleBookingStatusChange = (checked) => {
     setProfile((prevState) => ({
@@ -77,24 +91,171 @@ const ProfessionalProfile = () => {
     }));
   };
 
+  
+
+  const updateFirestoreData = async () => {
+    const docRef = doc(db, "ProfessionalDB", `${id}`);
+    const docSnap = await getDoc(docRef);
+  
+    if (docSnap.exists()) {
+      const docData = docSnap.data();
+  
+      const today = new Date().toISOString().split("T")[0]; // Format: YYYY-MM-DD
+      const lastUpdated = docData.lastUpdated || "";
+  
+      if (lastUpdated !== today) {
+        // It's a new day — reset counters
+        const updatedData = {
+          bookingDone: 0,
+          bookingLeft: Number(docData.bookingsPerDay) || 0,
+          lastUpdated: today,
+        };
+  
+        await setDoc(docRef, updatedData, { merge: true });
+  
+        setProfile((prev) => ({
+          ...prev,
+          ...updatedData,
+        }));
+      } else {
+        // Same day, update bookingLeft just in case
+        const bookingLeft = (Number(docData.bookingsPerDay) || 0) - (Number(docData.bookingDone) || 0);
+  
+        await setDoc(docRef, { bookingLeft }, { merge: true });
+  
+        setProfile((prev) => ({
+          ...prev,
+          bookingDone: docData.bookingDone,
+          bookingLeft,
+        }));
+      }
+    }
+  };
+  
+  useEffect(() => {
+    const interval = setInterval(() => {
+      updateFirestoreData(); // This function should already exist
+    }, 10000); // Refresh every 30 seconds
+  
+    // Initial fetch on component mount
+    updateFirestoreData();
+  
+    return () => clearInterval(interval); // Cleanup on unmount
+  }, []);
+  
+
   const ProfessionalFormSubmit = async (e) => {
     e.preventDefault();
+  
     const DB = localStorage.getItem("data");
     const localDB = JSON.stringify(profile);
+  
     if (localDB === DB) {
-      let messageText = "Failed! Please Make Some Changes before Submit";
-      let variant = "error";
-      MessageBox(messageText, variant);
+      MessageBox("Failed! Please Make Some Changes before Submit", "error");
       return;
     }
+  
+    const professionalRef = collection(db, "ProfessionalDB");
+  
+    // Check for duplicate email
+    const emailQuery = query(professionalRef, where("email", "==", profile.email));
+    const emailSnapshot = await getDocs(emailQuery);
+    const emailExists = emailSnapshot.docs.some((doc) => doc.id !== id);
+  
+    // Check for duplicate name
+    const nameQuery = query(professionalRef, where("name", "==", profile.name));
+    const nameSnapshot = await getDocs(nameQuery);
+    const nameExists = nameSnapshot.docs.some((doc) => doc.id !== id);
+  
+    // Check for duplicate shopName
+    const shopQuery = query(professionalRef, where("shopName", "==", profile.shopName));
+    const shopSnapshot = await getDocs(shopQuery);
+    const shopExists = shopSnapshot.docs.some((doc) => doc.id !== id);
+  
+    if (emailExists || nameExists || shopExists) {
+      MessageBox("Duplicate data found! Name, Email, or Shop Name already exists.", "error");
+      return;
+    }
+  
+    // Save if no duplicates
     const docRef = doc(db, "ProfessionalDB", `${id}`);
     await setDoc(docRef, profile);
     localStorage.clear("data");
-    let messageText = "Data Saved Successfully !!";
-    let variant = "success";
-    MessageBox(messageText, variant);
+    MessageBox("Data Saved Successfully !!", "success");
   };
+  
+  
+  useEffect(() => {
+    if (id) {
+      updateFirestoreData();
+    }
+  }, [id]);
+  
+  const handleResetBookings = async () => {
+    const confirmReset = window.confirm("Are you sure you want to reset bookings to new?");
+    if (!confirmReset) return;
+  
+    const docRef = doc(db, "ProfessionalDB", `${id}`);
+    const updatedData = {
+      bookingDone: 0,
+      bookingLeft: 0,
+    };
+    await setDoc(docRef, updatedData, { merge: true });
+    setProfile((prev) => ({
+      ...prev,
+      ...updatedData,
+    }));
+    MessageBox("Booking counters reset successfully.", "success");
+  };
+  
+  const [artist, setArtist] = useState({
+    name: "",
+    description: "",
+    role: ""
+  });
+  const [artistsList, setArtistsList] = useState([]);
+  
+  const handleArtistChange = (e) => {
+    const { name, value } = e.target;
+    setArtist((prev) => ({ ...prev, [name]: value }));
+  };
+  
+  const saveArtistPortfolio = async () => {
+    if (!artist.name || !artist.description || !artist.role) return;
+  
+    // Check for duplicate artist name in the list
+    const isDuplicate = artistsList.some((item) => item.name.toLowerCase() === artist.name.toLowerCase());
+    
+    if (isDuplicate) {
+      MessageBox("An artist with this name already exists. Please choose a different name.", "error");
+      return;
+    }
+  
+    const docRef = doc(collection(db, "ArtistPortfolio"));
+    await setDoc(docRef, {
+      ...artist,
+      salonName: profile.shopName,
+      createdAt: new Date().toISOString(),
+    });
+  
+    setArtist({ name: "", description: "", role: "" });
+    MessageBox("Artist portfolio saved successfully", "success");
 
+    fetchArtists();
+  };
+  
+  const fetchArtists = async () => {
+    const snapshot = await getDocs(collection(db, "ArtistPortfolio"));
+    const data = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+    setArtistsList(data.filter(item => item.salonName === profile.shopName));
+  };
+  
+  useEffect(() => {
+    if (profile.shopName) {
+      fetchArtists();
+    }
+  }, [profile.shopName]);
+  
   return profile.name === "" ? (
     <Loader />
   ) : (
@@ -117,9 +278,19 @@ const ProfessionalProfile = () => {
     <br></br>
     <br></br>
     <br></br>
+
+  
+    <br></br>
+    <br></br>
+    <br></br>
+    <br></br>
+    <br></br>
+    <br></br>
+    <br></br>
+    <br></br>
     <br></br>
       {contextHolder}
-      <div className="d-flex justify-content-center mb-2 position-relative">
+      <div>
         {/* <img
           alt="#"
           src={profileIMG || url}
@@ -142,6 +313,62 @@ const ProfessionalProfile = () => {
         />
       </div>
       <form onSubmit={ProfessionalFormSubmit}>
+      <div className="col-12 col-sm-6 mt-2 d-flex align-items-end">
+  {/* <button
+    type="button"
+    className="btn btn-outline-primary d-flex align-items-center"
+    onClick={updateFirestoreData}
+  >
+    <span className="material-icons me-2">refresh</span> Refresh Booking
+  </button> */}
+</div>
+<div className="col-12 col-sm-6 mt-2 d-flex align-items-end">
+<button
+  type="button"
+  onClick={handleResetBookings}
+  style={{
+    display: "flex",
+    alignItems: "center",
+    background: "linear-gradient(to right, #ff416c, #ff4b2b)",
+    border: "none",
+    color: "white",
+    padding: "10px 20px",
+    fontSize: "16px",
+    borderRadius: "8px",
+    cursor: "pointer",
+    transition: "transform 0.3s ease",
+    boxShadow: "0 4px 12px rgba(0, 0, 0, 0.2)"
+  }}
+  onMouseOver={(e) => {
+    e.currentTarget.style.transform = "scale(1.05)";
+  }}
+  onMouseOut={(e) => {
+    e.currentTarget.style.transform = "scale(1)";
+  }}
+>
+  <span
+    className="material-icons"
+    style={{
+      marginRight: "10px",
+      animation: "spin 1s linear infinite"
+    }}
+  >
+    refresh
+  </span>
+  Refresh Bookings
+</button>
+
+<style>
+{`
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+`}
+</style>
+
+</div>
+
         <div className="row">
           <div className="col-12 col-sm-6 mt-2">
             <label>
@@ -248,6 +475,47 @@ const ProfessionalProfile = () => {
             </div>
           </div>
           <div className="col-12 col-sm-6 mt-2">
+  <label>
+    Bookings Per Day <span className="text-danger">*</span>
+  </label>
+  <input
+    type="number"
+    max="999" // Limit to 3 digits
+    value={profile.bookingsPerDay}
+    name="bookingsPerDay"
+    onChange={FormOnChangeHandler}
+    className="form-control"
+    placeholder="Enter max bookings per day"
+    maxLength={3} // Limit to 3 digits
+  />
+</div>
+
+<div className="col-12 col-sm-6 mt-2">
+  <label>Booking Done</label>
+  <input
+    type="number"
+    value={profile.bookingDone}
+    name="bookingDone"
+    onChange={FormOnChangeHandler}
+    className="form-control"
+    disabled
+  />
+</div>
+
+<div className="col-12 col-sm-6 mt-2">
+  <label>Booking Left</label>
+  <input
+    type="number"
+    value={profile.bookingLeft}
+    name="bookingLeft"
+    onChange={FormOnChangeHandler}
+    className="form-control"
+    disabled
+  />
+</div>
+
+
+          <div className="col-12 col-sm-6 mt-2">
             <label>
               Google Map Embed Link <span className="text-danger">*</span>
             </label>
@@ -312,7 +580,9 @@ const ProfessionalProfile = () => {
             </button>
           </div>
         </div>
+        
       </form>
+
     </div>
   );
 };

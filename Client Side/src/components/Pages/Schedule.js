@@ -32,18 +32,55 @@ const Schedule = () => {
   useEffect(() => {
     const updateDateTime = () => {
       const now = new Date();
-      const date = now.toLocaleDateString(); // Formats as MM/DD/YYYY
+      const date = now.toLocaleDateString();
       const time = now
         .toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", hour12: true })
         .replace(" ", "");
-
+  
       setCurrentDate(date);
       setCurrentTime(time);
     };
-
+  
     const interval = setInterval(updateDateTime, 1000);
+  
+    const fetchBookings = async () => {
+      try {
+        const bookingsRef = collection(db, "Bookings");
+        const q = query(bookingsRef, where("email", "==", email));
+        const querySnapshot = await getDocs(q);
+  
+        const bookingsData = [];
+        querySnapshot.forEach((doc) => {
+          const data = doc.data();
+          const formattedDate = new Date(data.bookingDate).toLocaleDateString();
+          bookingsData.push({
+            id: doc.id,
+            ...data,
+            bookingDate: formattedDate,
+          });
+        });
+  
+        setBookings(bookingsData);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching bookings:", error);
+        alert("Failed to load bookings. Please try again.");
+        setLoading(false);
+      }
+    };
+  
+    if (email) {
+      fetchBookings();
+    } else {
+      alert("Please log in to view your bookings.");
+      navigate("/login");
+    }
+  
+    updateDateTime(); // Set immediately on load
+  
     return () => clearInterval(interval);
-  }, []);
+  }, [email, navigate]);
+  
 
   useEffect(() => {
     const fetchBookings = async () => {
@@ -111,6 +148,8 @@ const Schedule = () => {
     }
   };
 
+  
+
   const handleDelete = async (id) => {
     if (window.confirm("Are you sure you want to delete this booking?")) {
       try {
@@ -129,7 +168,18 @@ const Schedule = () => {
     const { name, value } = e.target;
     setEditForm((prev) => ({ ...prev, [name]: value }));
   };
-
+  const isBookingDone = (bookingDate) => {
+    // Convert booking date string into a Date object
+    const bookingDateObj = new Date(bookingDate);
+  
+    // Get current date without time
+    const currentDate = new Date();
+    currentDate.setHours(0, 0, 0, 0); // Reset the time part of current date
+  
+    // Compare dates
+    return bookingDateObj < currentDate; // If booking date is before the current date
+  };
+  
   // Pagination Logic
   const indexOfLastBooking = currentPage * bookingsPerPage;
   const indexOfFirstBooking = indexOfLastBooking - bookingsPerPage;
@@ -169,17 +219,59 @@ const Schedule = () => {
                   </>
                 ) : (
                   <>
-                    <h5 style={styles.cardTitle}><strong>Service Name:</strong> {booking.serviceName}</h5>
-                    <p><strong>Service Price:</strong> {booking.servicePrice}</p>
-                    <p><strong>Booking Date:</strong> {booking.bookingDate}</p>
-                    <p><strong>Booking Time:</strong> {booking.bookingTime}</p>
-                    <p><strong>Total Price:</strong> {booking.totalPrice}</p>
-                    <hr style={styles.divider} />
-                    <div style={styles.actionButtons}>
-                      <button style={styles.editButton} onClick={() => handleEdit(booking)}>Edit Booking ✎</button>
-                      <button style={styles.deleteButton} onClick={() => handleDelete(booking.id)}>Delete Booking ✖</button>
-                    </div>
-                  </>
+  <h5 style={styles.cardTitle}><strong>Service Name:</strong> {booking.serviceName}</h5>
+  <p><strong>Saloon Name:</strong> {booking.shopName || "N/A"}</p>
+  {/* <p><strong>Service Price:</strong> {booking.servicePrice}</p> */}
+  <p><strong>Booking Date:</strong> {booking.bookingDate}</p>
+  <p><strong>Booking Time:</strong> {booking.bookingTime}</p>
+  <p><strong>Service Total Price:</strong> {booking.totalPrice}</p>
+  <p
+  style={{
+    fontSize: "16px",
+    fontWeight: "bold",
+    color: "#fff",
+    backgroundColor: isBookingDone(booking.bookingDate) ? "#28a745" : "#ffc107", // Green for Done, Yellow for Pending
+    padding: "10px 20px",
+    borderRadius: "25px",
+    textAlign: "center",
+    width: "fit-content",
+    margin: "10px auto",
+    transition: "background-color 0.3s ease, transform 0.3s ease",
+    animation: "statusAnimation 1s ease-in-out infinite",
+  }}
+>
+  <strong>Status:</strong> {isBookingDone(booking.bookingDate) ? "Done" : "Pending"}
+</p>
+
+<style>
+  {`
+    @keyframes statusAnimation {
+      0% {
+        transform: scale(1);
+        opacity: 0.8;
+      }
+      50% {
+        transform: scale(1.1);
+        opacity: 1;
+      }
+      100% {
+        transform: scale(1);
+        opacity: 0.8;
+      }
+    }
+  `}
+</style>
+
+
+
+
+  <hr style={styles.divider} />
+  <div style={styles.actionButtons}>
+    {/* <button style={styles.editButton} onClick={() => handleEdit(booking)}>Edit Booking ✎</button> */}
+    <button style={styles.deleteButton} onClick={() => handleDelete(booking.id)}>Delete Booking ✖</button>
+  </div>
+</>
+
                 )}
               </div>
             ))}

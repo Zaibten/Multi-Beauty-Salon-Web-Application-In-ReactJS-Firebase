@@ -5,12 +5,11 @@ import "react-day-picker/dist/style.css";
 import { useMediaQuery } from "@uidotdev/usehooks";
 import List from "./List";
 import { useParams } from "react-router-dom";
-import { doc, getDoc } from "firebase/firestore";
+import { updateDoc, doc, getDoc, collection, query, where, getDocs, addDoc } from "firebase/firestore";
 import { db } from "../../Firebase/firebase";
 import { useEffect } from "react";
 import Loader from "../Loader/loader";
 import asset from "../../assets/hairfinder assest.png";
-import { collection, addDoc, query, where, getDocs } from "firebase/firestore";
 
 const BookShop = () => {
   const [showModal, setShowModal] = useState(false);
@@ -25,6 +24,7 @@ const BookShop = () => {
   const [mark, setMark] = useState("");
   const [shopDetail, setShopDetail] = useState(undefined);
   const [email, setEmail] = useState(localStorage.getItem("email"));
+  const [bookingLeft, setBookingLeft] = useState(null);
 
   useEffect(() => {
     // Retrieve email from local storage on component mount
@@ -56,10 +56,12 @@ const BookShop = () => {
     }
   };
   const getShopDetail = async () => {
-    await getDoc(doc(db, "ProfessionalDB", `${parent}`)).then((res) =>
-      setShopDetail(res.data())
-    );
+    const res = await getDoc(doc(db, "ProfessionalDB", `${parent}`));
+    const data = res.data();
+    setShopDetail(data);
+    setBookingLeft(data?.bookingLeft); // 👈 store bookingLeft
   };
+  
 
   const [selectedValues, setSelectedValues] = useState([]);
   const [cartTotal, setCartTotal] = useState(0);
@@ -96,64 +98,92 @@ const BookShop = () => {
     window.location.href = "https://book.stripe.com/test_00g7wuesWda5bVmdQR";
   };
 
+  
+
   const handleBookNow = async () => {
     try {
-      // Validate booking date and time
       const bookingDate = selected?.toString().substring(0, 15);
       const bookingTime =
         mark?.time && mark?.shift ? mark.time + mark.shift : null;
-
+  
       if (!bookingDate || !bookingTime) {
         alert("Please select a valid booking date and time.");
         return;
       }
-
-      // Reference to the "Bookings" collection
+  
       const bookingsRef = collection(db, "Bookings");
-
-      // Query to check if an entry with the same email, date, and time exists
-      const q = query(
+  
+      // ✅ Check how many bookings this user already made for this salon on this date
+      const sameDayQuery = query(
+        bookingsRef,
+        where("email", "==", email),
+        where("shopName", "==", shopDetail?.shopName || "Unknown"),
+        where("bookingDate", "==", bookingDate)
+      );
+  
+      const sameDaySnapshot = await getDocs(sameDayQuery);
+  
+      if (sameDaySnapshot.size >= 2) {
+        alert("You can only book twice per day for this salon.");
+        return;
+      }
+  
+      // ✅ Check if same time already booked
+      const timeQuery = query(
         bookingsRef,
         where("email", "==", email),
         where("bookingDate", "==", bookingDate),
         where("bookingTime", "==", bookingTime)
       );
-
-      const querySnapshot = await getDocs(q);
-
-      // If a booking exists, prevent duplicate entry
-      if (!querySnapshot.empty) {
+  
+      const timeSnapshot = await getDocs(timeQuery);
+  
+      if (!timeSnapshot.empty) {
         alert("You have already booked a service at this time.");
         return;
       }
-
+  
+      // ✅ Proceed with booking
       const bookingData = {
         email: email,
+        shopName: shopDetail?.shopName || "Unknown",
         serviceName: service.ServiceName,
         bookingDate: bookingDate,
         bookingTime: bookingTime,
         totalPrice: `${PurchasePrice} rs`,
       };
-
-      // Save booking to Firebase
+    
+      // ✅ INCREMENT bookingDone & DECREMENT bookingLeft
+      const profRef = doc(db, "ProfessionalDB", parent); // use parent from useParams
+      const profSnap = await getDoc(profRef);
+  
+      if (profSnap.exists()) {
+        const currentBookingDone = profSnap.data()?.bookingDone || 0;
+        const currentBookingLeft = profSnap.data()?.bookingLeft || 0;
+  
+        await updateDoc(profRef, {
+          bookingDone: currentBookingDone + 1,
+          bookingLeft: currentBookingLeft > 0 ? currentBookingLeft - 1 : 0,
+        });
+      }
       await addDoc(bookingsRef, bookingData);
-
       handleCheckout();
 
-      // Send confirmation email
-      await fetch("http://localhost:5000/send-booking-email", {
+  
+      // ✅ Send email confirmation
+      await fetch("https://glamthegirlemailservice.vercel.app/send-booking-email", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(bookingData),
       });
-
-      // Redirect to schedule page
+  
       window.location.assign("/schedule");
     } catch (error) {
       console.error("Error saving booking: ", error);
       alert("There was an error saving your booking. Please try again.");
     }
   };
+  
 
   // console.log(shopDetail);
   return (
@@ -477,8 +507,12 @@ const BookShop = () => {
                 </div>
               </div>
 
-              <button
-                style={{
+     {bookingLeft === 0 ? (
+  <div className="text-danger fw-bold mt-3">All slots are full</div>
+) : null}
+
+<button
+style={{
                   padding: "10px 20px",
                   backgroundColor: "black",
                   color: "white",
@@ -489,10 +523,13 @@ const BookShop = () => {
                   marginTop: "10px",
                   cursor: "pointer",
                 }}
-                onClick={handleBookNow}
-              >
-                Book Now
-              </button>
+  className="btn btn-primary mt-3"
+  onClick={handleBookNow}
+  disabled={bookingLeft === 0} // 👈 disable if bookingLeft is 0
+>
+  Book Now
+</button>
+
             </div>
           </div>
         </div>

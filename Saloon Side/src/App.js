@@ -20,6 +20,9 @@ import ProfessionalSchedule from "./components/admin/nestedRoutes/ProfessionalSc
 import { useSelector } from "react-redux";
 import Recommendation from "./components/Recommandations/Recommendation";
 
+import Master from "./components/admin/nestedRoutes/MasterClass";
+import Artist from "./components/admin/nestedRoutes/ArtistPortfolio";
+
 function App() {
   // const [isLoggedIn, setIsLoggedIn] = useState(false); //user Route
   // const [isProfessional, setProfessional] = useState(false); //Professional Route
@@ -81,6 +84,10 @@ function App() {
           }
         >
           <Route index element={<ProfessionalProfile />} />
+          <Route path="saloonart" element={<Artist />} />
+          
+          <Route path="masterclass" element={<Master />} />
+          
           <Route path="add-services" element={<AddShopDetails />} />
           <Route
             path="schedules-professional"
