@@ -156,6 +156,7 @@ const Schedule = () => {
         const bookingRef = doc(db, "Bookings", id);
         await deleteDoc(bookingRef);
         setBookings((prev) => prev.filter((booking) => booking.id !== id));
+         navigate("/search");  // Redirect here
         alert("Booking deleted successfully.");
       } catch (error) {
         console.error("Error deleting booking:", error);
@@ -225,12 +226,12 @@ const Schedule = () => {
   <p><strong>Booking Date:</strong> {booking.bookingDate}</p>
   <p><strong>Booking Time:</strong> {booking.bookingTime}</p>
   <p><strong>Service Total Price:</strong> {booking.totalPrice}</p>
-  <p
+<p
   style={{
     fontSize: "16px",
     fontWeight: "bold",
     color: "#fff",
-    backgroundColor: isBookingDone(booking.bookingDate) ? "#28a745" : "#ffc107", // Green for Done, Yellow for Pending
+    backgroundColor: booking.approved ? "#28a745" : "#ffc107", // Green if Approved, Yellow/Orange if not
     padding: "10px 20px",
     borderRadius: "25px",
     textAlign: "center",
@@ -240,8 +241,29 @@ const Schedule = () => {
     animation: "statusAnimation 1s ease-in-out infinite",
   }}
 >
-  <strong>Status:</strong> {isBookingDone(booking.bookingDate) ? "Done" : "Pending"}
+  <strong>Status:</strong> {booking.approved ? "Booking Confirmed" : "Pending"}
 </p>
+
+<style>
+  {`
+    @keyframes statusAnimation {
+      0% {
+        transform: scale(1);
+        opacity: 0.8;
+      }
+      50% {
+        transform: scale(1.05);
+        opacity: 1;
+      }
+      100% {
+        transform: scale(1);
+        opacity: 0.8;
+      }
+    }
+  `}
+</style>
+
+
 
 <style>
   {`
@@ -268,7 +290,7 @@ const Schedule = () => {
   <hr style={styles.divider} />
   <div style={styles.actionButtons}>
     {/* <button style={styles.editButton} onClick={() => handleEdit(booking)}>Edit Booking ✎</button> */}
-    <button style={styles.deleteButton} onClick={() => handleDelete(booking.id)}>Delete Booking ✖</button>
+    <button style={styles.deleteButton} onClick={() => handleDelete(booking.id)}>Cancel Booking ✖</button>
   </div>
 </>
 

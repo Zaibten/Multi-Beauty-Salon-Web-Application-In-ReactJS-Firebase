@@ -20,7 +20,8 @@ import ProfessionalSchedule from "./components/admin/nestedRoutes/ProfessionalSc
 import { useSelector } from "react-redux";
 import Recommendation from "./components/Recommandations/Recommendation";
 import ArtistPortfolio from "./components/ArtistPortfolio/ArtistPortfolio";
-import Course from "./components/Pages/Courses";
+import Course from "./components/Pages/CourseBookings";
+import Contact from "./components/Pages/Contact";
 
 function App() {
   // const [isLoggedIn, setIsLoggedIn] = useState(false); //user Route
@@ -55,7 +56,7 @@ function App() {
         
         <Route path="/recommendation" element={<Recommendation />} />
         <Route path="/artistportfolio" element={<ArtistPortfolio />} />
-        <Route path="/glamthegirlcourse" element={<Course />} />
+        {/* <Route path="/glamthegirlcourse" element={<Course />} /> */}
         <Route path="/Profile" element={<Profile />} />
         <Route path="/shop/:id" element={<ShopDetail />} />
         <Route path="/shop/:parent/:id/booking" element={<BookShop />} />
@@ -73,6 +74,8 @@ function App() {
         <Route path="/Login" element={<Loginpage />} />
         <Route path="/search" element={<SearchShop />} />
         <Route path="/schedule" element={<Schedule />} />
+        <Route path="/courses" element={<Course />} />
+        <Route path="/contact" element={<Contact />} />
 
         {/* Professional Route */}
 

@@ -152,7 +152,7 @@ const BookShop = () => {
         bookingTime: bookingTime,
         totalPrice: `${PurchasePrice} rs`,
       };
-    
+
       // ✅ INCREMENT bookingDone & DECREMENT bookingLeft
       const profRef = doc(db, "ProfessionalDB", parent); // use parent from useParams
       const profSnap = await getDoc(profRef);

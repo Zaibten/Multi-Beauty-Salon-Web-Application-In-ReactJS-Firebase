@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./style.css";
 import Loader from "../../Loader/loader";
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, getDocs, orderBy, query, deleteDoc, doc } from "firebase/firestore";
+import { getFirestore, collection, getDocs, orderBy, query, deleteDoc, doc,updateDoc  } from "firebase/firestore";
 
 // Firebase Configuration
 const firebaseConfig = {
@@ -125,6 +125,28 @@ const ProfessionalSchedule = () => {
   const currentRecords = filteredSchedules.slice(indexOfFirstRecord, indexOfLastRecord);
   const totalPages = Math.ceil(filteredSchedules.length / recordsPerPage);
 
+
+  const handleToggleApproval = async (id, approved) => {
+  try {
+    const bookingRef = doc(db, "Bookings", id);
+    await updateDoc(bookingRef, { approved: !approved });
+    setSchedules((prev) =>
+      prev.map((item) =>
+        item.id === id ? { ...item, approved: !approved } : item
+      )
+    );
+    setFilteredSchedules((prev) =>
+      prev.map((item) =>
+        item.id === id ? { ...item, approved: !approved } : item
+      )
+    );
+    alert(`Booking ${!approved ? "approved" : "unapproved"} successfully.`);
+  } catch (error) {
+    console.error("Error updating approval:", error);
+    alert("Failed to update approval status.");
+  }
+};
+
   return loading ? (
     <Loader />
   ) : (
@@ -186,40 +208,56 @@ const ProfessionalSchedule = () => {
         {filteredSchedules.length > 0 ? (
           <>
             <table className="table table-dark table-striped text-center">
-              <thead>
-                <tr>
-                  <th>Booking ID</th>
-                  <th>Email</th>
-                  <th>Service Name</th>
-                  <th>Additional Service</th>
-                  <th>Total Price</th>
-                  <th>Booking Date</th>
-                  <th>Booking Time</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {currentRecords.map((schedule, index) => (
-                  <tr key={schedule.id}>
-                    <td>{indexOfFirstRecord + index + 1}</td>
-                    <td>{schedule.email || "No Email"}</td>
-                    <td>{schedule.serviceName || "No Service"}</td>
-                    <td>{schedule.additionalService || "Not available"}</td>
-                    <td>{schedule.totalPrice || "No Price"}</td>
-                    <td>{schedule.bookingDate || "No Date"}</td>
-                    <td>{schedule.bookingTime || "No Time"}</td>
-                    <td>
-                    <button
-  className="btn btn-danger"
-  onClick={() => handleCancelBooking(schedule)}
->
-  Cancel Booking
-</button>
+         <thead>
+  <tr>
+    <th>Booking ID</th>
+    <th>Email</th>
+    <th>Service Name</th>
+    <th>Additional Service</th>
+    <th>Total Price</th>
+    <th>Booking Date</th>
+    <th>Booking Time</th>
+    <th>Approved</th> {/* NEW COLUMN */}
+    <th>Advance Payment</th>
+    <th>Actions</th>
+  </tr>
+</thead>
 
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
+             <tbody>
+  {currentRecords.map((schedule, index) => (
+    <tr key={schedule.id}>
+      <td>{indexOfFirstRecord + index + 1}</td>
+      <td>{schedule.email || "No Email"}</td>
+      <td>{schedule.serviceName || "No Service"}</td>
+      <td>{schedule.additionalService || "Not available"}</td>
+      <td>{schedule.totalPrice || "No Price"}</td>
+      <td>{schedule.bookingDate || "No Date"}</td>
+      <td>{schedule.bookingTime || "No Time"}</td>
+
+      {/* ✅ Approved Toggle */}
+      <td>
+        <input
+          type="checkbox"
+          checked={schedule.approved || false}
+          onChange={() =>
+            handleToggleApproval(schedule.id, schedule.approved || false)
+          }
+        />
+      </td>
+      <td>50%</td>
+
+      <td>
+        <button
+          className="btn btn-danger"
+          onClick={() => handleCancelBooking(schedule)}
+        >
+          Cancel Booking
+        </button>
+      </td>
+    </tr>
+  ))}
+</tbody>
+
             </table>
 
             {/* Pagination Controls */}

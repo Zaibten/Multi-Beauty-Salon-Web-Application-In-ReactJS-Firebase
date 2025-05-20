@@ -61,51 +61,73 @@ function LoginPage({ name }) {
     });
   };
 
-  // On Submit of Sign In
-  const handlesignIn = async (e) => {
-    e.preventDefault();
-    if (user.email === "") {
-      let variant = "error";
-      let messageText = "Add User Details !!";
-      sendMessage(variant, messageText);
-      return;
-    }
-    if (isPro === true) {
-      let variant = "warning";
-      let messageText = "Please Logout from Professional Account !!";
-      sendMessage(variant, messageText);
-      return;
-    }
-    let variant = "warning";
-    let messageText = "Hold on Tight !!";
-    sendMessage(variant, messageText);
-    await UserSignIn(user, sendMessage, navigate);
-    setUser({
-      email: "",
-      password: "",
-    });
-  };
+// Email validation regex
+const validateEmail = (email) => {
+  const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return re.test(email);
+};
 
-  // On Submit for Sign up User
-  const handleSignUp = async (e) => {
-    e.preventDefault();
-    if (signUser.email === "") {
-      let variant = "error";
-      let messageText = "Fill all details First";
-      sendMessage(variant, messageText);
-      return;
-    }
-    let variant = "warning";
-    let messageText = "Preparing Account!!";
-    sendMessage(variant, messageText);
-    await UserSignUp(signUser, sendMessage, navigate, isPro);
-    setSignUser({
-      email: "",
-      username: "",
-      password: "",
-      number: "",
-    });
-  };
+// Phone number validation (simple digits only, length 10-15)
+const validatePhone = (number) => {
+  const re = /^\d{10,15}$/;
+  return re.test(number);
+};
+
+// Username validation (not empty)
+const validateUsername = (username) => username.trim() !== "";
+
+// Password validation (min 6 chars)
+const validatePassword = (password) => password.length >= 6;
+
+// Updated handlesignIn
+const handlesignIn = async (e) => {
+  e.preventDefault();
+  if (!user.email || !user.password) {
+    sendMessage("error", "Please fill in all fields.");
+    return;
+  }
+  if (!validateEmail(user.email)) {
+    sendMessage("error", "Invalid email format.");
+    return;
+  }
+  if (isPro === true) {
+    sendMessage("warning", "Please Logout from Professional Account !!");
+    return;
+  }
+  sendMessage("warning", "Hold on Tight !!");
+  await UserSignIn(user, sendMessage, navigate);
+  setUser({ email: "", password: "" });
+};
+
+// Updated handleSignUp
+const handleSignUp = async (e) => {
+  e.preventDefault();
+  const { username, email, password, number } = signUser;
+  if (!username || !email || !password || !number) {
+    sendMessage("error", "Fill all details first.");
+    return;
+  }
+  if (!validateUsername(username)) {
+    sendMessage("error", "Username cannot be empty.");
+    return;
+  }
+  if (!validateEmail(email)) {
+    sendMessage("error", "Invalid email format.");
+    return;
+  }
+  if (!validatePhone(number)) {
+    sendMessage("error", "Invalid phone number. Use 10 to 15 digits.");
+    return;
+  }
+  if (!validatePassword(password)) {
+    sendMessage("error", "Password must be at least 6 characters.");
+    return;
+  }
+  sendMessage("warning", "Preparing Account!!");
+  await UserSignUp(signUser, sendMessage, navigate, isPro);
+  setSignUser({ email: "", username: "", password: "", number: "" });
+};
+
 
   const handleSignUpClick = () => {
     setIsSignUpMode(true);

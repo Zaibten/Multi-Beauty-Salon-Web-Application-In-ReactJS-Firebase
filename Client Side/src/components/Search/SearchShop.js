@@ -99,13 +99,14 @@ const SearchShop = () => {
     .map((shop) => {
       // Check if all filters are set to "All" or empty
       const isAllFiltersSelected =
-        (priceFilter === "" || priceFilter === "All") &&
-        (ratingFilter === "" || ratingFilter === "All") &&
-        (serviceFilter === "" || serviceFilter === "All");
+  (priceFilter === "" || priceFilter === "All") &&
+  (ratingFilter === "" || ratingFilter === "All") &&
+  (serviceFilter === "" || serviceFilter === "All") &&
+  search.trim() === ""; // Include search term in logic
 
-      if (isAllFiltersSelected) {
-        return { ...shop, services: [] }; // Show no services if all filters are "All"
-      }
+if (isAllFiltersSelected) {
+  return { ...shop, services: shop.services }; // Show all services when everything is default
+}
 
       const matchedServices = shop.services.filter((service) => {
         const price = parseInt(service.Price || 0);
