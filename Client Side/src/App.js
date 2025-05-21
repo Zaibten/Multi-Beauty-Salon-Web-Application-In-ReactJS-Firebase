@@ -22,6 +22,7 @@ import Recommendation from "./components/Recommandations/Recommendation";
 import ArtistPortfolio from "./components/ArtistPortfolio/ArtistPortfolio";
 import Course from "./components/Pages/CourseBookings";
 import Contact from "./components/Pages/Contact";
+import Suggestion from "./components/Pages/suggestion";
 
 function App() {
   // const [isLoggedIn, setIsLoggedIn] = useState(false); //user Route
@@ -76,6 +77,7 @@ function App() {
         <Route path="/schedule" element={<Schedule />} />
         <Route path="/courses" element={<Course />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/suggestion" element={<Suggestion />} />
 
         {/* Professional Route */}
 

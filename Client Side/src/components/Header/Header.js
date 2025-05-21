@@ -365,10 +365,10 @@ const Header = () => {
     {[
       { to: "/search", text: "Salons" },
       { to: "/artistportfolio", text: "Artist Portfolio" },
-      { to: "/", text: "Recommandations" },
-      { to: "/", text: "Master Classes" },
-      { to: "/contact-us", text: "Contact Us" },
-      { to: "/", text: "Help" },
+      { to: "/suggestion", text: "Skincare Recommandation" },
+      { to: "/courses", text: "Master Classes & Totorials" },
+      { to: "/contact", text: "Contact Us" },
+      
     ].map((link, i) => (
       <Link
         key={i}
