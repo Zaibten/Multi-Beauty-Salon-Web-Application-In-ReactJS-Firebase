@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require("express");
 const { initializeApp } = require("firebase/app");
 const { getFirestore, collection, getDocs, deleteDoc, doc } = require("firebase/firestore");
@@ -5,19 +6,19 @@ const bodyParser = require("body-parser");
 const app = express();
 const port = 3000;
 const jwt = require('jsonwebtoken');
-const SECRET_KEY = "ohdejfdsiea092qei021e-w dbsajcduafiywq9e8132uewjADXSANCSAFDUEWQOQ"; // Change this to something secure
 
+const SECRET_KEY = process.env.SECRET_KEY;
 
-// Firebase Config
 const firebaseConfig = {
-  apiKey: "AIzaSyB3FObmEUWeLFUGnJ-tnieFPFBeVyOh3_0",
-  authDomain: "anatomy-45c16.firebaseapp.com",
-  projectId: "anatomy-45c16",
-  storageBucket: "anatomy-45c16.firebasestorage.app",
-  messagingSenderId: "231264600518",
-  appId: "1:231264600518:web:9e6796111469507532f2c7",
-  measurementId: "G-TG0B43KBEB",
+  apiKey: process.env.FIREBASE_API_KEY,
+  authDomain: process.env.FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.FIREBASE_PROJECT_ID,
+  storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.FIREBASE_APP_ID,
+  measurementId: process.env.FIREBASE_MEASUREMENT_ID,
 };
+
 
 const firebaseApp = initializeApp(firebaseConfig);
 const db = getFirestore(firebaseApp);
