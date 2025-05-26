@@ -83,7 +83,7 @@ const BookShop = () => {
 
       alert("Your booking has been saved successfully!");
 
-      await fetch("https://glamthegirlemailservice.vercel.app/send-booking-email", {
+      await fetch("http://localhost:5000/send-booking-email", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(bookingData),
