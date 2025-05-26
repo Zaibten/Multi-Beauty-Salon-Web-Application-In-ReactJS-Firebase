@@ -1,97 +1,27 @@
 const Time = [
-  {
-    time: "10:00",
-    shift: "AM",
-  },
-  {
-    time: "10:30",
-    shift: "AM",
-  },
-  {
-    time: "11:00",
-    shift: "AM",
-  },
-  {
-    time: "11:30",
-    shift: "AM",
-  },
-  {
-    time: "12:00",
-    shift: "PM",
-  },
-  {
-    time: "12:30",
-    shift: "PM",
-  },
-  {
-    time: "01:00",
-    shift: "PM",
-  },
-  {
-    time: "01:30",
-    shift: "PM",
-  },
-  {
-    time: "02:00",
-    shift: "PM",
-  },
-  {
-    time: "02:30",
-    shift: "PM",
-  },
-  {
-    time: "03:00",
-    shift: "PM",
-  },
-  {
-    time: "03:30",
-    shift: "PM",
-  },
-  {
-    time: "04:00",
-    shift: "PM",
-  },
-  {
-    time: "04:30",
-    shift: "PM",
-  },
-  {
-    time: "05:00",
-    shift: "PM",
-  },
-
-  {
-    time: "05:30",
-    shift: "PM",
-  },
-  {
-    time: "06:00",
-    shift: "PM",
-  },
-  {
-    time: "06:30",
-    shift: "PM",
-  },
-  {
-    time: "07:00",
-    shift: "PM",
-  },
-  {
-    time: "07:30",
-    shift: "PM",
-  },
-  {
-    time: "08:00",
-    shift: "PM",
-  },
-  {
-    time: "08:30",
-    shift: "PM",
-  },
-  {
-    id: 9,
-    time: "09:00",
-    shift: "PM",
-  },
+  { time: "10:00", shift: "AM", slot: "Slot 1" },
+  { time: "10:30", shift: "AM", slot: "Slot 2" },
+  { time: "11:00", shift: "AM", slot: "Slot 3" },
+  { time: "11:30", shift: "AM", slot: "Slot 4" },
+  { time: "12:00", shift: "PM", slot: "Slot 5" },
+  { time: "12:30", shift: "PM", slot: "Slot 6" },
+  { time: "01:00", shift: "PM", slot: "Slot 7" },
+  { time: "01:30", shift: "PM", slot: "Slot 8" },
+  { time: "02:00", shift: "PM", slot: "Slot 9" },
+  { time: "02:30", shift: "PM", slot: "Slot 10" },
+  { time: "03:00", shift: "PM", slot: "Slot 11" },
+  { time: "03:30", shift: "PM", slot: "Slot 12" },
+  { time: "04:00", shift: "PM", slot: "Slot 13" },
+  { time: "04:30", shift: "PM", slot: "Slot 14" },
+  { time: "05:00", shift: "PM", slot: "Slot 15" },
+  { time: "05:30", shift: "PM", slot: "Slot 16" },
+  { time: "06:00", shift: "PM", slot: "Slot 17" },
+  { time: "06:30", shift: "PM", slot: "Slot 18" },
+  { time: "07:00", shift: "PM", slot: "Slot 19" },
+  { time: "07:30", shift: "PM", slot: "Slot 20" },
+  { time: "08:00", shift: "PM", slot: "Slot 21" },
+  { time: "08:30", shift: "PM", slot: "Slot 22" },
+  { time: "09:00", shift: "PM", slot: "Slot 23" },
 ];
+
 export default Time;

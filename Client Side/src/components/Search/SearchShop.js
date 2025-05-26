@@ -5,6 +5,7 @@ import BreadCrumbs from "../BreadCrumbs/Breadcrumb";
 import SearchContent from "./SearchContent";
 import Loader from "../Loader/loader";
 import { NavLink } from "react-router-dom";
+import Footer from "../Footer/Footer";
 
 // Firebase Configuration
 const config = {
@@ -95,76 +96,80 @@ const SearchShop = () => {
   };
 
   // Filtering Logic
-  const filteredShops = shops
-    .map((shop) => {
-      // Check if all filters are set to "All" or empty
-      const isAllFiltersSelected =
-  (priceFilter === "" || priceFilter === "All") &&
-  (ratingFilter === "" || ratingFilter === "All") &&
-  (serviceFilter === "" || serviceFilter === "All") &&
-  search.trim() === ""; // Include search term in logic
+const filteredShops = shops
+  .map((shop) => {
+    const isAllFiltersSelected =
+      (priceFilter === "" || priceFilter === "All") &&
+      (ratingFilter === "" || ratingFilter === "All") &&
+      (serviceFilter === "" || serviceFilter === "All") &&
+      search.trim() === "";
 
-if (isAllFiltersSelected) {
-  return { ...shop, services: shop.services }; // Show all services when everything is default
-}
+    // When all filters are default, return only shop info without services
+    if (isAllFiltersSelected) {
+      return {
+        ...shop,
+        services: [], // Don't show any services
+      };
+    }
 
-      const matchedServices = shop.services.filter((service) => {
-        const price = parseInt(service.Price || 0);
+    const matchedServices = shop.services.filter((service) => {
+      const price = parseInt(service.Price || 0);
 
-        const matchesSearch =
-          search === "" ||
-          service.ServiceName?.toLowerCase().includes(search.toLowerCase()) ||
-          shop.shopName?.toLowerCase().includes(search.toLowerCase());
+      const matchesSearch =
+        search === "" ||
+        service.ServiceName?.toLowerCase().includes(search.toLowerCase()) ||
+        shop.shopName?.toLowerCase().includes(search.toLowerCase());
 
-        const matchesServiceType =
-          serviceFilter === "" ||
-          serviceFilter === "All" ||
-          (service.Category &&
-            service.Category.toLowerCase().includes(serviceFilter.toLowerCase()));
+      const matchesServiceType =
+        serviceFilter === "" ||
+        serviceFilter === "All" ||
+        (service.Category &&
+          service.Category.toLowerCase().includes(serviceFilter.toLowerCase()));
 
-        const matchesPrice =
-          priceFilter === "" ||
-          (() => {
-            switch (priceFilter) {
-              case "0-1000":
-                return price <= 1000;
-              case "1000-3000":
-                return price > 1000 && price <= 3000;
-              case "3000-5000":
-                return price > 3000 && price <= 5000;
-              case "5000-10000":
-                return price > 5000 && price <= 10000;
-              case "10000-20000":
-                return price > 10000 && price <= 20000;
-              case "20000-50000":
-                return price > 20000 && price <= 50000;
-              case "50000-100000":
-                return price > 50000 && price <= 100000;
-              case "100000-200000":
-                return price > 100000 && price <= 200000;
-              case "200000-500000":
-                return price > 200000 && price <= 500000;
-              default:
-                return true;
-            }
-          })();
+      const matchesPrice =
+        priceFilter === "" ||
+        (() => {
+          switch (priceFilter) {
+            case "0-1000":
+              return price <= 1000;
+            case "1000-3000":
+              return price > 1000 && price <= 3000;
+            case "3000-5000":
+              return price > 3000 && price <= 5000;
+            case "5000-10000":
+              return price > 5000 && price <= 10000;
+            case "10000-20000":
+              return price > 10000 && price <= 20000;
+            case "20000-50000":
+              return price > 20000 && price <= 50000;
+            case "50000-100000":
+              return price > 50000 && price <= 100000;
+            case "100000-200000":
+              return price > 100000 && price <= 200000;
+            case "200000-500000":
+              return price > 200000 && price <= 500000;
+            default:
+              return true;
+          }
+        })();
 
-        return matchesSearch && matchesServiceType && matchesPrice;
-      });
+      return matchesSearch && matchesServiceType && matchesPrice;
+    });
 
-      const matchesRating =
-        ratingFilter === "" || shop.avgRating >= parseInt(ratingFilter, 10);
+    const matchesRating =
+      ratingFilter === "" || shop.avgRating >= parseInt(ratingFilter, 10);
 
-      if (matchedServices.length > 0 && matchesRating) {
-        return {
-          ...shop,
-          services: matchedServices, // only return matching services
-        };
-      }
+    if (matchedServices.length > 0 && matchesRating) {
+      return {
+        ...shop,
+        services: matchedServices,
+      };
+    }
 
-      return null;
-    })
-    .filter(Boolean); // Remove nulls
+    return null;
+  })
+  .filter(Boolean); // Remove nulls
+
 
   // Pagination logic: slice filteredShops to only show current page's items
   const indexOfLastShop = currentPage * shopsPerPage;
@@ -304,22 +309,22 @@ if (isAllFiltersSelected) {
                 ) : (
                   <div
                     style={{
-                      display: "block",
-                      width: "100%",
-                      textDecoration: "none",
-                      borderRadius: "10px",
-                      background: "#f4f4f4",
-                      padding: "20px",
-                      boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-                      textAlign: "center",
-                      color: "#777",
-                      fontSize: "18px",
-                      fontWeight: "600",
-                      transition: "transform 0.3s ease, box-shadow 0.3s ease",
+                      // display: "block",
+                      // width: "100%",
+                      // textDecoration: "none",
+                      // borderRadius: "10px",
+                      // background: "#f4f4f4",
+                      // padding: "20px",
+                      // boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+                      // textAlign: "center",
+                      // color: "#777",
+                      // fontSize: "18px",
+                      // fontWeight: "600",
+                      // transition: "transform 0.3s ease, box-shadow 0.3s ease",
                     }}
                   >
-                    <h4>{res.shopName} - Currently Unavailable</h4>
-                    <p>Sorry, the salon is not accepting bookings at this time.</p>
+                    {/* <h4>{res.shopName} - Currently Unavailable</h4>
+                    <p>Sorry, the salon is not accepting bookings at this time.</p> */}
                   </div>
                 )}
               </div>
@@ -357,7 +362,7 @@ if (isAllFiltersSelected) {
       marginRight: '15px',
       transform: 'scale(1)',
     }}
-    disabled={currentPage === 1}
+    // disabled={currentPage === 1}
     onMouseEnter={(e) => {
       e.target.style.transform = 'scale(1.1)';
       e.target.style.boxShadow = '0 6px 15px rgba(0, 0, 0, 0.3)';
@@ -406,7 +411,7 @@ if (isAllFiltersSelected) {
       marginLeft: '15px',
       transform: 'scale(1)',
     }}
-    disabled={currentPage * shopsPerPage >= filteredShops.length}
+    // disabled={currentPage * shopsPerPage >= filteredShops.length}
     onMouseEnter={(e) => {
       e.target.style.transform = 'scale(1.1)';
       e.target.style.boxShadow = '0 6px 15px rgba(0, 0, 0, 0.3)';
@@ -445,7 +450,10 @@ if (isAllFiltersSelected) {
 
         </div>
       </div>
+      <br></br><br></br><br></br>
+      <Footer />
     </div>
+    
   );
 };
 

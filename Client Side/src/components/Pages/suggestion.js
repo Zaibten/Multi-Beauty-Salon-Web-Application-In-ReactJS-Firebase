@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 
+import Footer from "../Footer/Footer";
+
 const faqs = [
   {
     question: "What causes acne?",
@@ -61,6 +63,7 @@ const Suggestion = () => {
   };
 
   return (
+    <div className="w-100">
     <div style={{ margin: 0, padding: 0, backgroundColor: "#fff", fontFamily: "Segoe UI, sans-serif" }}>
       <style>{`
         .faq-container {
@@ -157,6 +160,10 @@ const Suggestion = () => {
           </div>
         ))}
       </div>
+    </div>
+    
+     <br></br>
+      <Footer />
     </div>
   );
 };

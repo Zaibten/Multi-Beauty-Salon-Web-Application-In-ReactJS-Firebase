@@ -4,78 +4,86 @@ import {
   signInWithEmailAndPassword,
   updateProfile,
 } from "firebase/auth";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, setDoc,collection, query, where, getDocs } from "firebase/firestore";
 import { db } from "../Firebase/firebase";
 import store from "../Redux/reduxStore";
 import { addAuth } from "../Redux/Slices/AuthSlice";
 import { userLogIn } from "../Redux/Slices/UserRedux";
 
-const UserSignUp = async (
-  signUser,
-  sendMessage,
+const UserSignUp = async (signUser, sendMessage, navigate, isPro) => {
+  const { username, email, number, password } = signUser;
 
-  navigate,
-  isPro
-) => {
-  // console.log("before fucntion:", signUser);
+  try {
+    // 1. Check if email, username, or number already exists
+    const usersRef = collection(db, "UserDB");
+    const q = query(
+      usersRef,
+      where("email", "==", email)
+    );
+    const emailSnapshot = await getDocs(q);
 
-  const auth = getAuth();
-  await createUserWithEmailAndPassword(auth, signUser.email, signUser.password)
-    .then((res) => {
-      const user = res.user;
-      try {
-        updateProfile(user, {
-          displayName: signUser.username,
-        }).then(() => {
-          setDoc(doc(db, "userLogin", `${user.uid}`), signUser)
-            .then(() =>
-              store.dispatch(
-                addAuth.addState({
-                  name: user.displayName,
-                  id: user.uid,
-                  user: true,
-                })
-              )
-            )
-            .then(async () => {
-              const docRef = doc(db, "UserDB", `${user.uid}`);
-              await setDoc(docRef, {
-                name: signUser.username,
-                email: signUser.email,
-                number: signUser.number,
-                password: signUser.password,
-              }).then(() => {
-                if (isPro === true) {
-                  let varient = "success";
-                  let messageText =
-                    "Registered But Logout from Professional to access Account !!!";
-                  sendMessage(varient, messageText);
-                  setTimeout(() => {
-                    navigate("/login");
-                  }, 1200);
-                  return;
-                }
-                store.dispatch(userLogIn());
-                let varient = "success";
-                let messageText = "Register Successfully !!!";
-                sendMessage(varient, messageText);
-                setTimeout(() => {
-                  navigate("/login");
-                }, 1200);
-              });
-            });
-        });
-      } catch (error) {
-        let varient = "warning";
-        let messageText = error;
-        sendMessage(varient, messageText);
-      }
-    })
-    .catch((err) => {
-      let varient = "error";
-      let messageText = err.message;
-      sendMessage(varient, messageText);
+    const usernameSnapshot = await getDocs(
+      query(usersRef, where("name", "==", username))
+    );
+
+    const numberSnapshot = await getDocs(
+      query(usersRef, where("number", "==", number))
+    );
+
+    if (!emailSnapshot.empty) {
+      sendMessage("error", "Email already in use.");
+      return;
+    }
+
+    if (!usernameSnapshot.empty) {
+      sendMessage("error", "Username already in use.");
+      return;
+    }
+
+    if (!numberSnapshot.empty) {
+      sendMessage("error", "Phone number already in use.");
+      return;
+    }
+
+    // 2. Proceed with Firebase Auth account creation
+    const auth = getAuth();
+    const res = await createUserWithEmailAndPassword(auth, email, password);
+    const user = res.user;
+
+    await updateProfile(user, {
+      displayName: username,
     });
+
+    await setDoc(doc(db, "userLogin", user.uid), signUser);
+
+    store.dispatch(
+      addAuth.addState({
+        name: user.displayName,
+        id: user.uid,
+        user: true,
+      })
+    );
+
+    await setDoc(doc(db, "UserDB", user.uid), {
+      name: username,
+      email: email,
+      number: number,
+      password: password,
+    });
+
+    if (isPro === true) {
+      sendMessage("success", "Registered but logout from Professional to access Account!");
+      setTimeout(() => navigate("/login"), 1200);
+      return;
+    }
+
+    store.dispatch(userLogIn());
+    sendMessage("success", "Registered Successfully!");
+    setTimeout(() => navigate("/login"), 1200);
+
+  } catch (error) {
+    sendMessage("error", error.message);
+  }
 };
 
 const UserSignIn = async (user, sendMessage, navigate) => {

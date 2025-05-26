@@ -3,6 +3,8 @@ import { db } from "../../Firebase/firebase";
 import { collection, getDocs, updateDoc, doc } from "firebase/firestore";
 import { message, Button, Modal, Radio, Spin } from "antd";
 
+import Footer from "../Footer/Footer";
+
 const CourseBookings = () => {
   const [tutorials, setTutorials] = useState([]);
   const [masterClasses, setMasterClasses] = useState([]);
@@ -143,7 +145,7 @@ const confirmBooking = async () => {
     window.location.href = "https://buy.stripe.com/test_28EfZgcIb1nK6lY6kR1Nu02";
   } catch (err) {
     console.error(err);
-    message.error("Failed to book class or send email");
+    // message.error("Failed to book class or send email");
   } finally {
     setLoading(false);
   }
@@ -165,6 +167,7 @@ const filteredMasterClasses = masterClasses
   
 
   return (
+    <div className="w-100">
     <div
       style={{
         padding: 30,
@@ -380,6 +383,10 @@ const filteredMasterClasses = masterClasses
           </div>
         )}
       </Modal>
+    </div>
+    
+     <br></br>
+      <Footer />
     </div>
   );
 };

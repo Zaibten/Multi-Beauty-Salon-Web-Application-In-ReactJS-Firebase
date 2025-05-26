@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { db } from "../../Firebase/firebase"; // Firebase initialization
 import { collection, getDocs } from "firebase/firestore"; 
 import Loader from "../Loader/loader";
+import Footer from "../Footer/Footer";
 
 const ArtistPortfolio = () => {
   const [artists, setArtists] = useState([]);
@@ -48,6 +49,7 @@ const ArtistPortfolio = () => {
   }
 
   return (
+    <div className="w-100">
     <div style={{ background: "#ffe6f2", fontFamily: "Poppins, sans-serif", padding: "30px", transition: "all 0.3s ease" }}>
       <h2 style={{ textAlign: "center", fontSize: "36px", color: "#ff4da6", marginBottom: "20px", letterSpacing: "1px" }}>
         Artist Portfolio
@@ -109,7 +111,13 @@ const ArtistPortfolio = () => {
           </button>
         ))}
       </div>
+
+      
     </div>
+    
+     <br></br>
+      <Footer />
+      </div>
   );
 };
 

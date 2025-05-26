@@ -4,12 +4,14 @@ import BreadCrumb from "../BreadCrumbs/Breadcrumb";
 import "react-day-picker/dist/style.css";
 import { useMediaQuery } from "@uidotdev/usehooks";
 import List from "./List";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate, useLocation  } from "react-router-dom";
 import { updateDoc, doc, getDoc, collection, query, where, getDocs, addDoc } from "firebase/firestore";
 import { db } from "../../Firebase/firebase";
 import { useEffect } from "react";
 import Loader from "../Loader/loader";
 import asset from "../../assets/hairfinder assest.png";
+
+import Footer from "../Footer/Footer";
 
 const BookShop = () => {
   const [showModal, setShowModal] = useState(false);
@@ -25,6 +27,38 @@ const BookShop = () => {
   const [shopDetail, setShopDetail] = useState(undefined);
   const [email, setEmail] = useState(localStorage.getItem("email"));
   const [bookingLeft, setBookingLeft] = useState(null);
+const navigate = useNavigate();
+  const location = useLocation();
+    // NEW: track which times are already booked/approved
+  const [bookedTimes, setBookedTimes] = useState([]);
+
+    useEffect(() => {
+    if (!selected || !shopDetail?.shopName) return;
+
+    const bookingDate = selected.toString().substring(0, 15);
+    const bookingsRef = collection(db, "Bookings");
+    const q = query(
+      bookingsRef,
+      where("shopName", "==", shopDetail.shopName),
+      where("bookingDate", "==", bookingDate),
+      where("approved", "==", true)
+    );
+
+    getDocs(q).then((snap) => {
+      const times = snap.docs.map((d) => d.data().bookingTime);
+      setBookedTimes(times);
+    });
+  }, [selected, shopDetail]);
+
+  // 👇 Redirect if not logged in
+  useEffect(() => {
+    const storedEmail = localStorage.getItem("email");
+    if (!storedEmail) {
+      navigate(`/login?redirect=${encodeURIComponent(location.pathname)}`);
+    }
+  }, [navigate, location]);
+
+
 
   useEffect(() => {
     // Retrieve email from local storage on component mount
@@ -201,6 +235,63 @@ const BookShop = () => {
           <span className="py-2 ps-4 bg-white text-black">Book the</span> Service
         </span>
       </h4>
+      <br></br>
+ <style>
+  {`
+    @keyframes statusAnimation {
+      0% {
+        transform: scale(1);
+        opacity: 0.9;
+        text-shadow: 0 0 4px rgba(255, 0, 0, 0.4);
+      }
+      50% {
+        transform: scale(1.05);
+        opacity: 1;
+        text-shadow: 0 0 10px rgba(255, 0, 0, 0.8), 0 0 20px rgba(255, 50, 50, 0.8);
+      }
+      100% {
+        transform: scale(1);
+        opacity: 0.9;
+        text-shadow: 0 0 4px rgba(255, 0, 0, 0.4);
+      }
+    }
+
+    .gradient-status {
+      display: inline-block;
+      animation: statusAnimation 2.5s infinite ease-in-out;
+      font-weight: 700;
+      font-size: 1.1rem;
+      padding: 8px 16px;
+      border-radius: 6px;
+      text-align: center;
+      margin: 0 auto;
+      user-select: none;
+      background: linear-gradient(90deg, #ff4d4d, #ff1a75, #ff9900);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      white-space: normal;
+    }
+
+    .status-container {
+      text-align: center;
+      width: 100%;
+    }
+
+    @media (max-width: 600px) {
+      .gradient-status {
+        font-size: 1rem;
+        padding: 6px 12px;
+        max-width: 95%;
+      }
+    }
+  `}
+</style>
+
+<div className="status-container">
+  <strong className="gradient-status">
+    Time in red color show the already booked slots so please select some different slots
+  </strong>
+</div>
 
       <div className="container">
         <div className="row mt-5  align-items-center">
@@ -370,31 +461,32 @@ const BookShop = () => {
                 <div>
                   <h6 className="fw-bold">Pick Your Date</h6>
                   <div className="">
-                    <DayPicker
-                      mode="single"
-                      required
-                      selected={selected}
-                      onSelect={setSelected}
-                      footer={footerDetail}
-                      fromYear={year}
-                      fromMonth={today}
-                      //showOutsideDays
-                      //toDate={toDay}
-                      toMonth={today}
-                      fixedWeeks
-                      modifiersClassNames={{
-                        today: "my-today",
-                      }}
-                    />
+  <DayPicker
+  mode="single"
+  required
+  selected={selected}
+  onSelect={setSelected}
+  footer={footerDetail}
+  fromDate={new Date()}    // Disable past dates
+  captionLayout="dropdown"  // Month and year dropdowns
+  fixedWeeks
+  modifiersClassNames={{ today: "my-today" }}
+/>
+
                   </div>
                 </div>
                 {/* Menu for Desktop mode */}
                 {isMediumDevice ? (
+                  
                   <div className="h-100 ">
                     <h6 className="fw-bold">Pick Your Time</h6>
                     <div className="text-white scheduleTime h-100 mt-5">
                       <div className="overflow-auto h-75">
-                        <List mark={mark} setMark={setMark} />
+                        <List
+          mark={mark}
+          setMark={setMark}
+          bookedTimes={bookedTimes}        // ← and here
+        />
                       </div>
                     </div>
                   </div>
@@ -407,7 +499,7 @@ const BookShop = () => {
                 <div className="container mt-4">
                   <h6 className="fw-bold text-center mb-3">Pick Your Time</h6>
                   <div className="w-100 overflow-auto">
-                    <List name="d-flex" mark={mark} setMark={setMark} />
+                    <List name="d-flex" mark={mark} setMark={setMark} bookedTimes={bookedTimes}/>
                   </div>
                 </div>
               ) : (
@@ -534,6 +626,9 @@ style={{
           </div>
         </div>
       </div>
+      
+     <br></br>
+      <Footer />
     </div>
   );
 };

@@ -6,6 +6,7 @@ import Breadcrumb from "../BreadCrumbs/Breadcrumb";
 import Loader from "../Loader/loader";
 import StyleCard from "./StyleCard";
 import "./ShopDetail.css"; // Importing styles
+import Footer from "../Footer/Footer";
 
 const ShopDetail = () => {
   const [services, setServices] = useState([]);
@@ -20,6 +21,7 @@ const ShopDetail = () => {
   const [priceFilter, setPriceFilter] = useState("");
   const [ratingFilter, setRatingFilter] = useState("");
   const [serviceFilter, setServiceFilter] = useState("");
+  
 
 
   
@@ -83,6 +85,7 @@ const ShopDetail = () => {
       : 0;
 
   return (
+    <div  className="w-100">
     <div className="container">
       <Breadcrumb path="Shop Details" activePage={"Shop"} text="white" />
       <h3 className="text-white text-center">
@@ -379,6 +382,9 @@ services
             </form>
           </div>
       </div>
+
+
+
     
       {/* CSS BELOW */}
       <style>
@@ -453,6 +459,10 @@ services
           }
         `}
       </style>
+    </div>
+ 
+     <br></br>
+      <Footer />
     </div>
   );
 };

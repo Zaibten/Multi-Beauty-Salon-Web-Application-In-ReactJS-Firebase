@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 
+import Footer from "../Footer/Footer";
+
 const Contact = () => {
   // State for form inputs
   const [formData, setFormData] = useState({
@@ -142,6 +144,7 @@ const Contact = () => {
   };
 
   return (
+    <div className="w-100">
     <div style={styles.container}>
       {/* your style tag remains unchanged */}
 
@@ -232,6 +235,10 @@ const Contact = () => {
           />
         </div>
       </div>
+    </div>
+    
+     <br></br>
+      <Footer />
     </div>
   );
 };
