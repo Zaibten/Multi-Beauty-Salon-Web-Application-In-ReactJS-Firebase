@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import axios from "axios";
+import React, { useState } from 'react';
+import axios from 'axios';
 import Footer from "../Footer/Footer";
 
 const skinQuestions = [
@@ -21,29 +21,14 @@ const skinQuestions = [
   },
   {
     question: "What is your main skin concern?",
-    options: [
-      "Acne",
-      "Hormonal acne",
-      "Dry patches",
-      "Excess oil",
-      "Pigmentation",
-      "Wrinkles",
-      "Redness",
-      "Dullness",
-      "Large pores",
-      "Dark spots",
-      "Uneven skin",
-      "Sagging skin",
-      "Post acne scars",
-    ],
+    options: ["Acne", "Hormonal acne", "Dry patches", "Excess oil", "Pigmentation", "Wrinkles", "Redness", "Dullness", "Large pores", "Dark spots", "Uneven skin", "Sagging skin", "Post acne scars"],
   },
   {
     question: "Do you experience frequent breakouts?",
     options: ["Yes", "Occasionally", "No"],
   },
   {
-    question:
-      "Do you have any marks or pigmentation left behind from acne or sun damage?",
+    question: "Do you have any marks or pigmentation left behind from acne or sun damage?",
     options: ["Yes", "No", "Very minor", "Very noticeable"],
   },
   {
@@ -52,78 +37,35 @@ const skinQuestions = [
   },
   {
     question: "What kind of products do you currently use?",
-    options: [
-      "Cleanser",
-      "Moisturizer",
-      "Sunscreen",
-      "Serum",
-      "Spot treatment",
-      "Scrubs",
-      "Toners",
-      "None",
-    ],
+    options: ["Cleanser", "Moisturizer", "Sunscreen", "Serum", "Spot treatment", "Scrubs", "Toners", "None"],
   },
   {
     question: "Do you live in a humid or dry environment?",
     options: ["Humid", "Dry"],
   },
   {
-    question:
-      "Do you have any known allergies or sensitivities to skincare products?",
-    options: [
-      "Yes – Fragrances",
-      "Yes – Alcohol-based products",
-      "Yes – Essential oils",
-      "Yes – Specific ingredients (e.g., salicylic acid, retinol)",
-      "No known allergies",
-      "Not sure",
-    ],
+    question: "Do you have any known allergies or sensitivities to skincare products?",
+    options: ["Yes – Fragrances", "Yes – Alcohol-based products", "Yes – Essential oils", "Yes – Specific ingredients (e.g., salicylic acid, retinol)", "No known allergies", "Not sure"],
   },
   {
     question: "How many hours of sleep do you get on average?",
-    options: [
-      "Less than 4 hours",
-      "4–6 hours",
-      "6–8 hours",
-      "More than 8 hours",
-    ],
+    options: ["Less than 4 hours", "4–6 hours", "6–8 hours", "More than 8 hours"],
   },
   {
     question: "Do you wear makeup daily?",
-    options: [
-      "Yes – Full face daily",
-      "Yes – Light/Minimal makeup daily",
-      "Only on special occasions",
-      "Rarely or never",
-    ],
+    options: ["Yes – Full face daily", "Yes – Light/Minimal makeup daily", "Only on special occasions", "Rarely or never"],
   },
   {
     question: "Are your breakouts linked to your hormonal changes?",
-    options: [
-      "Yes – due to PCOS, or other hormonal conditions",
-      "Sometimes, but not sure",
-      "No, my breakouts seem unrelated",
-      "I don't get breakouts",
-    ],
+    options: ["Yes – due to PCOS, or other hormonal conditions", "Sometimes, but not sure", "No, my breakouts seem unrelated", "I don't get breakouts"],
   },
   {
     question: "Are you currently on any medication that affects your skin?",
-    options: [
-      "Yes – acne medication (e.g., isotretinoin, antibiotics)",
-      "Yes – supplements or herbal remedies",
-      "No, I’m not on any skin-affecting medication",
-      "Not sure",
-    ],
+    options: ["Yes – acne medication (e.g., isotretinoin, antibiotics)", "Yes – supplements or herbal remedies", "No, I’m not on any skin-affecting medication", "Not sure"],
   },
   {
-    question:
-      "Would you prefer quick daily solutions or long-term care routines?",
-    options: [
-      "Quick and easy daily fixes",
-      "Long-term treatments with lasting results",
-      "A balanced combination of both",
-      "I need guidance on what’s best for me",
-    ],
+    question: "Would you prefer quick daily solutions or long-term care routines?",
+    options: ["Quick and easy daily fixes", "Long-term treatments with lasting results", "A balanced combination of both", "I need guidance on what’s best for me"],
   },
   {
     question: "Do you perfer aesthetic treatment?",
@@ -134,66 +76,27 @@ const skinQuestions = [
 const makeupQuestions = [
   {
     question: "What is your face shape?",
-    options: [
-      "Round",
-      "Oval",
-      "Heart-shaped",
-      "Square",
-      "Long/Rectangular",
-      "I’m not sure",
-    ],
+    options: ["Round", "Oval", "Heart-shaped", "Square", "Long/Rectangular", "I’m not sure"],
   },
   {
     question: "What best describes your eye shape?",
-    options: [
-      "Hooded eyes",
-      "Almond-shaped eyes",
-      "Monolid",
-      "Big/sunken socket eyes",
-      "Downturned eyes",
-      "I’m not sure",
-    ],
+    options: ["Hooded eyes", "Almond-shaped eyes", "Monolid", "Big/sunken socket eyes", "Downturned eyes", "I’m not sure"],
   },
   {
     question: "How would you describe your skin tone?",
-    options: [
-      "Fair",
-      "Light",
-      "Medium / Wheatish",
-      "Tan",
-      "Deep / Dark",
-      "Not sure",
-    ],
+    options: ["Fair", "Light", "Medium / Wheatish", "Tan", "Deep / Dark", "Not sure"],
   },
   {
     question: "What kind of makeup look do you prefer?",
-    options: [
-      "Minimal / No-makeup look",
-      "Soft glam (balanced and subtle)",
-      "Full glam (bold eyes/lips and contour)",
-      "Natural with a pop (bold lip or eye only)",
-      "I’m still exploring",
-    ],
+    options: ["Minimal / No-makeup look", "Soft glam (balanced and subtle)", "Full glam (bold eyes/lips and contour)", "Natural with a pop (bold lip or eye only)", "I’m still exploring"],
   },
   {
     question: "What kind of lip colors do you feel most confident in?",
-    options: [
-      "Nudes / Peachy tones",
-      "Pinks & Mauves",
-      "Bold reds / Berries",
-      "Browns / Deep tones",
-      "I like experimenting",
-    ],
+    options: ["Nudes / Peachy tones", "Pinks & Mauves", "Bold reds / Berries", "Browns / Deep tones", "I like experimenting"],
   },
   {
     question: "What kind of base do you usually go for?",
-    options: [
-      "No base or only concealer",
-      "BB cream / Light foundation",
-      "Medium coverage foundation",
-      "Full coverage foundation",
-      "Not sure",
-    ],
+    options: ["No base or only concealer", "BB cream / Light foundation", "Medium coverage foundation", "Full coverage foundation", "Not sure"],
   },
 ];
 
@@ -252,18 +155,18 @@ const faqs = [
 
 const PersonalizedQuiz = () => {
   const [openIndex, setOpenIndex] = useState(null);
-
-  const toggleFAQ = (index) => {
-    setOpenIndex(openIndex === index ? null : index);
-  };
-  const [quizType, setQuizType] = useState("");
+  
+    const toggleFAQ = (index) => {
+      setOpenIndex(openIndex === index ? null : index);
+    };
+  const [quizType, setQuizType] = useState('');
   const [responses, setResponses] = useState([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [result, setResult] = useState("");
+  const [result, setResult] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const questions = quizType === "skin" ? skinQuestions : makeupQuestions;
-  // const apiKey = "sk-*********";
+  const questions = quizType === 'skin' ? skinQuestions : makeupQuestions;
+  const apiKey = "sk-*********";
 
   const handleOptionSelect = (option) => {
     const updatedResponses = [...responses];
@@ -291,18 +194,18 @@ const PersonalizedQuiz = () => {
 
     try {
       const response = await axios.post(
-        "https://api.openai.com/v1/chat/completions",
+        'https://api.openai.com/v1/chat/completions',
         {
-          model: "gpt-3.5-turbo",
+          model: 'gpt-3.5-turbo',
           messages: [
-            { role: "system", content: "You are a helpful assistant." },
-            { role: "user", content: prompt },
+            { role: 'system', content: 'You are a helpful assistant.' },
+            { role: 'user', content: prompt }
           ],
           max_tokens: 500,
         },
         {
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
             Authorization: `Bearer ${apiKey}`,
           },
         }
@@ -312,35 +215,26 @@ const PersonalizedQuiz = () => {
       let rawResult = response.data.choices[0].message.content.trim();
       const formattedResult = rawResult
         .split(/\n+/)
-        .filter((line) => line.trim() !== "")
-        .map((line, idx) => (
-          <li key={idx} style={{ marginBottom: "0.5rem" }}>
-            {line}
-          </li>
-        ));
+        .filter(line => line.trim() !== '')
+        .map((line, idx) => <li key={idx} style={{marginBottom: '0.5rem'}}>{line}</li>);
 
       setResult(formattedResult);
     } catch (error) {
-      console.error("Error fetching data from OpenAI:", error);
-      setResult(
-        <p style={{ color: "red" }}>
-          An error occurred while fetching recommendations.
-        </p>
-      );
+      console.error('Error fetching data from OpenAI:', error);
+      setResult(<p style={{ color: 'red' }}>An error occurred while fetching recommendations.</p>);
     } finally {
       setLoading(false);
     }
   };
 
   const generatePrompt = (type, questions, answers) => {
-    let prompt = "";
+    let prompt = '';
     for (let i = 0; i < questions.length; i++) {
       prompt += `${questions[i].question}\nAnswer: ${answers[i]}\n\n`;
     }
-    prompt +=
-      type === "skin"
-        ? "Based on the above answers, provide personalized skincare recommendations in a numbered list."
-        : "Based on the above answers, provide personalized makeup recommendations in a numbered list.";
+    prompt += type === 'skin'
+      ? 'Based on the above answers, provide personalized skincare recommendations in a numbered list.'
+      : 'Based on the above answers, provide personalized makeup recommendations in a numbered list.';
     return prompt;
   };
 
@@ -348,7 +242,7 @@ const PersonalizedQuiz = () => {
     setQuizType(type);
     setResponses([]);
     setCurrentQuestionIndex(0);
-    setResult("");
+    setResult('');
   };
 
   return (
@@ -465,130 +359,79 @@ const PersonalizedQuiz = () => {
           flex-wrap: wrap;
         }
       `}</style>
-      <div className="w-100">
-        <div
-          className="quiz-container"
-          role="main"
-          aria-live="polite"
-          aria-atomic="true"
-        >
-          <h2 style={{ fontWeight: "bold" }}>
-            AI PERSONALIZED RECOMMENDATIONS
-          </h2>
+<div className="w-100">
+      <div className="quiz-container" role="main" aria-live="polite" aria-atomic="true">
+       <h2 style={{ fontWeight: 'bold' }}>AI PERSONALIZED RECOMMENDATIONS</h2>
 
-          {!quizType ? (
-            <div className="quiz-type-buttons" aria-label="Select quiz type">
-              <p style={{ textAlign: "center" }}>What's your concern ?</p>
-              <button
-                onClick={() => handleQuizTypeSelection("skin")}
-                aria-pressed={quizType === "skin"}
-              >
-                Skin
-              </button>
-              <button
-                onClick={() => handleQuizTypeSelection("makeup")}
-                aria-pressed={quizType === "makeup"}
-              >
-                Makeup
+
+        {!quizType ? (
+          <div className="quiz-type-buttons" aria-label="Select quiz type">
+            <p style={{ textAlign: 'center' }}>What's your concern ?</p>
+            <button onClick={() => handleQuizTypeSelection('skin')} aria-pressed={quizType === 'skin'}>
+              Skin
+            </button>
+            <button onClick={() => handleQuizTypeSelection('makeup')} aria-pressed={quizType === 'makeup'}>
+              Makeup
+            </button>
+          </div>
+        ) : result ? (
+          <div>
+            <h3>Your AI Personalized Recommendations:</h3>
+            <ul className="recommendations">{result}</ul>
+            <div className="nav-buttons">
+              <button onClick={() => handleQuizTypeSelection('')} disabled={loading}>
+                Restart
               </button>
             </div>
-          ) : result ? (
-            <div>
-              <h3>Your AI Personalized Recommendations:</h3>
-              <ul className="recommendations">{result}</ul>
-              <div className="nav-buttons">
-                <button
-                  onClick={() => handleQuizTypeSelection("")}
-                  disabled={loading}
-                >
-                  Restart
-                </button>
-              </div>
+          </div>
+        ) : (
+          <div>
+            <p><strong>Question {currentQuestionIndex + 1} of {questions.length}:</strong></p>
+            <p style={{ fontWeight: '600', marginBottom: '1rem', color: '#a80055' }}>{questions[currentQuestionIndex].question}</p>
+
+            <div role="radiogroup" aria-labelledby="question-label">
+              {questions[currentQuestionIndex].options.map((option, index) => (
+                <label key={index}>
+                  <input
+                    type="radio"
+                    name={`question-${currentQuestionIndex}`}
+                    value={option}
+                    checked={responses[currentQuestionIndex] === option}
+                    onChange={() => handleOptionSelect(option)}
+                    disabled={loading}
+                  />
+                  {option}
+                </label>
+              ))}
             </div>
-          ) : (
-            <div>
-              <p>
-                <strong>
-                  Question {currentQuestionIndex + 1} of {questions.length}:
-                </strong>
-              </p>
-              <p
-                style={{
-                  fontWeight: "600",
-                  marginBottom: "1rem",
-                  color: "#a80055",
-                }}
+
+            <div className="nav-buttons" style={{ justifyContent: 'space-between' }}>
+              <button
+                onClick={handlePrev}
+                disabled={currentQuestionIndex === 0 || loading}
+                aria-disabled={currentQuestionIndex === 0 || loading}
               >
-                {questions[currentQuestionIndex].question}
-              </p>
-
-              <div role="radiogroup" aria-labelledby="question-label">
-                {questions[currentQuestionIndex].options.map(
-                  (option, index) => (
-                    <label key={index}>
-                      <input
-                        type="radio"
-                        name={`question-${currentQuestionIndex}`}
-                        value={option}
-                        checked={responses[currentQuestionIndex] === option}
-                        onChange={() => handleOptionSelect(option)}
-                        disabled={loading}
-                      />
-                      {option}
-                    </label>
-                  )
-                )}
-              </div>
-
-              <div
-                className="nav-buttons"
-                style={{ justifyContent: "space-between" }}
+                Prev
+              </button>
+              <button
+                onClick={handleNext}
+                disabled={!responses[currentQuestionIndex] || loading}
+                aria-disabled={!responses[currentQuestionIndex] || loading}
               >
-                <button
-                  onClick={handlePrev}
-                  disabled={currentQuestionIndex === 0 || loading}
-                  aria-disabled={currentQuestionIndex === 0 || loading}
-                >
-                  Prev
-                </button>
-                <button
-                  onClick={handleNext}
-                  disabled={!responses[currentQuestionIndex] || loading}
-                  aria-disabled={!responses[currentQuestionIndex] || loading}
-                >
-                  {currentQuestionIndex === questions.length - 1
-                    ? "Submit"
-                    : "Next"}
-                </button>
-              </div>
-
-              {loading && (
-                <p
-                  style={{
-                    textAlign: "center",
-                    marginTop: "1rem",
-                    color: "#d6336c",
-                  }}
-                >
-                  Loading recommendations...
-                </p>
-              )}
+                {currentQuestionIndex === questions.length - 1 ? 'Submit' : 'Next'}
+              </button>
             </div>
-          )}
 
-          <br></br>
-          <br></br>
-          <br></br>
-          <br></br>
-
-          <div
-            style={{
-              margin: 0,
-              padding: 0,
-              backgroundColor: "#fff",
-              fontFamily: "Segoe UI, sans-serif",
-            }}
-          >
+            {loading && <p style={{ textAlign: 'center', marginTop: '1rem', color: '#d6336c' }}>Loading recommendations...</p>}
+          </div>
+        )}
+            
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            
+                  <div style={{ margin: 0, padding: 0, backgroundColor: "#fff", fontFamily: "Segoe UI, sans-serif" }}>
             <style>{`
               .faq-container {
                 max-width: 800px;
@@ -662,39 +505,26 @@ const PersonalizedQuiz = () => {
                 border: none;
               }
             `}</style>
-
+      
             {/* FAQ Section */}
             <div className="faq-container">
               <h2 className="faq-title">Frequently Asked Questions</h2>
               {faqs.map((faq, index) => (
-                <div
-                  key={index}
-                  className="faq-item"
-                  onClick={() => toggleFAQ(index)}
-                >
+                <div key={index} className="faq-item" onClick={() => toggleFAQ(index)}>
                   <div className="faq-question">
                     {faq.question}
-                    <span
-                      className={`arrow ${openIndex === index ? "open" : ""}`}
-                    >
-                      ▼
-                    </span>
+                    <span className={`arrow ${openIndex === index ? "open" : ""}`}>▼</span>
                   </div>
-                  <div
-                    className={`faq-answer ${
-                      openIndex === index ? "open" : ""
-                    }`}
-                  >
-                    {faq.answer}
-                  </div>
+                  <div className={`faq-answer ${openIndex === index ? "open" : ""}`}>{faq.answer}</div>
                 </div>
               ))}
             </div>
           </div>
-        </div>
+      </div>
 
-        <br></br>
-        <Footer />
+          
+           <br></br>
+            <Footer />
       </div>
     </>
   );
