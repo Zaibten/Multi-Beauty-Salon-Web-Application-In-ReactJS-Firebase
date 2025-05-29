@@ -95,7 +95,7 @@ const Profile = () => {
           </marquee>
         </div>
         <div style={styles.card}>
-          <h2 style={styles.title}>BEAUTY SALON Profile Information</h2>
+          <h2 style={styles.title}>MY PROFILE</h2>
           {Object.keys(userData).map(
             (key) =>
               key !== "id" && (
@@ -191,7 +191,7 @@ const styles = {
   },
   marquee: {
     animation: "scroll 15s linear infinite",
-    fontStyle: "italic",
+    fontStyle: "",
   },
   card: {
     width: "90%",
@@ -208,7 +208,6 @@ const styles = {
     color: "#ff69b4",
     fontWeight: "bold",
     marginBottom: "20px",
-    fontStyle: "italic",
   },
   field: {
     display: "flex",
@@ -217,13 +216,13 @@ const styles = {
     marginBottom: "20px",
     borderBottom: "1px solid #ddd",
     paddingBottom: "10px",
-    fontStyle: "italic",
+    fontStyle: "",
   },
   label: {
     fontWeight: "bold",
     color: "#555",
     fontSize: "1.2rem",
-    fontStyle: "italic",
+    fontStyle: "",
   },
   input: {
     padding: "10px",
@@ -233,12 +232,12 @@ const styles = {
     width: "60%",
     transition: "all 0.3s ease-in-out",
     boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
-    fontStyle: "italic",
+    fontStyle: "",
   },
   value: {
     fontSize: "1rem",
     color: "#333",
-    fontStyle: "italic",
+    fontStyle: "",
   },
   buttonContainer: {
     marginTop: "30px",
@@ -253,7 +252,7 @@ const styles = {
     fontSize: "1rem",
     fontWeight: "bold",
     transition: "all 0.5s ease",
-    fontStyle: "italic",
+    fontStyle: "",
   },
   saveButton: {
     padding: "12px 30px",
@@ -265,7 +264,7 @@ const styles = {
     fontSize: "1rem",
     fontWeight: "bold",
     transition: "all 0.5s ease",
-    fontStyle: "italic",
+    fontStyle: "",
   },
 };
 

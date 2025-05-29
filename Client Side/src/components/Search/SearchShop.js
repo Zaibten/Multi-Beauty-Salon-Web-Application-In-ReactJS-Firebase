@@ -190,7 +190,7 @@ const filteredShops = shops
           {/* Search Bar */}
           <div className="d-flex justify-content-center align-items-center pt-3">
             <input
-              placeholder="Search Your Favorite Salon..."
+              placeholder="Search Salon"
               type="search"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
@@ -217,11 +217,11 @@ const filteredShops = shops
 
           {/* Filters Section */}
           <div className="mt-4 border p-3 rounded bg-light">
-            <h6 className="fw-bold">Filters:</h6>
+            <h6 className="fw-bold">FILTERS:</h6>
             <div className="row">
               {/* Price Filter */}
               <div className="col-md-4">
-                <label className="fw-semibold">Price Range:</label>
+                <label className="fw-semibold">PRICE RANGE</label>
                 <select
                   className="form-control"
                   value={priceFilter}
@@ -242,7 +242,7 @@ const filteredShops = shops
 
               {/* Ratings Filter */}
               <div className="col-md-4">
-                <label className="fw-semibold">Minimum Rating:</label>
+                <label className="fw-semibold">MINIMUM RATING</label>
                 <select
                   className="form-control"
                   value={ratingFilter}
@@ -259,7 +259,7 @@ const filteredShops = shops
 
               {/* Service Type Filter */}
               <div className="col-md-4">
-                <label className="fw-semibold">Service Type:</label>
+                <label className="fw-semibold">SERVICE TYPE</label>
                 <select
                   className="form-control"
                   value={serviceFilter}

@@ -92,8 +92,8 @@ const ShopCard = () => {
         <div className="mb-2">
           <h6 className="text-center">
             <span className="border py-2 ps-2 salon-title">
-              Top 10{" "}
-              <span className="py-2 px-2 bg-hotpink text-white">Salons</span>
+              TOP 10{" "}
+              <span className="py-2 px-2 bg-hotpink text-white">SALONS</span>
             </span>
           </h6>
         </div>
@@ -102,23 +102,24 @@ const ShopCard = () => {
         ) : (
           <Slider className="" {...settings}>
             {data.map((doc) => (
-              <div className="" key={doc.id}>
-                <Link to={`/shop/${doc.id}`}>
-                  <div className="d-flex card mx-2 shop-card">
-                    <div className="shop-logo-container">
-                      <img
-                        src={require("../../assets/logo.png")}
-                        className="shop-logo"
-                        alt="Shop Logo"
-                      />
-                    </div>
-                    <div className="position-absolute bottom-0 start-0 card-info-bg">
-                      <h6 className="fw-semibold">{doc.shopName}</h6>
-                      <p className="fs-6">{doc.name}</p>
-                    </div>
-                  </div>
-                </Link>
-              </div>
+            <div className="shop-card-wrapper" key={doc.id}>
+  <Link to={`/shop/${doc.id}`} className="shop-card-link">
+    <div className="shop-card">
+      <div className="shop-logo-container">
+        <img
+          src={require("../../assets/logo.png")}
+          className="shop-logo"
+          alt="Shop Logo"
+        />
+      </div>
+      <div className="card-info-bg">
+        <h6 className="shop-name">{doc.shopName}</h6>
+        <p className="owner-name">{doc.name}</p>
+      </div>
+    </div>
+  </Link>
+</div>
+
             ))}
           </Slider>
         )}

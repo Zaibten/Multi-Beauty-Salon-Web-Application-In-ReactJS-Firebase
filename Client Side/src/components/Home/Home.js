@@ -46,6 +46,8 @@ const Home = () => {
   return (
     <div>
       <Carousel />
+      <br></br>
+      <br></br>
       <ShopCard data={getShops} />
       <SearchHome />
       <About />

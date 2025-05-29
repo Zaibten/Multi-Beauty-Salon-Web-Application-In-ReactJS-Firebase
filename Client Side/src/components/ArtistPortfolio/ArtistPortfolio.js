@@ -52,7 +52,7 @@ const ArtistPortfolio = () => {
     <div className="w-100">
     <div style={{ background: "#ffe6f2", fontFamily: "Poppins, sans-serif", padding: "30px", transition: "all 0.3s ease" }}>
       <h2 style={{ textAlign: "center", fontSize: "36px", color: "#ff4da6", marginBottom: "20px", letterSpacing: "1px" }}>
-        Artist Portfolio
+        ARTIST PORTFOLIO
       </h2>
 
       <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "20px" }}>

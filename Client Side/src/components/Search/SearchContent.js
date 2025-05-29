@@ -16,7 +16,7 @@ const SearchContent = ({ btn, data, serviceFilter }) => {
   } = data;
 
   const ShopImg =
-    "https://img.freepik.com/premium-vector/vintage-art-illustration-man-getting-his-hair-cut_697324-8454.jpg";
+    "https://i.pinimg.com/736x/0b/f4/f2/0bf4f2a3273583c644fb0d36f22b687c.jpg";
 
   const showServices = serviceFilter !== "" && serviceFilter !== "All";
 
@@ -131,7 +131,7 @@ const SearchContent = ({ btn, data, serviceFilter }) => {
                 fontWeight: "600",
               }}
             >
-              Check Shop
+              View More
             </Link>
           )}
         </div>

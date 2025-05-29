@@ -23,7 +23,7 @@ const StyleCard = ({ price, book, name, image }) => {
         }}
       >
         <img
-          src={image || "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQdYv3B4_H9J6i2gaRikU_45_AaP727D3CGAw&s"}
+          src={image || "https://i.pinimg.com/736x/a8/21/56/a82156d72e6951200224b84649c22f0c.jpg"}
           className="card-img-top"
           alt="Service Image"
           style={{
@@ -68,26 +68,29 @@ const StyleCard = ({ price, book, name, image }) => {
             </span>
           </p>
           <Link
-            to={book}
-            className="w-100 px-2 py-2 d-block fw-bold"
-            style={{
-              backgroundColor: "#000",
-              color: "white",
-              borderRadius: "8px",
-              textDecoration: "none",
-              transition: "background 0.3s ease, transform 0.3s ease",
-            }}
-            onMouseOver={(e) => {
-              e.target.style.backgroundColor = "#333";
-              e.target.style.transform = "scale(1.05)";
-            }}
-            onMouseOut={(e) => {
-              e.target.style.backgroundColor = "#000";
-              e.target.style.transform = "scale(1)";
-            }}
-          >
-            Book
-          </Link>
+  to={book}
+  className="w-100 px-2 py-2 d-block fw-bold text-center"
+  style={{
+    backgroundColor: "#f9c5d1", // blush pink
+    color: "#72065b", // deep purple contrast
+    borderRadius: "8px",
+    textDecoration: "none",
+    transition: "background 0.3s ease, transform 0.3s ease, color 0.3s ease",
+  }}
+  onMouseOver={(e) => {
+    e.target.style.backgroundColor = "#f497b6"; // deeper blush on hover
+    e.target.style.color = "#fff"; // white text on hover
+    e.target.style.transform = "scale(1.05)";
+  }}
+  onMouseOut={(e) => {
+    e.target.style.backgroundColor = "#f9c5d1"; // original blush
+    e.target.style.color = "#72065b"; // original text color
+    e.target.style.transform = "scale(1)";
+  }}
+>
+  Book
+</Link>
+
         </div>
       </div>
     </div>

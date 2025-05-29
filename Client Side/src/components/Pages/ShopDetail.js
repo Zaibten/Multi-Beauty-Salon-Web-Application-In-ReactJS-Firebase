@@ -24,7 +24,13 @@ const ShopDetail = () => {
   
 
 
-  
+  const getDisplayName = (email) => {
+  if (!email) return "";
+  const username = email.split("@")[0];
+  const match = username.match(/^[^\d]+/);
+  return match ? match[0].charAt(0).toUpperCase() + match[0].slice(1) : username;
+};
+
   // Pagination State
   const [currentPage, setCurrentPage] = useState(1);
   const reviewsPerPage = 5;
@@ -87,10 +93,10 @@ const ShopDetail = () => {
   return (
     <div  className="w-100">
     <div className="container">
-      <Breadcrumb path="Shop Details" activePage={"Shop"} text="white" />
+      <Breadcrumb path="Shop Details" activePage={"Salon"} text="white" />
       <h3 className="text-white text-center">
         <span className="border py-2 ps-4">
-          Shop <span className="bg-white text-black py-2 pe-4">Details</span>
+          SALON <span className="bg-white text-black py-2 pe-4"> DETAILS</span>
         </span>
       </h3>
       {/* Shop Details */}
@@ -99,7 +105,7 @@ const ShopDetail = () => {
           <div className="col-12 col-sm-3">
             <img
               alt="Saloon Image"
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDlpM9l6Ni4vskN3sHcDJIaUTogmQ2rqC6dg&s"
+              src="https://media.istockphoto.com/id/1856117770/photo/modern-beauty-salon.jpg?s=1024x1024&w=is&k=20&c=etCbR23dlRvxaEaNyqLYfdbMNEUNoSSxkSe9ScPDXuo="
               className="shop-image"
             />
           </div>
@@ -108,7 +114,7 @@ const ShopDetail = () => {
           ) : (
             <div className="col-12 col-sm-8 ms-sm-3 d-flex text-white">
               <div>
-                <span>Shop Name: {shopDetails.shopName}</span><br />
+                <span>Salon Name: {shopDetails.shopName}</span><br />
                 <span>Owner: {shopDetails.name}</span><br />
                 <span>Timing: {shopDetails.shopOpen || "10:00 AM"} - {shopDetails.shopClose}</span><br />
                 <span>Contact: {shopDetails.number}</span>
@@ -119,7 +125,7 @@ const ShopDetail = () => {
       </div>
       {shopDetails && (
   <div className="mt-4">
-    <h5 className="text-white">Shop Location</h5>
+    <h5 className="text-white">SALON LOCATION</h5>
     <div className="rounded overflow-hidden shadow" style={{ height: "300px", width: "100%" }}>
       <iframe
         title="Google Map"
@@ -143,7 +149,7 @@ const ShopDetail = () => {
               {/* 🔹 Services Section */}
               <div className="mt-5">
   <h3 className="text-white mb-3">
-    Services by <span className="text-decoration-underline">Professional</span>
+    SERVICES BY <span className="text-decoration-underline">PROFESSIONAL</span>
   </h3>
 
 
@@ -304,7 +310,7 @@ services
 
       {/* Reviews Section */}
       <div className="review-section">
-        <h3 className="text-white text-center">Customer Reviews</h3>
+        <h3 className="text-white text-center">CUSTOMER REVIEWS</h3>
         <p className="text-white text-center">
           {reviews.length} Reviews | Average Rating: {averageRating.toFixed(1)} ⭐
         </p>
@@ -315,7 +321,7 @@ services
           ) : reviews.length > 0 ? (
             currentReviews.map((review, index) => (
               <div className="review-card" key={index}>
-                <h5>{review.name}</h5>
+<h5>{getDisplayName(review.name)}</h5>
                 <div className="rating-stars">
                   {"★".repeat(review.rating)}
                   {"☆".repeat(5 - review.rating)}
@@ -445,18 +451,19 @@ services
           }
 
           .submit-btn {
-            background: linear-gradient(135deg, #ff6b6b, #ff8e53);
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background 0.3s ease;
-          }
+  background: linear-gradient(135deg, #ff69b4, #ff85c1); /* soft pink to warm pink */
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
 
-          .submit-btn:hover {
-            background: linear-gradient(135deg, #ff4b4b, #ff6a33);
-          }
+.submit-btn:hover {
+  background: linear-gradient(135deg, #ff4fa8, #ff6fb7); /* slightly deeper pink on hover */
+}
+
         `}
       </style>
     </div>

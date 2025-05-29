@@ -148,7 +148,7 @@ const Contact = () => {
     <div style={styles.container}>
       {/* your style tag remains unchanged */}
 
-      <h2 style={styles.title}>Contact Us <span style={{fontSize:"1.4rem"}}>📞✉️</span></h2>
+      <h2 style={styles.title}>CONTACT US <span style={{fontSize:"1.4rem"}}>📞✉️</span></h2>
       <div style={styles.row}>
         <div style={{ ...styles.column, animationDelay: "0.4s", opacity: 1 }}>
           <form onSubmit={handleSubmit}>

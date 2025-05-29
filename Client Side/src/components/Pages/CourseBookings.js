@@ -177,7 +177,7 @@ const filteredMasterClasses = masterClasses
       }}
     >
       <h2 style={{ textAlign: "center", color: "#ff4da6", marginBottom: 20 }}>
-        Course Bookings
+        CLASSES & TUTORIALS
       </h2>
 
       <div style={{ textAlign: "center", marginBottom: 30 }}>
@@ -213,7 +213,7 @@ const filteredMasterClasses = masterClasses
         <>
           {filteredTutorials.length === 0 ? (
             <p style={{ textAlign: "center" }}>
-              No tutorials with booking available.
+              No tutorials available.
             </p>
           ) : (
             <div
@@ -264,7 +264,7 @@ const filteredMasterClasses = masterClasses
         <>
           {filteredMasterClasses.length === 0 ? (
             <p style={{ textAlign: "center" }}>
-              No master classes with booking available.
+              No master classes available.
             </p>
           ) : (
             filteredMasterClasses.map((cls) => (
@@ -289,6 +289,9 @@ const filteredMasterClasses = masterClasses
                 </p>
                 <p>
                   <b>Max Bookings Left:</b> {cls.maxBookings}
+                </p>
+                <p>
+                  <b>Note:</b> All of the booking venue is same as the salon locations.
                 </p>
                 <Button
                   type="primary"

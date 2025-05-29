@@ -15,8 +15,8 @@ const SearchHome = () => {
       <div>
         <h4 className="text-center">
           <span className="search-title py-2 ps-2 text-white border">
-            Salon{" "}
-            <span className="py-2 px-2 bg-hotpink text-white">on demand</span>
+            SALON{" "}
+            <span className="py-2 px-2 bg-hotpink text-white">ON DEMAND</span>
           </span>
         </h4>
       </div>

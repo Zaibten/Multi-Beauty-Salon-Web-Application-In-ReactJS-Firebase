@@ -238,6 +238,14 @@ const Header = () => {
     alert(textMessage); // Use native `alert` for feedback
   };
 
+  const getDisplayName = (email) => {
+  if (!email) return "";
+  const username = email.split("@")[0];
+  const match = username.match(/^[^\d]+/);
+  return match ? match[0] : username;
+};
+
+
   const logOutHandle = () => {
     const confirmLogout = window.confirm(
       "Are you sure you want to log out? This will log you out of your account."
@@ -331,10 +339,8 @@ const Header = () => {
       alt="Logo"
       style={{
         height: "55px",
-        width: "55px",
-        borderRadius: "50%",
+        width: "170px",
         marginRight: "10px",
-        border: "2px solid #ff4da6",
         objectFit: "cover",
         transition: "transform 0.3s ease",
       }}
@@ -349,7 +355,7 @@ const Header = () => {
         letterSpacing: "1px",
       }}
     >
-      Glam The Girl
+      {/* Glam The Girl */}
     </span>
   </Link>
 
@@ -363,11 +369,11 @@ const Header = () => {
     }}
   >
     {[
-      { to: "/search", text: "Salons" },
-      { to: "/artistportfolio", text: "Artist Portfolio" },
-      { to: "/suggestion", text: "Skincare Recommandation" },
-      { to: "/courses", text: "Master Classes & Totorials" },
-      { to: "/contact", text: "Contact Us" },
+      { to: "/search", text: "SALONS" },
+      { to: "/artistportfolio", text: "ARTIST PORTFOLIO" },
+      { to: "/suggestion", text: "AI RECOMMENDATION" },
+      { to: "/courses", text: "MASTER CLASSES & TUTORIALS" },
+      { to: "/contact", text: "CONTACT US" },
       
     ].map((link, i) => (
       <Link
@@ -401,8 +407,9 @@ const Header = () => {
   <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
     {email && (
       <span style={{ color: "#333", fontSize: "13px", marginRight: "5px" }}>
-        Welcome: <strong>{email}</strong>
-      </span>
+  <strong>{getDisplayName(email)}</strong>
+</span>
+
     )}
     {email ? (
       <div className="dropdown">
@@ -413,7 +420,7 @@ const Header = () => {
           data-mdb-toggle="dropdown"
         >
           <img
-            src="https://img.freepik.com/free-psd/3d-illustration-person-with-sunglasses_23-2149436188.jpg"
+            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRfyjxCdAYqLFK4WDxeMU_bJL3mmQiJq42Uag&s"
             alt="User Avatar"
             style={{
               height: "40px",

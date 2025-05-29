@@ -10,6 +10,7 @@ import { db } from "../../Firebase/firebase";
 import { useEffect } from "react";
 import Loader from "../Loader/loader";
 import asset from "../../assets/hairfinder assest.png";
+import back from "../../assets/back.png";
 
 import Footer from "../Footer/Footer";
 
@@ -224,7 +225,7 @@ const navigate = useNavigate();
     <div className="">
       <div className="container">
         <BreadCrumb //BreadCrumbs component
-          prevPage={"Shop"}
+          prevPage={"Salon"}
           link={`/shop/${parent}`}
           activePage={"Booking"}
           text="white"
@@ -232,7 +233,7 @@ const navigate = useNavigate();
       </div>
       <h4 className="text-white text-center ">
         <span className="border pe-4 py-2">
-          <span className="py-2 ps-4 bg-white text-black">Book the</span> Service
+          <span className="py-2 ps-4 bg-white text-black">BOOK </span> SERVICE
         </span>
       </h4>
       <br></br>
@@ -298,8 +299,8 @@ const navigate = useNavigate();
           <div className="col-12 col-sm-6">
             <div className="row align-items-center">
               <div className="col-6 col-sm-5">
-                <img alt="" src={asset} className="w-100" />
-              </div>
+  <img alt="" src={asset} className="w-100 rounded-md" />
+</div>
 
               {service === "" ? (
                 <div className="col-8 col-sm-6">
@@ -513,17 +514,21 @@ const navigate = useNavigate();
       <div className="mt-5 bg-white container-fluid">
         <h4 className=" text-center pt-4">
           <span className="border ps-3 py-3 fw-bold">
-            Payment
-            <span className="text-white fw-normal bg-black ms-1 ps-1 py-3 pe-3">
-              Section
-            </span>
+            CHECKOUT
+            <span
+  className="text-white fw-normal ms-1 ps-1 py-3 pe-3"
+  style={{ backgroundColor: "#302229" }}
+>
+  SECTION
+</span>
+
           </span>
         </h4>
         <div className="row mt-5 align-items-center pb-3">
           <div className="col-5 col-sm-4 text-center">
             <div className="w-100">
               <img
-                src="https://img.freepik.com/premium-vector/hand-drawn-barbershop-illustration_9829-82.jpg?size=626&ext=jpg&ga=GA1.2.1543915203.1685795707&semt=ais"
+                src={back}
                 alt=""
                 className="w-100"
               />
@@ -536,26 +541,26 @@ const navigate = useNavigate();
                 <input
                   className="form-check-input"
                   type="checkbox"
-                  name="shampoo"
+                  name="Nail Paint "
                   value=""
                   id="flexCheckDefault"
-                  onChange={() => handleCheckBoxChange("shampoo", 30)}
+                  onChange={() => handleCheckBoxChange("Nail Paint ", 500)}
                 />
                 <label className="form-check-label" htmlFor="flexCheckDefault">
-                  Shampoo (30rs)
+                  Nail Paint  (Rs 500)
                 </label>
               </div>
               <div className="d-block">
                 <input
                   className="form-check-input"
                   type="checkbox"
-                  name="HeadMassage"
+                  name="Blowdry"
                   value=""
-                  onChange={() => handleCheckBoxChange("HeadMassage", 50)}
+                  onChange={() => handleCheckBoxChange("Blowdry", 1000)}
                   id="flexCheckDefault"
                 />
                 <label className="form-check-label" htmlFor="flexCheckDefault">
-                  Head Massage (50rs)
+                  Blowdry (Rs 1000)
                 </label>
               </div>
               <div className="d-block">
@@ -565,10 +570,10 @@ const navigate = useNavigate();
                   value=""
                   name="FaceMask"
                   id="flexCheckDefault"
-                  onChange={() => handleCheckBoxChange("FaceMask", 80)}
+                  onChange={() => handleCheckBoxChange("FaceMask", 200)}
                 />
                 <label className="form-check-label" htmlFor="flexCheckDefault">
-                  Face Mask (80rs)
+                  Face Mask (Rs 200)
                 </label>
               </div>
             </div>
@@ -595,7 +600,7 @@ const navigate = useNavigate();
                 </div>
                 <div className="d-flex justify-content-between">
                   <span>Total Bill :</span>
-                  <span className="fw-bold">{PurchasePrice}rs</span>
+                  <span className="fw-bold">{PurchasePrice} Rs</span>
                 </div>
               </div>
 
@@ -606,8 +611,8 @@ const navigate = useNavigate();
 <button
 style={{
                   padding: "10px 20px",
-                  backgroundColor: "black",
-                  color: "white",
+                  backgroundColor: "pink",
+                  color: "black",
                   fontWeight: "600",
                   borderRadius: "5px",
                   width: "100%",

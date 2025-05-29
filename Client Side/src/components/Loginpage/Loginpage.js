@@ -283,7 +283,7 @@ const handleSignUp = async (e) => {
             </h3>
 
             <p className="loginp">
-              Hairfinder, your one stop solution for Grooming
+              Glam The Girl, your one stop solution for Grooming
             </p>
 
             <button
@@ -302,7 +302,7 @@ const handleSignUp = async (e) => {
             <h3 className="loginh3">Already Registered ?</h3>
 
             <p className="loginp">
-              Hairfinder, your one stop solution for Grooming
+              Glam The Girl, your one stop solution for Grooming
             </p>
 
             <button

@@ -192,7 +192,7 @@ const Schedule = () => {
     <div style={styles.container}>
       <h5 style={styles.header}>
         <span style={styles.headerText}>
-          Your <span style={styles.innerHeaderText}>Bookings</span>
+          BOOKING <span style={styles.innerHeaderText}>STATUS</span>
         </span>
       </h5>
 

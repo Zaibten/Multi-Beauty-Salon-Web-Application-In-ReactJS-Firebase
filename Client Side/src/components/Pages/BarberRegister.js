@@ -74,7 +74,7 @@ const BarberRegister = () => {
       return;
     }
     let varient = "warning";
-    let messageText = "Hold On Dude!!";
+    let messageText = "One moment please!!";
     sendMessage(messageText, varient);
     await ProfessionalSignIn(value, sendMessage);
     setValue({

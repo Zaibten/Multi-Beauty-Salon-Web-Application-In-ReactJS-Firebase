@@ -59,29 +59,78 @@
   font-size: 0.875rem; /* Adjust font size as needed */
 }
 
+.shop-card-wrapper {
+  padding: 10px;
+}
+
+.shop-card-link {
+  text-decoration: none;
+  color: inherit;
+}
+
 .shop-card {
+  background-color: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid #ff69b4;
+  box-shadow: 0 2px 6px rgba(255, 105, 180, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
   position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  height: 100%;
+  text-align: center;
+  padding-bottom: 50px; /* ensures space for info at the bottom */
+}
+
+.shop-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 12px rgba(255, 105, 180, 0.4);
 }
 
 .shop-logo-container {
-  position: relative;
-  width: 100%;
   display: flex;
   justify-content: center;
-  margin-bottom: 10px; /* Adds space between the logo and text */
+  align-items: center;
+  width: 100%;
+  height: 150px; /* control the vertical space */
+  overflow: hidden;
+  padding: 10px;
+  background-color: #fff; /* optional: background for contrast */
 }
 
 .shop-logo {
-  width: 200px; /* Adjust to your preferred size */
-  height: 200px; /* Adjust to your preferred size */
-  object-fit: cover;
+  width: 80%;
+  height: 100px;         /* scale proportionally */
+  aspect-ratio: 1 / 1;  /* ensures it stays square */
+  object-fit: cover;    /* fills the circle without distortion */
   border-radius: 50%;
-  border: 2px solid #ff69b4;
+  /* border: 3px solid #ff69b4; */
 }
+
+
+.card-info-bg {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: linear-gradient(to top, rgba(255, 105, 180, 0.8), transparent);
+  color: #fff;
+  padding: 10px;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+.shop-name {
+  font-size: 1rem;
+  font-weight: bold;
+  margin: 0;
+  color: #fff;
+}
+
+.owner-name {
+  font-size: 0.875rem;
+  margin: 0;
+  color: #fff;
+}
+
 
 
 @media (max-width: 700px) {
