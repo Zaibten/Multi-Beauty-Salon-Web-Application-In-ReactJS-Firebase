@@ -243,7 +243,7 @@ await updateDoc(doc(db, "MasterClasses", editingClass.id), {
     flexDirection: "column",
   }}>
     <h2 style={{ textAlign: "center", color: "#ff4da6", marginBottom: "30px" }}>
-        {formData.category === "Tutorial" ? "Add Tutorial" : "Add Master Class"}
+        {formData.category === "Tutorial" ? "ADD TUTORIAL" : "ADD MASTER CLASS"}
       </h2>
 
   <form onSubmit={handleSubmit}>

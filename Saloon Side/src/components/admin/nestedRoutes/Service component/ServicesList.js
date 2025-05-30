@@ -76,7 +76,7 @@ const ServicesList = ({ noImage, data, onUpdate }) => {
             alt="Service"
             src={
               ServiceImage ||
-              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQdYv3B4_H9J6i2gaRikU_45_AaP727D3CGAw&s"
+              "https://i.pinimg.com/736x/a8/21/56/a82156d72e6951200224b84649c22f0c.jpg"
             }
             className="rounded shadow ripple serviceImg"
             style={{ objectFit: "contain", width: "100px", height: "120px" }}

@@ -95,7 +95,7 @@ const Profile = () => {
           </marquee>
         </div>
         <div style={styles.card}>
-          <h2 style={styles.title}>BEAUTY SALON Profile Information</h2>
+          <h2 style={styles.title}>Glam The Girl Profile Information</h2>
           {Object.keys(userData).map(
             (key) =>
               key !== "id" && (

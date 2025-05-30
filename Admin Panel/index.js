@@ -63,269 +63,225 @@ app.get("/dashboard", async (req, res) => {
 
   
   <style>
-    /* Reset */
-    *, *::before, *::after { box-sizing: border-box; }
-    body, html {
-      margin: 0; padding: 0;
-      height: 100%;
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
-        Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-      background: #f4f6f8;
-      color: #1e293b;
-      overflow: hidden;
-    }
-    /* Scrollbar Styling */
-    ::-webkit-scrollbar {
-      width: 10px; height: 10px;
-    }
-    ::-webkit-scrollbar-track {
-      background: #e2e8f0;
-      border-radius: 10px;
-    }
-    ::-webkit-scrollbar-thumb {
-      background: #2563eb;
-      border-radius: 10px;
-      transition: background-color 0.3s ease;
-    }
-    ::-webkit-scrollbar-thumb:hover {
-      background: #1d4ed8;
-    }
+  *, *::before, *::after { box-sizing: border-box; }
+  body, html {
+    margin: 0; padding: 0;
+    height: 100%;
+    font-family: 'Inter', sans-serif;
+    background: #fff0f5; /* Light pink background */
+    color: #3d0a30; /* Deep pink text */
+    overflow: hidden;
+  }
 
-    /* Layout */
-    #app {
-      display: flex;
-      height: 100vh;
-      overflow: hidden;
-      background: #f9fafb;
-    }
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track {
+    background: #ffd5ec;
+    border-radius: 10px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #ff69b4;
+    border-radius: 10px;
+  }
+  ::-webkit-scrollbar-thumb:hover { background: #ff3e9e; }
 
-    /* Sidebar */
+  #app {
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+    background: #ffe6f0;
+  }
+
+  .sidebar {
+    background: rgba(255, 105, 180, 0.56);
+    width: 280px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    padding: 2rem 1.5rem;
+    box-shadow: 2px 0 12px rgba(0,0,0,0.12);
+    z-index: 200;
+    overflow-y: auto;
+  }
+
+  .sidebar h2 {
+    font-weight: 900;
+    font-size: 1.75rem;
+    margin-bottom: 2rem;
+    text-align: center;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.15);
+  }
+
+  .sidebar a {
+    color: #ffdce9;
+    font-weight: 600;
+    padding: 12px 18px;
+    margin-bottom: 0.75rem;
+    border-radius: 12px;
+    text-decoration: none;
+    background-color: transparent;
+    transition: all 0.3s ease;
+  }
+
+  .sidebar a:hover,
+  .sidebar a.active {
+    background-color: #ff69b4;
+    color: white;
+    box-shadow: inset 0 0 8px 2px rgba(255, 105, 180, 0.6);
+  }
+
+  .hamburger {
+    display: none;
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    width: 32px;
+    height: 26px;
+    cursor: pointer;
+    flex-direction: column;
+    justify-content: space-between;
+    z-index: 300;
+  }
+
+  .hamburger span {
+    height: 4px;
+    background: #ff69b4;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+  }
+
+  .hamburger.open span:nth-child(1) {
+    transform: rotate(45deg) translate(6px, 6px);
+  }
+  .hamburger.open span:nth-child(2) {
+    opacity: 0;
+  }
+  .hamburger.open span:nth-child(3) {
+    transform: rotate(-45deg) translate(6px, -6px);
+  }
+
+  .main {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    background: #fff5fa;
+    border-radius: 0 16px 16px 0;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+    overflow-y: auto;
+    display: none;
+  }
+
+  .main-header {
+    padding: 2rem;
+    border-bottom: 1px solid #ffcce6;
+    font-weight: 900;
+    font-size: 2rem;
+    background: #fff0f7;
+    box-shadow: 0 2px 6px rgba(255, 105, 180, 0.1);
+    color: #3d0a30;
+  }
+
+  .datatable {
+    padding: 2rem;
+    overflow-x: auto;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    display: none;
+  }
+
+  .datatable.active {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 12px;
+    color: #6b123c;
+    background: #fff0f5;
+  }
+
+  thead tr {
+    background-color: #ff69b4;
+    color: white;
+  }
+
+  thead th {
+    padding: 14px 20px;
+    text-align: left;
+  }
+
+  tbody tr {
+    background: #ffeaf3;
+    border-radius: 12px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  tbody tr:hover {
+    background: white;
+    box-shadow: 0 4px 15px rgba(255, 105, 180, 0.2);
+    transform: translateY(-3px);
+  }
+
+  tbody td {
+    padding: 14px 20px;
+    max-width: 200px;
+  }
+
+  tbody td:hover {
+    background: #fff8fc;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+  }
+
+  .btn {
+    border: none;
+    border-radius: 8px;
+    padding: 8px 14px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 1px 5px rgb(0 0 0 / 0.1);
+    margin: 0 4px;
+  }
+
+  .btn-edit {
+    background: #ffb6c1;
+    color: #3d0a30;
+  }
+
+  .btn-edit:hover {
+    background: #ff85c1;
+    box-shadow: 0 4px 10px rgba(255, 105, 180, 0.4);
+  }
+
+  .btn-delete {
+    background: #ff4d6d;
+    color: white;
+  }
+
+  .btn-delete:hover {
+    background: #ff0033;
+    box-shadow: 0 4px 10px rgba(255, 0, 51, 0.5);
+  }
+
+  @media (max-width: 1024px) {
     .sidebar {
-      background: #1e40af;
-      width: 280px;
-      min-width: 280px;
-      color: white;
-      display: flex;
-      flex-direction: column;
-      padding: 2rem 1.5rem;
-      box-shadow: 2px 0 12px rgba(0,0,0,0.12);
-      transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      z-index: 200;
-      overflow-y: auto;
-    }
-    .sidebar h2 {
-      font-weight: 900;
-      font-size: 1.75rem;
-      letter-spacing: 0.05em;
-      margin-bottom: 2rem;
-      user-select: none;
-      text-align: center;
-      text-shadow: 0 1px 4px rgba(0,0,0,0.15);
-    }
-    .sidebar a {
-      display: block;
-      color: #cbd5e1;
-      font-weight: 600;
-      font-size: 1rem;
-      padding: 12px 18px;
-      margin-bottom: 0.75rem;
-      border-radius: 12px;
-      text-decoration: none;
-      box-shadow: inset 0 0 0 0 transparent;
-      transition: background-color 0.3s ease, box-shadow 0.3s ease, color 0.3s ease;
-      user-select: none;
-      cursor: pointer;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-    .sidebar a:hover,
-    .sidebar a.active {
-      background-color: #2563eb;
-      color: white;
-      box-shadow: inset 0 0 8px 2px rgba(37, 99, 235, 0.6);
-    }
-
-    /* Hamburger */
-    .hamburger {
-      display: none;
       position: fixed;
-      top: 20px;
-      left: 20px;
-      width: 32px;
-      height: 26px;
-      cursor: pointer;
-      flex-direction: column;
-      justify-content: space-between;
-      z-index: 300;
-      background: transparent;
+      transform: translateX(-320px);
     }
-    .hamburger span {
-      display: block;
-      height: 4px;
-      border-radius: 2px;
-      background: #2563eb;
-      transition: all 0.3s ease;
+    .sidebar.open {
+      transform: translateX(0);
     }
-    .hamburger.open span:nth-child(1) {
-      transform: rotate(45deg) translate(6px, 6px);
-    }
-    .hamburger.open span:nth-child(2) {
-      opacity: 0;
-    }
-    .hamburger.open span:nth-child(3) {
-      transform: rotate(-45deg) translate(6px, -6px);
-    }
-
-    /* Main content */
-    .main {
-      flex-grow: 1;
+    .hamburger {
       display: flex;
-      flex-direction: column;
-      background: white;
-      border-radius: 0 16px 16px 0;
-      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
-      overflow-y: auto;
-      -webkit-overflow-scrolling: touch;
-      display: none; /* Hide main content by default */
     }
-    .main-header {
-      padding: 2rem;
-      border-bottom: 1px solid #e2e8f0;
-      font-weight: 900;
-      font-size: 2rem;
-      color: #1e293b;
-      user-select: none;
-      background: #f9fafb;
-      box-shadow: 0 2px 6px rgba(37, 99, 235, 0.1);
-      position: sticky;
-      top: 0;
-      z-index: 50;
+    .main {
+      border-radius: 0;
     }
+  }
+</style>
 
-    /* Datatables container */
-    .datatable {
-      padding: 2rem;
-      overflow-x: auto;
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 0.5s ease, transform 0.5s ease;
-      display: none;
-      will-change: transform, opacity;
-    }
-    .datatable.active {
-      display: block;
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    /* Tables */
-    table {
-      width: 100%;
-      border-collapse: separate;
-      border-spacing: 0 12px;
-      font-size: 1rem;
-      color: #334155;
-      min-width: 600px;
-      table-layout: fixed;
-    }
-    thead tr {
-      background-color: #2563eb;
-      color: white;
-      user-select: none;
-    }
-    thead th {
-      padding: 14px 20px;
-      text-align: left;
-      font-weight: 700;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-    tbody tr {
-      background: #f1f5f9;
-      border-radius: 12px;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      cursor: default;
-    }
-    tbody tr:hover {
-      background: white;
-      box-shadow: 0 4px 15px rgba(37, 99, 235, 0.2);
-      transform: translateY(-3px);
-    }
-    tbody td {
-      padding: 14px 20px;
-      vertical-align: middle;
-      word-break: break-word;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      max-width: 200px;
-      cursor: default;
-    }
-    tbody td:hover {
-      overflow: visible;
-      white-space: normal;
-      background: #fefefe;
-      position: relative;
-      z-index: 10;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.15);
-      border-radius: 8px;
-      padding: 12px 20px;
-    }
-
-    /* Buttons */
-    .btn {
-      border: none;
-      border-radius: 8px;
-      padding: 8px 14px;
-      font-weight: 700;
-      cursor: pointer;
-      user-select: none;
-      transition: background-color 0.3s ease, box-shadow 0.3s ease;
-      box-shadow: 0 1px 5px rgb(0 0 0 / 0.1);
-      margin: 0 4px;
-    }
-    .btn-edit {
-      background: #facc15;
-      color: #202020;
-    }
-    .btn-edit:hover {
-      background: #eab308;
-      box-shadow: 0 4px 10px rgb(234 179 8 / 0.6);
-    }
-    .btn-delete {
-      background: #ef4444;
-      color: white;
-    }
-    .btn-delete:hover {
-      background: #dc2626;
-      box-shadow: 0 4px 10px rgb(220 38 38 / 0.6);
-    }
-
-    /* Responsive */
-    @media (max-width: 1024px) {
-      .sidebar {
-        position: fixed;
-        top: 0;
-        left: 0;
-        height: 100vh;
-        transform: translateX(-320px);
-        box-shadow: 4px 0 20px rgba(0,0,0,0.15);
-        transition: transform 0.3s ease;
-        z-index: 100;
-      }
-      .sidebar.open {
-        transform: translateX(0);
-      }
-      .hamburger {
-        display: flex;
-      }
-      .main {
-        border-radius: 0;
-      }
-    }
-  </style>
 </head>
 <body>
   <div id="app">

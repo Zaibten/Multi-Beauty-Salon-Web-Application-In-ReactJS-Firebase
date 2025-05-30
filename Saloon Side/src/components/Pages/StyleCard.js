@@ -23,7 +23,7 @@ const StyleCard = ({ price, book, name, image }) => {
         }}
       >
         <img
-          src={image || "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQdYv3B4_H9J6i2gaRikU_45_AaP727D3CGAw&s"}
+          src={image || "https://i.pinimg.com/736x/a8/21/56/a82156d72e6951200224b84649c22f0c.jpg"}
           className="card-img-top"
           alt="Service Image"
           style={{

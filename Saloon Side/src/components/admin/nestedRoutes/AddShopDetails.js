@@ -124,38 +124,46 @@ const AddShopDetails = () => {
   }, []);
   // console.log(image);
   return (
-    
+
     <div className="bg-white p-2 h-sm-100">
       {context}
+      <br></br>
+      <br></br>
+      <br></br>
+      <br></br>
+      <br></br>
+      <br></br>
+      <br></br>
       <div className="pt-3 overflow-auto mb-3 pb-5">
         <h2 className="text-center pb-3">
         <span 
   className="border border-dark ps-2 py-2" 
   style={{ marginTop: "10px", display: "inline-block" }}
 >
-            Add{" "}
-            <span className="text-white bg-black ps-1 pe-2 py-2">Services</span>
+            ADD{" "}
+           <span
+  className="text-white ps-1 pe-2 py-2"
+  style={{ backgroundColor: "#ff69b4" }}
+>
+  SERVICES
+</span>
+
           </span>
         </h2>
         <form onSubmit={SubmitHandler}>
           <div className="row align-items-center">
             <div className="col-12 col-sm-6 col-md-5 mb-3">
             <div className="position-relative d-flex justify-content-center">
-  <label
-    htmlFor="addServiceImg"
-    className="material-icons-outlined position-absolute bg-white text-black p-2 rounded-circle shadow"
-    style={{ bottom: "10px", right: "10px", cursor: "pointer" }}
-  >
-    add_a_photo
-  </label>
+  
   <img
-    src={image ? image : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQdYv3B4_H9J6i2gaRikU_45_AaP727D3CGAw&s"}
+    src={image ? image : "https://i.pinimg.com/736x/a8/21/56/a82156d72e6951200224b84649c22f0c.jpg"}
     alt="Service Preview"
     className="shadow"
     style={{
       borderRadius: "20px", // Rounded corners
       maxWidth: "100%", // Prevent stretching
-      height: "auto", // Maintain original aspect ratio
+      width: "80%", // Prevent stretching
+      height: "300px", // Maintain original aspect ratio
       objectFit: "cover", // Ensures proper scaling
     }}
   />
@@ -213,11 +221,13 @@ const AddShopDetails = () => {
                   onChange={onFormChange}
                 />
                 <button
-                  type="submit"
-                  className="py-2 bg-warning px-4 border-0 text-white rounded mt-2 shadow ripple"
-                >
-                  Add Service
-                </button>
+  type="submit"
+  className="py-2 px-4 border-0 text-white rounded mt-2 shadow ripple"
+  style={{ backgroundColor: "#ff69b4" }}
+>
+  Add Service
+</button>
+
               </div>
             </div>
           </div>

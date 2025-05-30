@@ -39,10 +39,6 @@ const Carousel = () => {
             className="d-block w-100 carouselImg"
             alt="Luxurious Hair Spa"
           />
-          <div className="carousel-caption">
-            <h3>Luxurious Hair Spa</h3>
-            <p>Pamper yourself with our exclusive hair treatments.</p>
-          </div>
         </div>
         <div
           className={`carousel-item ${
@@ -56,10 +52,7 @@ const Carousel = () => {
             className="d-block w-100 carouselImg"
             alt="Bridal Makeup Excellence"
           />
-          <div className="carousel-caption">
-            <h3>Bridal Makeup Excellence</h3>
-            <p>Look your best on your special day with our expert artists.</p>
-          </div>
+          
         </div>
         <div
           className={`carousel-item ${
@@ -73,10 +66,6 @@ const Carousel = () => {
             className="d-block w-100 carouselImg"
             alt="Exquisite Nail Art"
           />
-          <div className="carousel-caption">
-            <h3>Exquisite Nail Art</h3>
-            <p>Get stunning nails with our creative designs.</p>
-          </div>
         </div>
       </div>
 

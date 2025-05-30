@@ -15,10 +15,10 @@ const Footer = () => {
       <div className="footer-content">
         <div className="footer-logo-section">
           <div className="footer-logo">
-            <img src={logo} alt="BEAUTY SALON Logo" />
+            <img src={logo} alt="Glam The Girl Logo" />
           </div>
           <p>
-            <strong>BEAUTY SALON Salon</strong> is a premium beauty salon that redefines elegance with unmatched services in hairstyling, makeup, and skincare. Experience luxury, expertise, and personalized care in every visit.
+            <strong>Glam The Girl</strong> is a premium Glam The Girl that redefines elegance with unmatched services in hairstyling, makeup, and skincare. Experience luxury, expertise, and personalized care in every visit.
           </p>
         </div>
         <div className="footer-gallery">
@@ -63,7 +63,7 @@ const Footer = () => {
 
       </div>
       <div className="footer-bottom">
-        <p>© 2024 BEAUTY SALON. All rights reserved. Designed with ❤️ for beauty enthusiasts.</p>
+        <p>© 2024 Glam The Girl. All rights reserved. Designed with ❤️ for beauty enthusiasts.</p>
       </div>
     </footer>
   );

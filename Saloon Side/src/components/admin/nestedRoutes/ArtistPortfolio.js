@@ -302,9 +302,10 @@ const ArtistPortfolioAdmin = () => {
   
 
       <div className="mt-6 px- py-2 max-w-7xl mx-auto bg-white/70 backdrop-blur-md shadow-2xl rounded-2xl transition-all duration-700 ease-in-out transform hover:shadow-purple-300 hover:scale-[1.01]">
-  <h2 className="text-3xl md:text-4xl font-extrabold text-center text-gray-800 mb-5 animate-fade-in">
-    🎨 Artist Portfolio
-  </h2>
+ <h2 className="text-3xl md:text-4xl font-extrabold uppercase tracking-wide text-center text-gray-800 mb-5 animate-fade-in">
+  ARTIST PORTFOLIO
+</h2>
+
 
   {/* Form Inputs */}
   <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-4">
@@ -344,14 +345,16 @@ const ArtistPortfolioAdmin = () => {
 
   {/* Save Button */}
   <div className="flex justify-center">
-    <button
-      type="button"
-      onClick={saveArtistPortfolio}
-      className="bg-warning py-2 border-0 shadow ripple text-white rounded  w-50"
-    >
-    
-    Submit Artist Portfolio
-    </button>
+<button
+  type="button"
+  onClick={saveArtistPortfolio}
+  className="py-2 px-4 border-0 shadow text-white rounded w-full max-w-md"
+  style={{ backgroundColor: '#ff69b4' }}
+>
+  Submit Artist Portfolio
+</button>
+
+
   </div>
   <br></br>
   <br></br>
@@ -359,7 +362,7 @@ const ArtistPortfolioAdmin = () => {
 
   {/* Artist Table */}
   <div className="mt-12">
-  <h3 className="text-2xl font-semibold text-gray-700 mb-2">🎭 Saved Artists</h3>
+  <h3 className="text-2xl font-bold text-gray-700 mb-2">SAVED ARTISTS</h3>
   <div className="overflow-x-auto">
     <table className="min-w-full text-sm text-gray-700 border border-gray-200 rounded-lg overflow-hidden shadow-lg bg-white">
       <thead className="bg-gradient-to-r from-purple-100 to-pink-100 text-gray-800 text-left">
