@@ -35,13 +35,12 @@ const CourseBookings = () => {
 
       snapshot.docs.forEach((docSnap) => {
         const data = { id: docSnap.id, ...docSnap.data() };
-        if (data.bookingAvailable) {
-          if (data.category === "Tutorial") {
-            fetchedTutorials.push(data);
-          } else {
-            fetchedMasterClasses.push(data);
-          }
-        }
+        if (data.category === "Tutorial") {
+  fetchedTutorials.push(data);
+} else if (data.bookingAvailable) {
+  fetchedMasterClasses.push(data);
+}
+
       });
 
       setTutorials(fetchedTutorials);
@@ -54,11 +53,19 @@ const CourseBookings = () => {
     }
   };
 
-  const getYoutubeVideoId = (url) => {
-    const regex = /[?&]v=([^&#]*)/;
-    const match = url.match(regex);
-    return match ? match[1] : null;
-  };
+const getYoutubeVideoId = (url) => {
+  const standardRegex = /[?&]v=([^&#]*)/;
+  const shortRegex = /youtu\.be\/([^?&#]*)/;
+
+  const matchStandard = url.match(standardRegex);
+  if (matchStandard) return matchStandard[1];
+
+  const matchShort = url.match(shortRegex);
+  if (matchShort) return matchShort[1];
+
+  return null;
+};
+
 
   const handleBookClick = (cls) => {
     if (!cls.bookingAvailable || cls.maxBookings <= 0) {
